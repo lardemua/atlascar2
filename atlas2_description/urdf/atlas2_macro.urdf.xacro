@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find atlas2_description)/urdf/atlas2_model_macro.urdf.xacro" />
+    <xacro:macro name="atlas2" params="prefix">
+        <!-- links -->
+        <link name="${prefix}ground" />
+        <link name="${prefix}car_center" />
+        <link name="${prefix}moving_axis" />
+        <!-- car model -->
+        <xacro:atlas2_model prefix="${prefix}" />
+        <joint name="${prefix}ground_to_${prefix}model" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="${prefix}ground" />
+            <child link="${prefix}model" />
+        </joint>
+        <!-- joints -->
+        <joint name="${prefix}ground_to_${prefix}car_center" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="${prefix}ground" />
+            <child link="${prefix}car_center" />
+        </joint>
+        <joint name="${prefix}car_center_to_${prefix}moving_axis" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <parent link="${prefix}car_center" />
+            <child link="${prefix}moving_axis" />
+        </joint>
+    </xacro:macro>
+</robot>

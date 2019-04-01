@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find atlas2_description)/launch/load.launch" />
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+        <param name="use_gui" value="false" />
+    </node>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find atlas2_description)/config/rviz-demo.rviz" />
+</launch>

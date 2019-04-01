@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="atlas2_model" params="prefix">
+        <link name="${prefix}model">
+            <visual>
+                <origin xyz="-1.0 0 -0.5" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://atlas2_description/meshes/mitsubishi_miev.dae" />
+                </geometry>
+            </visual>
+        </link>
+    </xacro:macro>
+</robot>
