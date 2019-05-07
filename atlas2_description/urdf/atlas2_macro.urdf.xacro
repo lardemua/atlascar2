@@ -38,6 +38,11 @@
             <child link="${prefix}front_camera" />
         </joint>
 
+         <sensor name="${prefix}front_camera" update_rate="20">
+             <parent link="${prefix}front_camera"/>
+             <origin xyz="0 0 0" rpy="0 0 0"/>
+         </sensor>
+
         <!-- top camera -->
         <xacro:pointgrey_flea3 name="${prefix}top_camera" frame="${prefix}top_camera" />
 
@@ -46,6 +51,11 @@
             <parent link="${prefix}car_center" />
             <child link="${prefix}top_camera" />
         </joint>
+
+         <sensor name="${prefix}top_camera" update_rate="20">
+             <parent link="${prefix}top_camera"/>
+             <origin xyz="0 0 0" rpy="0 0 0"/>
+         </sensor>
 
         <!-- laser sensor lms_ldmrs400001 -->
         <xacro:sick_ldmrs name="${prefix}front_laser" />
@@ -56,6 +66,11 @@
             <child link="${prefix}front_laser_mount_link" />
         </joint>
 
+         <sensor name="${prefix}front_laser" update_rate="20">
+             <parent link="${prefix}front_laser"/>
+             <origin xyz="0 0 0" rpy="0 0 0"/>
+         </sensor>
+
         <!-- left lms151 laser -->
         <xacro:sick_lms1xx frame="${prefix}left_laser" />
 
@@ -64,6 +79,11 @@
             <parent link="${prefix}car_center" />
             <child link="${prefix}left_laser" />
         </joint>
+
+         <sensor name="${prefix}left_laser" update_rate="20">
+             <parent link="${prefix}left_laser"/>
+             <origin xyz="0 0 0" rpy="0 0 0"/>
+         </sensor>
 
         <!-- right lms151 laser -->
         <xacro:sick_lms1xx frame="${prefix}right_laser" />
@@ -74,6 +94,10 @@
             <child link="${prefix}right_laser" />
         </joint>
 
+         <sensor name="${prefix}right_laser" update_rate="20">
+             <parent link="${prefix}right_laser"/>
+             <origin xyz="0 0 0" rpy="0 0 0"/>
+         </sensor>
 
     </xacro:macro>
 </robot>
