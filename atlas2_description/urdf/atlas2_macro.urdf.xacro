@@ -38,8 +38,8 @@
             <child link="${prefix}front_camera" />
         </joint>
 
-         <sensor name="${prefix}front_camera" update_rate="20">
-             <parent link="${prefix}front_camera"/>
+         <sensor name="${prefix}front_camera_optical" update_rate="20">
+             <parent link="${prefix}front_camera_optical"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
          </sensor>
 
@@ -52,8 +52,8 @@
             <child link="${prefix}top_camera" />
         </joint>
 
-         <sensor name="${prefix}top_camera" update_rate="20">
-             <parent link="${prefix}top_camera"/>
+         <sensor name="${prefix}top_camera_optical" update_rate="20">
+             <parent link="${prefix}top_camera_optical"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
          </sensor>
 
