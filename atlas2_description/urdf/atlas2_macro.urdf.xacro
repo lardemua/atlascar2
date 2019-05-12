@@ -38,9 +38,11 @@
             <child link="${prefix}front_camera" />
         </joint>
 
-         <sensor name="${prefix}front_camera_optical" update_rate="20">
-             <parent link="${prefix}front_camera_optical"/>
+         <sensor name="${prefix}front_camera" update_rate="20">
+             <parent link="${prefix}front_camera"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
+             <calibration_parent link="${prefix}car_center"/>
+             <calibration_child link="${prefix}front_camera"/>
          </sensor>
 
         <!-- top camera -->
@@ -52,9 +54,11 @@
             <child link="${prefix}top_camera" />
         </joint>
 
-         <sensor name="${prefix}top_camera_optical" update_rate="20">
+         <sensor name="${prefix}top_camera" update_rate="20">
              <parent link="${prefix}top_camera_optical"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
+             <calibration_parent link="${prefix}car_center"/>
+             <calibration_child link="${prefix}top_camera"/>
          </sensor>
 
         <!-- laser sensor lms_ldmrs400001 -->
@@ -69,6 +73,8 @@
          <sensor name="${prefix}front_laser" update_rate="20">
              <parent link="${prefix}front_laser"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
+             <calibration_parent link="${prefix}car_center"/>
+             <calibration_child link="${prefix}front_laser_mount_link"/>
          </sensor>
 
         <!-- left lms151 laser -->
@@ -83,6 +89,8 @@
          <sensor name="${prefix}left_laser" update_rate="20">
              <parent link="${prefix}left_laser"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
+             <calibration_parent link="${prefix}car_center"/>
+             <calibration_child link="${prefix}left_laser"/>
          </sensor>
 
         <!-- right lms151 laser -->
@@ -97,6 +105,8 @@
          <sensor name="${prefix}right_laser" update_rate="20">
              <parent link="${prefix}right_laser"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
+             <calibration_parent link="${prefix}car_center"/>
+             <calibration_child link="${prefix}right_laser"/>
          </sensor>
 
     </xacro:macro>
