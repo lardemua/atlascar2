@@ -11,6 +11,13 @@
 
     <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
         <arg name="port" value="192.168.0.134"/>
-        <arg name="frame_id" value="laser_left"/>
+        <arg name="frame_id" value="left_laser"/>
     </include>
+
+    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
+        <arg name="port" value="192.168.0.231"/>
+        <arg name="frame_id" value="right_laser"/>
+    </include>
+
+
 </launch>
