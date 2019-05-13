@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="port" />
+    <arg name="frame_id" />
+
+    <node pkg="lms1xx" type="lms1xx" name="lms1xx_$(arg frame_id)">
+        <remap from="scan" to="$(arg frame_id)/laserscan"/>
+        <param name="host" value="$(arg port)"/>
+        <param name="frame_id" value="$(arg frame_id)"/>
+    </node>
+</launch>
