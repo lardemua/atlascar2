@@ -2,7 +2,34 @@
 Core packages for the LAR DEMUA Atlas Project
 
 
-[[[[[[[[[SETUP]]]]]]]]]]]]]]]]]]]]]]]]
+# SETUP
+
+Step 1: plug the eduroam (UA) ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
+
+![docs/UA_cable_port.jpg](docs/UA_cable_port.jpg?raw=true "Game arena")
+
+Step 2: Turn on the computer 
+
+Step 3: Plug the ethernet cable from the SMC router to your own computer. (The router is inside the atlascar2)
+
+Step 4: On a terminal, run
+
+```
+sudo gedit /etc/hosts
+```
+
+this will open the hosts file. You should save the AtlasCar2 network ip (add this to your hosts file):
+
+192.168.2.102    ATLASCAR2
+
+Save and close.
+
+Step 5: Make sure if the connection to atlascar is on by running 
+
+```
+ping ATLASCAR2
+```
+
 ----Not need for particular user-----
 
 Need to connect 2 cables: for ua ethernet and router
@@ -11,8 +38,11 @@ set the router ipv4 automiatic
 
 
 3 connections:
+
 Router SMC  (enp5s0f1)
+
 Ethernet UA (enp5s0f0)
+
 AtlasNetwork (ens6f0)
 
 how to connect:
@@ -39,5 +69,18 @@ Open the code inside the atlas car pc (terminal with the atlas):
  ssh atlas@ATLASCAR2 -X (to view)
  
  And here you open the code to work on to (ATLas has VSstudio and PyCharm and CLion installed already.)
- dont need clion installed on your own pc cause your using atlas computer now (as if it was the atlas screen on your screen)
-[[[[[[[[[ ]]]]]]
+ 
+ 
+ #Usage
+ This launch file, launch the 2 sensors and the camera at once
+ 
+ roslaunch atlas2_bringup bringup.launch
+ 
+ 
+ #Front Camera:
+ IP: 192.168.0.2
+ 
+ Serial: 14233704
+ 
+to see the image received by the camera, run
+rosrun image_view image_view image:=
