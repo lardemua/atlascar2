@@ -1,23 +1,10 @@
 <?xml version="1.0"?>
 <launch>
-    <!--<param name="robot_description" command="$(find xacro)/xacro '$(find atlas2_description)/urdf/atlas2.urdf.xacro'" />-->
+    <arg name="with-rviz" default="false" />
 
-    <!--<node type="laser_scan_assembler" pkg="lms1xx" name="laser_left">-->
-        <!--<remap from="scan" to="/ld_rms/scan0"/>-->
-        <!--<remap from="assemble_scans2" to="assemble_scans0"/>-->
-        <!--<param name="max_scans" type="int" value="150" />-->
-        <!--<param name="fixed_frame" type="string" value="map" />-->
-    <!--</node>-->
+    <include file="$(find atlas2_bringup)/launch/drivers.launch" />
+    <include file="$(find atlas2_bringup)/launch/model.launch" />
 
-    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.134"/>
-        <arg name="frame_id" value="left_laser"/>
-    </include>
-
-    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.231"/>
-        <arg name="frame_id" value="right_laser"/>
-    </include>
-
+    <include file="$(find atlas2_bringup)/launch/visualize.launch" if="$(arg with-rviz)" />
 
 </launch>

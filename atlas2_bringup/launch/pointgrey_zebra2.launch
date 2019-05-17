@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="camera_name" default="camera" />
+    <arg name="frame_id" default="camera" />
+    <arg name="camera_serial" default="14233704" />
+    <arg name="calibrated" default="0" />
+
+    <include file="$(find pointgrey_camera_driver)/launch/camera.launch">
+        <arg name="camera_name" value="$(arg camera_name)" />
+        <arg name="camera_serial" value="$(arg camera_serial)" />
+        <arg name="frame_id" value="$(arg frame_id)" />
+        <arg name="calibrated" value="$(arg calibrated)" />
+
+        <arg name="packet_resend" value="false" />
+        <arg name="auto_packet_size" value="false" />
+        <arg name="packet_size" value="9000" />
+
+    </include>
+
+</launch>

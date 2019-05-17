@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+    
+    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
+        <arg name="port" value="192.168.0.134" />
+        <arg name="frame_id" value="left_laser" />
+    </include>
+
+    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
+        <arg name="port" value="192.168.0.231" />
+        <arg name="frame_id" value="right_laser" />
+    </include>
+
+    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+        <arg name="camera_name" value="top_camera" />
+        <arg name="camera_serial" default="14352340" />
+        <arg name="frame_id" value="top_camera" />
+    </include>
+
+    <include file="$(find atlas2_bringup)/launch/pointgrey_zebra2.launch">
+        <arg name="camera_name" value="frontal_camera" />
+        <arg name="camera_serial" default="14233704" />
+        <arg name="frame_id" value="frontal_camera" />
+    </include>
+
+</launch>

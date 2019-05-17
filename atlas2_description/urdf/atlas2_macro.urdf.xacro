@@ -30,19 +30,19 @@
         </joint>
 
         <!-- frontal camera -->
-        <xacro:pointgrey_flea3 name="${prefix}front_camera" frame="${prefix}front_camera" />
+        <xacro:pointgrey_flea3 name="${prefix}frontal_camera" frame="${prefix}frontal_camera" />
 
-        <joint name="${prefix}car_center_to_${prefix}front_camera" type="fixed">
+        <joint name="${prefix}car_center_to_${prefix}frontal_camera" type="fixed">
             <origin xyz="0 0 0.85" rpy="0 0 ${-pi/2}" />
             <parent link="${prefix}car_center" />
-            <child link="${prefix}front_camera" />
+            <child link="${prefix}frontal_camera" />
         </joint>
 
-         <sensor name="${prefix}front_camera" update_rate="20">
-             <parent link="${prefix}front_camera"/>
+         <sensor name="${prefix}frontal_camera" update_rate="20">
+             <parent link="${prefix}frontal_camera"/>
              <origin xyz="0 0 0" rpy="0 0 0"/>
              <calibration_parent link="${prefix}car_center"/>
-             <calibration_child link="${prefix}front_camera"/>
+             <calibration_child link="${prefix}frontal_camera"/>
          </sensor>
 
         <!-- top camera -->

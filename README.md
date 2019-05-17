@@ -1,6 +1,8 @@
 # atlas-core
 Core packages for the LAR DEMUA Atlas Project
 
+
+[[[[[[[[[SETUP]]]]]]]]]]]]]]]]]]]]]]]]
 ----Not need for particular user-----
 
 Need to connect 2 cables: for ua ethernet and router
@@ -37,3 +39,5 @@ Open the code inside the atlas car pc (terminal with the atlas):
  ssh atlas@ATLASCAR2 -X (to view)
  
  And here you open the code to work on to (ATLas has VSstudio and PyCharm and CLion installed already.)
+ dont need clion installed on your own pc cause your using atlas computer now (as if it was the atlas screen on your screen)
+[[[[[[[[[ ]]]]]]
