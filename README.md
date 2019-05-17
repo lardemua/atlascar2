@@ -2,7 +2,7 @@
 Core packages for the LAR DEMUA Atlas Project
 
 
-#SETUP
+# SETUP
 
 Step 1: plug the eduroam (UA) ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
 
@@ -10,7 +10,26 @@ Step 1: plug the eduroam (UA) ethernet cable (the cable is outside the atlascar2
 
 Step 2: Turn on the computer 
 
-Step 3:
+Step 3: Plug the ethernet cable from the SMC router to your own computer. (The router is inside the atlascar2)
+
+Step 4: On a terminal, run
+
+```
+sudo gedit /etc/hosts
+```
+
+this will open the hosts file. You should save the AtlasCar2 network ip (add this to your hosts file):
+
+192.168.2.102    ATLASCAR2
+
+Save and close.
+
+Step 5: Make sure if the connection to atlascar is on by running 
+
+```
+ping ATLASCAR2
+```
+
 ----Not need for particular user-----
 
 Need to connect 2 cables: for ua ethernet and router
