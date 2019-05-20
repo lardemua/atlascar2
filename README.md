@@ -84,3 +84,19 @@ Open the code inside the atlas car pc (terminal with the atlas):
  
 to see the image received by the camera, run
 rosrun image_view image_view image:=
+
+
+# COMPILATION 
+Inside catkin_ws, run:
+
+```
+catkin_make --pkg driver_base
+catkin_make --pkg novatel_gps_msgs
+```
+
+This is necessary to generate the required files for a final compilation, with:
+
+```
+catkin_make
+```
+
