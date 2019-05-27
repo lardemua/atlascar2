@@ -2,4 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="atlas">
     <xacro:include filename="$(find atlas2_description)/urdf/atlas2_macro.urdf.xacro"/>
     <xacro:atlas2 prefix=""/>
+
+
 </robot>
