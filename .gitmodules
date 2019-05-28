@@ -1,9 +1,0 @@
-[submodule "atlas2_drivers/LMS1xx"]
-	path = atlas2_drivers/LMS1xx
-	url = https://github.com/tmralmeida/LMS1xx.git
-[submodule "atlas2_drivers/sick_ldmrs_laser"]
-	path = atlas2_drivers/sick_ldmrs_laser
-	url = https://github.com/SICKAG/sick_ldmrs_laser.git
-[submodule "atlas2_drivers/pointgrey_camera_driver"]
-	path = atlas2_drivers/pointgrey_camera_driver
-	url = https://github.com/ros-drivers/pointgrey_camera_driver.git

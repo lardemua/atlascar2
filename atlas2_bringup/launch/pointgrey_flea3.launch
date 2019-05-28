@@ -13,4 +13,6 @@
         <arg name="auto_packet_size" value="false" />
         <arg name="packet_size" value="9000" />
     </include>
+    <param name="/top_camera/camera_nodelet/video_mode" value="format7_mode1"/>
+    <param name="frame_rate" value="15" />
 </launch>

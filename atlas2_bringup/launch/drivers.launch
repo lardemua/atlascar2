@@ -1,26 +1,31 @@
 <?xml version="1.0"?>
 <launch>
-    
+    <arg name="ld_mrs" default="true" />
     <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
         <arg name="port" value="192.168.0.134" />
         <arg name="frame_id" value="left_laser" />
     </include>
-
     <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
         <arg name="port" value="192.168.0.231" />
         <arg name="frame_id" value="right_laser" />
     </include>
-
     <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
         <arg name="camera_name" value="top_camera" />
         <arg name="camera_serial" default="14352340" />
         <arg name="frame_id" value="top_camera" />
     </include>
-
     <include file="$(find atlas2_bringup)/launch/pointgrey_zebra2.launch">
         <arg name="camera_name" value="frontal_camera" />
         <arg name="camera_serial" default="14233704" />
         <arg name="frame_id" value="frontal_camera" />
     </include>
 
+    <include file="$(find atlas2_bringup)/launch/novatel.launch">
+    </include>
+
+
+    <node pkg="sick_ldmrs" type="sickldmrs.py" name="ld_rms" required="true" output="screen" if="$(arg ld_mrs)">
+        <param name="host" value="192.168.0.244"/>
+        <param name="port" value="12002"/>
+    </node>
 </launch>

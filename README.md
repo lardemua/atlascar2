@@ -79,6 +79,12 @@ Open the code inside the atlas car pc (terminal with the atlas):
  
  #Front Camera:
  IP: 192.168.0.2
+
+ #Top Camera Right:
+ IP: 169.254.0.2
+
+ #Top Camera Left:
+ IP:169.254.0.2
  
  Serial: 14233704
  
