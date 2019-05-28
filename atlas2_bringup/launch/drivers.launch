@@ -17,6 +17,7 @@
     </include>
     <param name="/top_camera_right/camera_nodelet/video_mode" value="format7_mode1"/>
     <param name="/top_camera_right/camera_nodelet/frame_rate" value="15" />
+    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_right"/>
     <!-- top camera left -->
     <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
         <arg name="camera_name" value="top_camera_left" />
@@ -25,6 +26,7 @@
     </include>
     <param name="/top_camera_left/camera_nodelet/video_mode" value="format7_mode1"/>
     <param name="/top_camera_left/camera_nodelet/frame_rate" value="15" />
+    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_left"/>
     <!-- frontal camera -->
     <include file="$(find atlas2_bringup)/launch/pointgrey_zebra2.launch">
         <arg name="camera_name" value="frontal_camera" />
