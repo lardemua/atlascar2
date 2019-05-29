@@ -43,5 +43,5 @@
     </node>
 
     <!--    Publishes the frames of the scans of the sd_rms laser-->
-<!--    <node pkg="free_space_detection" type="device_frame_publisher_node" name="device_frame_publisher" required="true" output="screen"/>-->
+    <node pkg="free_space_detection" type="device_frame_publisher_node" name="device_frame_publisher" required="true" output="screen"/>
 </launch>
