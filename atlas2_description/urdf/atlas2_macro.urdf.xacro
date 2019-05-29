@@ -52,10 +52,10 @@
         <!-- laser sensor lms_ldmrs400001 -->
         <xacro:sick_ldmrs name="${prefix}ldrms" />
 
-        <joint name="${prefix}car_center_to_${prefix}front_laser_mount_link" type="fixed">
+        <joint name="${prefix}car_center_to_${prefix}ldrms_mount_link" type="fixed">
             <origin xyz="0 0 0.4" rpy="0 0 -${pi/2}" />
             <parent link="${prefix}car_center" />
-            <child link="${prefix}front_laser_mount_link" />
+            <child link="${prefix}ldrms_mount_link" />
         </joint>
 
 
