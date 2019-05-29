@@ -11,20 +11,20 @@
         <arg name="frame_id" value="right_laser" />
     </include>
     <!-- top camera right -->
-<!--    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">-->
-<!--        <arg name="camera_name" value="top_camera_right" />-->
-<!--        <arg name="camera_serial" default="14352340" />-->
-<!--        <arg name="frame_id" value="top_camera_right" />-->
-<!--    </include>-->
-<!--    <param name="/top_camera_right/camera_nodelet/video_mode" value="format7_mode1"/>-->
-<!--    <param name="/top_camera_right/camera_nodelet/frame_rate" value="15" />-->
-<!--    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_right"/>-->
-<!--    &lt;!&ndash; top camera left &ndash;&gt;-->
-<!--    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">-->
-<!--        <arg name="camera_name" value="top_camera_left" />-->
-<!--        <arg name="camera_serial" default="14352549" />-->
-<!--        <arg name="frame_id" value="top_camera_left" />-->
-<!--    </include>-->
+    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+        <arg name="camera_name" value="top_camera_right" />
+        <arg name="camera_serial" default="14352340" />
+        <arg name="frame_id" value="top_camera_right" />
+    </include>
+    <param name="/top_camera_right/camera_nodelet/video_mode" value="format7_mode1"/>
+    <param name="/top_camera_right/camera_nodelet/frame_rate" value="15" />
+    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_right"/>
+    <!-- top camera left -->
+    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+        <arg name="camera_name" value="top_camera_left" />
+        <arg name="camera_serial" default="14352549" />
+        <arg name="frame_id" value="top_camera_left" />
+    </include>
     <param name="/top_camera_left/camera_nodelet/video_mode" value="format7_mode1"/>
     <param name="/top_camera_left/camera_nodelet/frame_rate" value="15" />
     <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_left"/>
