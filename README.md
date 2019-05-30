@@ -168,3 +168,23 @@ This is necessary to generate the required files for a final compilation, with:
 catkin_make
 ```
 
+# Collecting sensor data
+
+you can record a bag file using
+
+```bash
+roslaunch atlas2_bringup record_sensor_data.launch 
+```
+
+This saves a bag file called **atlascar2.bag** in the Desktop. You must edit the name after recording so that it is not deleted on the next recording.
+
+
+# Playing back sensor data
+
+To playback recorded sensor data you must use a special launch file which decompresses the images. As follows:
+```bash
+roslaunch atlas2_bringup playback_sensor_data.launch bag:=atlascar2
+```
+
+Bag name is referred from the Desktop and without the **.bag** extension
+
