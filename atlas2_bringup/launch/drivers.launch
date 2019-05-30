@@ -1,47 +1,64 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="ld_mrs" default="true" />
+    <arg name="ld_mrs" default="true"/>
 
+
+    <!-- Left laser -->
     <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.134" />
-        <arg name="frame_id" value="left_laser" />
+        <arg name="port" value="192.168.0.134"/>
+        <arg name="frame_id" value="left_laser"/>
     </include>
+
+    <!-- Right laser -->
     <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.231" />
-        <arg name="frame_id" value="right_laser" />
+        <arg name="port" value="192.168.0.231"/>
+        <arg name="frame_id" value="right_laser"/>
     </include>
+
     <!-- top camera right -->
-<!--    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">-->
-<!--        <arg name="camera_name" value="top_camera_right" />-->
-<!--        <arg name="camera_serial" default="14352340" />-->
-<!--        <arg name="frame_id" value="top_camera_right" />-->
-<!--    </include>-->
-<!--    <param name="/top_camera_right/camera_nodelet/video_mode" value="format7_mode1"/>-->
-<!--    <param name="/top_camera_right/camera_nodelet/frame_rate" value="15" />-->
-<!--    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_right"/>-->
-<!--    &lt;!&ndash; top camera left &ndash;&gt;-->
-<!--    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">-->
-<!--        <arg name="camera_name" value="top_camera_left" />-->
-<!--        <arg name="camera_serial" default="14352549" />-->
-<!--        <arg name="frame_id" value="top_camera_left" />-->
-<!--    </include>-->
+    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+        <arg name="camera_name" value="top_camera_right"/>
+        <arg name="camera_serial" default="14352340"/>
+        <arg name="frame_id" value="top_camera_right"/>
+        <arg name="calibrated" value="1"/>
+    </include>
+
+    <param name="/top_camera_right/camera_nodelet/video_mode" value="format7_mode1"/>
+    <param name="/top_camera_right/camera_nodelet/frame_rate" value="15"/>
+    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_right"/>
+
+    <!-- top camera left -->
+    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+        <arg name="camera_name" value="top_camera_left"/>
+        <arg name="camera_serial" default="14352549"/>
+        <arg name="frame_id" value="top_camera_left"/>
+        <arg name="calibrated" value="1"/>
+    </include>
     <param name="/top_camera_left/camera_nodelet/video_mode" value="format7_mode1"/>
-    <param name="/top_camera_left/camera_nodelet/frame_rate" value="15" />
+    <param name="/top_camera_left/camera_nodelet/frame_rate" value="15"/>
     <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_camera_left"/>
     <!-- frontal camera -->
     <include file="$(find atlas2_bringup)/launch/pointgrey_zebra2.launch">
-        <arg name="camera_name" value="frontal_camera" />
-        <arg name="camera_serial" default="14233704" />
-        <arg name="frame_id" value="frontal_camera" />
+        <arg name="camera_name" value="frontal_camera"/>
+        <arg name="camera_serial" default="14233704"/>
+        <arg name="frame_id" value="frontal_camera"/>
     </include>
 
     <include file="$(find atlas2_bringup)/launch/novatel.launch"></include>
 
+
+    <!--    TODO can we replace this by the oficial driver?-->
     <node pkg="sick_ldmrs" type="sickldmrs.py" name="ld_rms" required="true" output="screen" if="$(arg ld_mrs)">
         <param name="host" value="192.168.0.244"/>
         <param name="port" value="12002"/>
     </node>
+    <!--    TODO: Daniela chekc if this works for you?-->
+    <!--    <group ns="frontal_laser">-->
+    <!--        <include file="$(find atlas2_bringup)/launch/sick_ldmrs_node.launch">-->
+    <!--        </include>-->
+    <!--    </group>-->
+
 
     <!--    Publishes the frames of the scans of the sd_rms laser-->
-    <node pkg="free_space_detection" type="device_frame_publisher_node" name="device_frame_publisher" required="true" output="screen"/>
+    <!--    <node pkg="free_space_detection" type="device_frame_publisher_node" name="device_frame_publisher" required="true" output="screen"/>-->
 </launch>
