@@ -40,22 +40,22 @@
 
 
         <!-- top camera -->
-        <xacro:pointgrey_flea3 name="${prefix}top_camera" frame="${prefix}top_camera" />
+        <xacro:pointgrey_flea3 name="${prefix}top_right_camera" frame="${prefix}top_right_camera" />
 
-        <joint name="${prefix}car_center_to_${prefix}top_camera" type="fixed">
+        <joint name="${prefix}car_center_to_${prefix}top_right_camera" type="fixed">
             <origin xyz="0 1.50 1.65" rpy="0 0.4 ${-pi/2}" />
             <parent link="${prefix}car_center" />
-            <child link="${prefix}top_camera" />
+            <child link="${prefix}top_right_camera" />
         </joint>
 
 
         <!-- laser sensor lms_ldmrs400001 -->
-        <xacro:sick_ldmrs name="${prefix}ldrms" />
+        <xacro:sick_ldmrs name="${prefix}frontal_laser" />
 
-        <joint name="${prefix}car_center_to_${prefix}ldrms_mount_link" type="fixed">
+        <joint name="${prefix}car_center_to_${prefix}frontal_laser_mount_link" type="fixed">
             <origin xyz="0 0 0.4" rpy="0 0 -${pi/2}" />
             <parent link="${prefix}car_center" />
-            <child link="${prefix}ldrms_mount_link" />
+            <child link="${prefix}frontal_laser_mount_link" />
         </joint>
 
 

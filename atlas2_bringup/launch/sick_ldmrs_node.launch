@@ -33,8 +33,10 @@
         <!-- defaults (not dynamically reconfigurable): -->
         <param name="hostname" type="str" value="192.168.0.244" />
 <!--        <param name="host" value="192.168.0.244"/>-->
+
 <!--        <param name="hostname" value="192.168.0.244"/>-->
 <!--        <param name="port" value="12002"/>-->
+        <param name="frame_id" type="str" value="frontal_laser" />
     </node>
 
 </launch>
