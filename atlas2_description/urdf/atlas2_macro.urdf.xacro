@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:include filename="$(find atlas2_description)/urdf/atlas2_model_macro.urdf.xacro" />
     <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro" />
-    <xacro:include filename="$(find sick_ldmrs_description)/urdf/sick_ldmrs_macros.urdf.xacro" />
+    <!--<xacro:include filename="$(find sick_ldmrs_description)/urdf/sick_ldmrs_macros.urdf.xacro" />-->
     <xacro:include filename="$(find lms1xx)/urdf/sick_lms1xx.urdf.xacro" />
 
     <xacro:macro name="atlas2" params="prefix">
@@ -61,21 +61,21 @@
              <calibration_child link="${prefix}top_camera"/>
          </sensor>
 
-        <!-- laser sensor lms_ldmrs400001 -->
-        <xacro:sick_ldmrs name="${prefix}front_laser" />
+        <!--&lt;!&ndash; laser sensor lms_ldmrs400001 &ndash;&gt;-->
+        <!--<xacro:sick_ldmrs name="${prefix}front_laser" />-->
 
-        <joint name="${prefix}car_center_to_${prefix}front_laser_mount_link" type="fixed">
-            <origin xyz="0 0 0.4" rpy="0 0 -${pi/2}" />
-            <parent link="${prefix}car_center" />
-            <child link="${prefix}front_laser_mount_link" />
-        </joint>
+        <!--<joint name="${prefix}car_center_to_${prefix}front_laser_mount_link" type="fixed">-->
+            <!--<origin xyz="0 0 0.4" rpy="0 0 -${pi/2}" />-->
+            <!--<parent link="${prefix}car_center" />-->
+            <!--<child link="${prefix}front_laser_mount_link" />-->
+        <!--</joint>-->
 
-         <sensor name="${prefix}front_laser" update_rate="20">
-             <parent link="${prefix}front_laser"/>
-             <origin xyz="0 0 0" rpy="0 0 0"/>
-             <calibration_parent link="${prefix}car_center"/>
-             <calibration_child link="${prefix}front_laser_mount_link"/>
-         </sensor>
+         <!--<sensor name="${prefix}front_laser" update_rate="20">-->
+             <!--<parent link="${prefix}front_laser"/>-->
+             <!--<origin xyz="0 0 0" rpy="0 0 0"/>-->
+             <!--<calibration_parent link="${prefix}car_center"/>-->
+             <!--<calibration_child link="${prefix}front_laser_mount_link"/>-->
+         <!--</sensor>-->
 
         <!-- left lms151 laser -->
         <xacro:sick_lms1xx frame="${prefix}left_laser" />
