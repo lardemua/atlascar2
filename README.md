@@ -135,6 +135,12 @@ apenas para recurso na sua rede' is on and the IPv4 method is 'Automatic')
  
  #Front Camera:
  IP: 192.168.0.2
+
+ #Top Camera Right:
+ IP: 169.254.0.2
+
+ #Top Camera Left:
+ IP:169.254.0.1
  
  #Top Camera Right: 
  IP: 169.254.0.2

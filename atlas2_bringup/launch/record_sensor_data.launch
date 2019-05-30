@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+
+<!--arguments-->
+    <arg name="only_raw_data" default="true"/> <!--Whether or not to record only raw data-->
+    <arg name="bag" default="atlascar2"/>
+
+    <param name="/use_sim_time" value="false"/>
+
+    <!--To record only raw data-->
+    <group if="$(arg only_raw_data)">
+<!--        <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="-->
+<!--            /top_camera_right/image_raw/compressed-->
+<!--            /top_camera_right/image_color/compressed-->
+<!--            /top_camera_right/camera_info-->
+<!--            /frontal_camera/image_raw/compressed-->
+<!--            /frontal_camera/image_color/compressed-->
+<!--            /frontal_camera/camera_info-->
+<!--            /left_laser/laserscan-->
+<!--            /right_laser/laserscan-->
+<!--            /ld_rms/scan0-->
+<!--            /ld_rms/scan1-->
+<!--            /ld_rms/scan2-->
+<!--            /ld_rms/scan3-->
+<!--            /fix-->
+<!--            /inspva-->
+<!--            /DadosInclin-->
+<!--            /corrimudata-->
+<!--            /gps-->
+<!--            /tf-->
+<!--            /tf_static-->
+<!--            -O /home/$(env USER)/Desktop/$(arg bag)">-->
+<!--        </node>-->
+            <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
+            /left_laser/laserscan
+            /right_laser/laserscan
+            /frontal_camera/image_color/compressed
+            /frontal_camera/camera_info
+            /tf
+            /tf_static
+            -O /home/$(env USER)/Desktop/$(arg bag)">
+        </node>
+    </group>
+
+
+</launch>
