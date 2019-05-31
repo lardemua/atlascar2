@@ -9,8 +9,9 @@
     <!--uncompress images-->
     <node pkg="image_transport" type="republish" name="republish_frontal_camera" output="screen"
           args="compressed in:=/frontal_camera/image_color raw out:=/frontal_camera/image_color"/>
-<!--    <node pkg="image_transport" type="republish" name="republish_right" output="screen"-->
-<!--          args="compressed in:=/stereo/right/image_raw raw out:=/stereo/right/image_raw"/>-->
+    <node pkg="image_transport" type="republish" name="republish_top_right_camera" output="screen"
+          args="compressed in:=/top_right_camera/image_color raw out:=/top_right_camera/image_color"/>
+
 
     <!--playback a bag file in visual mode
     <node pkg="rqt_bag" type="rqt_bag" name="rqt_bag" output="screen" args=" $(arg bag)"/> -->

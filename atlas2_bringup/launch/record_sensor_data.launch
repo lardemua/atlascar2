@@ -32,11 +32,15 @@
 <!--            -O /home/$(env USER)/Desktop/$(arg bag)">-->
 <!--        </node>-->
             <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
+            /frontal_laser/cloud
             /left_laser/laserscan
             /right_laser/laserscan
             /frontal_camera/image_color/compressed
             /frontal_camera/camera_info
+            /top_right_camera/image_color/compressed
+            /top_right_camera/camera_info
             /tf
+            /joint_states
             /tf_static
             -O /home/$(env USER)/Desktop/$(arg bag)">
         </node>

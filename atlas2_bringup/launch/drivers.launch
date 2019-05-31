@@ -40,7 +40,8 @@
         <arg name="frame_id" value="frontal_camera" />
     </include>
 
-    <include file="$(find atlas2_bringup)/launch/novatel.launch"></include>
+<!--    TODO chekc why novatel package was not compiling-->
+<!--    <include file="$(find atlas2_bringup)/launch/novatel.launch"></include>-->
 
 
     <!--    TODO can we replace this by the oficial driver?-->
