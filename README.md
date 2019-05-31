@@ -188,3 +188,4 @@ roslaunch atlas2_bringup playback_sensor_data.launch bag:=atlascar2
 
 Bag name is referred from the Desktop and without the **.bag** extension
 
+New way to read and display the bag files

@@ -61,23 +61,23 @@
 
 
         <!-- left lms151 laser -->
-        <xacro:sick_lms1xx frame="${prefix}left_laser" />
+        <xacro:sick_lms1xx frame="${prefix}right_laser" />
 
-        <joint name="${prefix}car_center_to_${prefix}left_laser" type="fixed">
+        <joint name="${prefix}car_center_to_${prefix}right_laser" type="fixed">
             <origin xyz="-0.70 0.05 0.50" rpy="0 0 ${-2.2}" />
             <parent link="${prefix}car_center" />
-            <child link="${prefix}left_laser" />
+            <child link="${prefix}right_laser" />
         </joint>
 
 
 
         <!-- right lms151 laser -->
-        <xacro:sick_lms1xx frame="${prefix}right_laser" />
+        <xacro:sick_lms1xx frame="${prefix}left_laser" />
 
-        <joint name="${prefix}car_center_to_${prefix}right_laser" type="fixed">
+        <joint name="${prefix}car_center_to_${prefix}left_laser" type="fixed">
             <origin xyz="0.70 0.05 0.50" rpy="0 0 ${-1}" />
             <parent link="${prefix}car_center" />
-            <child link="${prefix}right_laser" />
+            <child link="${prefix}left_laser" />
         </joint>
 
 
