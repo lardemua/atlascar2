@@ -178,6 +178,11 @@ roslaunch atlas2_bringup record_sensor_data.launch
 
 This saves a bag file called **atlascar2.bag** in the Desktop. You must edit the name after recording so that it is not deleted on the next recording.
 
+If you want to view the checkerboard detection while the bagfile is recorded you may run
+
+```bash
+rosrun tuw_checkerboard tuw_checkerboard_node image:=/frontal_camera/image_color camera_info:=/frontal_camera/camera_info tf:=tf_dev_null
+```
 
 # Playing back sensor data
 
