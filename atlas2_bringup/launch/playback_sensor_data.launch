@@ -3,7 +3,7 @@
 <launch>
     <!--full path to the bag file-->
     <arg name="bag" default="none"/>
-    <arg name="rate" default="1.0"/>
+    <arg name="rate" default=".5"/>
     <!--Parameters-->
     <param name="/use_sim_time" value="true"/>
     <!--uncompress images-->
