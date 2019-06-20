@@ -21,5 +21,6 @@
 <!--          args=" /home/$(env USER)/Desktop/$(arg bag).bag &#45;&#45;clock -r $(arg rate) -l"/>-->
 
     <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-          args=" $(arg bag) --clock -r $(arg rate) -l"/>
+          args=" $(arg bag) --clock -r $(arg rate) -l -s 25"/>
+
 </launch>
