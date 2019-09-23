@@ -1,6 +1,8 @@
 # Atlas Core
 Core packages for the LAR DEMUA Atlas Project
 
+(THIS README IS  STILL UNDER CONSTRUCTION)
+
 # Table of Contents
 
 - [Atlas Core](#atlas-core)
@@ -16,7 +18,7 @@ Core packages for the LAR DEMUA Atlas Project
 
 # SETUP Montage
 
-##1: Turning ON everything you need
+## 1: Turning ON everything you need
 
 __Step 1__: Turn on the car.
 
@@ -27,9 +29,9 @@ This connection could be to some electrical outlet outside of the car (in cases 
 
 Or to the UPS voltage source (in cases that you'll drive the car):
 
-![docs/1_power_on.jpg](docs/1_power_on.jpg?raw=true "Game arena")
+(PUT HERE THE IMAGE OF THE CONNECTED UPS - COMPUTER)
 
-__Step 3:__ Turn on the atlas computer.
+__Step 3:__ Turn on the UPS (in the case that you are using it) and turn on the atlas computer.
 
 __Step 4:__ Plug the eduroam (UA) ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
 
@@ -39,17 +41,16 @@ __Step 5:__ Turn on the sensors circuit switch:
 
 ![switch.jpg](docs/switch.jpg?raw=true "Game arena")
 
-__Step 6:__ Turn on the sensors router:
-
-![sensors_router.jpg](docs/sensors_router.jpg?raw=true "Game arena")
-
-Note: If you want to go out with the car but this router is connected to some external voltage outlet, see section "jjjjjjjjjjjjj"
+__Step 6:__ Turn on the sensors router (NOT NEEDED, ALWAYS CONNECTED TO THE UPS TOO: DELETE THIS)
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
-##2: Working on ATLAS environment
+## 2: Working on ATLAS environment
 
-###Using ssh connection (to work on your own machine)
+(IS THIS REALLY USEFULL??)
+### Using ssh connection (to work on your own machine)
+(IS THIS REALLY USEFULL??)
+
 If you want to work on your own machine, use the router SMC to create a ssh connection to the 
     atlas computer.
 
@@ -87,7 +88,8 @@ Now you are inside the atlascar machine in your own computer!
 
 You can work with Visual Studio or CLion, as they are already installed.
     
-###Using monitors the car (to work on atlas machine)
+### Using monitors the car (to work on atlas machine)
+(OK, THAT'S IT)
  If you want to work with the monitors, mouses and keyboards that are in the car (or directly connected to him):
 
 __Step 1:__ Turn on the screens. Just need to get some eletrical outlet outside of the car. Once again,  if you want to go out 
@@ -100,8 +102,8 @@ Now you can work inside the atlas environment!
 
 If you want, you can use Visual Studio or CLion, once they are already installed.
 
-#Known problems
-##Monitors of the car not showing image
+# Known problems
+## Monitors of the car not showing image
 Just press the POWER button of the atlas machine quickly and only once
 
 
@@ -113,7 +115,7 @@ set the router ipv4 automiatic
 --------------------------------------------
 
 
-3 connections:
+3 connections: (FRONT SWITCH, BACK SWITCH, UA ETHERNET)
 
 Router SMC  (enp5s0f1)
 
@@ -127,28 +129,22 @@ Now you have the cable connection to atlascar (make sure that, on IPv4, is 'Util
 apenas para recurso na sua rede' is on and the IPv4 method is 'Automatic')
 
  
- #Usage
+ __Usage__
+ 
  This launch file, launch the 2 sensors and the camera at once
  
  roslaunch atlas2_bringup bringup.launch
  
- 
- #Front Camera:
+ __Frontal Camera:__
  IP: 192.168.0.2
 
- #Top Camera Right:
- IP: 169.254.0.2
+ __Top Right Camera:__
+ IP: 169.254.0.102
 
- #Top Camera Left:
- IP:169.254.0.1
+ __Top Left Camera:__
+ IP: 169.254.0.101
  
- #Top Camera Right: 
- IP: 169.254.0.2
-
-#Top Camera Left: 
-IP:169.254.0.1
- 
- Serial: 14233704
+ Serial: 14233704 (THIS SERIAL BELONGS TO WICH SENSOR??)
  
 to see the image received by the camera, run
 rosrun image_view image_view image:=
