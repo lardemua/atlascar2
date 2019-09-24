@@ -5,6 +5,6 @@
     <include file="$(find atlas2_bringup)/launch/drivers.launch" />
     <include file="$(find atlas2_bringup)/launch/model.launch" />
 
-    <include file="$(find atlas2_bringup)/launch/visualize.launch" if="$(arg with-rviz)" />
+    <include file="$(find atlas2_bringup)/launch/visualize.launch"/>
 
 </launch>

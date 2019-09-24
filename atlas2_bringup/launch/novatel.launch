@@ -18,7 +18,7 @@
     <node name="novatel_imu" pkg="nodelet" type="nodelet" args="standalone novatel_gps_driver/novatel_gps_nodelet">
         <rosparam>
       connection_type: serial
-      device: /dev/ttyUSB3
+      device: /dev/ttyUSB6
       publish_novatel_positions: false
       publish_novatelgnss_positions: false
       publish_imu_messages: true
