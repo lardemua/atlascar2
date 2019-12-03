@@ -4,7 +4,14 @@
     <arg name="only_raw_data" default="true"/>
     <!--Whether or not to record only raw data-->
     <arg name="bag" default="atlascar2"/>
+
     <param name="/use_sim_time" value="false"/>
+
+<!--    Sets the cmpression algorithm for the images to 'png' to make sure they are lossless-->
+    <param name="/top_left_camera/image_color/compressed/format" value="png"/>
+    <param name="/top_right_camera/image_color/compressed/format" value="png"/>
+    <param name="/frontal_rgbd_camera/rgb/image_raw/compressed/format" value="png"/>
+
     <!--To record only raw data-->
     <group if="$(arg only_raw_data)">
         <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
@@ -18,6 +25,12 @@
             /tf
             /joint_states
             /tf_static
-            -o /tmp/bag_file.bag"></node>
+            /frontal_rgbd_camera/depth/image
+            /frontal_rgbd_camera/depth/camera_info
+            /frontal_rgbd_camera/rgb/image_raw/compressed
+            /frontal_rgbd_camera/rgb/camera_info
+            -o /tmp/bag_file.bag">
+        </node>
+<!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->
     </group>
 </launch>

@@ -1,17 +1,17 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 147
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
       Expanded:
         - /Global Options1
         - /Status1
         - /TF1/Frames1
-        - /TopRight-Camera1/Status1
-        - /TopLeft-Camera1/Status1
-        - /RGBD-Image1/Status1
+        - /Rght-LaserScan1
+        - /FrontalRGBDCamera-DepthCloud1/Status1
+        - /FrontalRGBDCamera-DepthCloud1/Auto Size1
       Splitter Ratio: 0.5382353067398071
-    Tree Height: 311
+    Tree Height: 806
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -30,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Rght-LaserScan
+    SyncSource: FrontalRGBDCamera-DepthCloud
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -76,6 +76,27 @@ Visualization Manager:
           Show Trail: false
           Value: true
         frontal_laser_mount_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        frontal_rgbd_camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        frontal_rgbd_camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        frontal_rgbd_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        frontal_rgbd_camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        frontal_rgbd_camera_rgb_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -133,21 +154,21 @@ Visualization Manager:
           Value: true
         frontal_laser_mount_link:
           Value: true
+        frontal_rgbd_camera_depth_frame:
+          Value: true
+        frontal_rgbd_camera_depth_optical_frame:
+          Value: true
+        frontal_rgbd_camera_link:
+          Value: true
+        frontal_rgbd_camera_rgb_frame:
+          Value: true
+        frontal_rgbd_camera_rgb_optical_frame:
+          Value: true
         ground:
           Value: true
         left_laser:
           Value: true
         model:
-          Value: true
-        rgbd_camera_depth_frame:
-          Value: true
-        rgbd_camera_depth_optical_frame:
-          Value: true
-        rgbd_camera_link:
-          Value: true
-        rgbd_camera_rgb_frame:
-          Value: true
-        rgbd_camera_rgb_optical_frame:
           Value: true
         right_laser:
           Value: true
@@ -169,6 +190,13 @@ Visualization Manager:
           frontal_laser_mount_link:
             frontal_laser:
               {}
+          frontal_rgbd_camera_link:
+            frontal_rgbd_camera_depth_frame:
+              frontal_rgbd_camera_depth_optical_frame:
+                {}
+            frontal_rgbd_camera_rgb_frame:
+              frontal_rgbd_camera_rgb_optical_frame:
+                {}
           ground:
             {}
           left_laser:
@@ -182,13 +210,6 @@ Visualization Manager:
               {}
           top_right_camera:
             top_right_camera_optical:
-              {}
-        rgbd_camera_link:
-          rgbd_camera_depth_frame:
-            rgbd_camera_depth_optical_frame:
-              {}
-          rgbd_camera_rgb_frame:
-            rgbd_camera_rgb_optical_frame:
               {}
       Update Interval: 0
       Value: true
@@ -204,7 +225,7 @@ Visualization Manager:
       Color: 52; 101; 164
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 239; 41; 41
       Max Intensity: 659
@@ -221,7 +242,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -234,7 +255,7 @@ Visualization Manager:
       Color: 138; 226; 52
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 674
@@ -251,7 +272,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -264,7 +285,7 @@ Visualization Manager:
       Color: 239; 41; 41
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -281,10 +302,10 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Class: rviz/Image
-      Enabled: false
-      Image Topic: /top_left_camera/image_rect_color
+      Enabled: true
+      Image Topic: /top_left_camera/image_color
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -293,7 +314,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: false
+      Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /top_right_camera/image_color
@@ -307,7 +328,7 @@ Visualization Manager:
       Unreliable: false
       Value: false
     - Class: rviz/Camera
-      Enabled: true
+      Enabled: false
       Image Rendering: background and overlay
       Image Topic: /top_right_camera/image_color
       Name: TopRight-Camera
@@ -315,13 +336,14 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: true
+      Value: false
       Visibility:
+        FrontaRGBDCamera-DepthImage: true
         Frontal-PointCloud2: true
+        FrontalRGBDCamera-DepthCloud: true
+        FrontalRGBDCamera-Image: true
         Grid: true
         Left-LaserScan: true
-        RGBD-Image: true
-        RGBD-PointCloud2: true
         Rght-LaserScan: true
         RobotModel: true
         TF: true
@@ -331,7 +353,7 @@ Visualization Manager:
         Value: true
       Zoom Factor: 1
     - Class: rviz/Camera
-      Enabled: true
+      Enabled: false
       Image Rendering: background and overlay
       Image Topic: /top_left_camera/image_color
       Name: TopLeft-Camera
@@ -339,13 +361,14 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: true
+      Value: false
       Visibility:
+        FrontaRGBDCamera-DepthImage: true
         Frontal-PointCloud2: true
+        FrontalRGBDCamera-DepthCloud: true
+        FrontalRGBDCamera-Image: true
         Grid: true
         Left-LaserScan: true
-        RGBD-Image: true
-        RGBD-PointCloud2: true
         Rght-LaserScan: true
         RobotModel: true
         TF: true
@@ -356,17 +379,32 @@ Visualization Manager:
       Zoom Factor: 1
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /rgbd_camera/depth/image_rect
+      Image Topic: /frontal_rgbd_camera/rgb/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
-      Name: RGBD-Image
+      Name: FrontalRGBDCamera-Image
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
       Value: true
+    - Class: rviz/Image
+      Enabled: false
+      Image Topic: /frontal_rgbd_camera/depth/image_raw
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: FrontaRGBDCamera-DepthImage
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: false
     - Alpha: 1
+      Auto Size:
+        Auto Size Factor: 1
+        Value: true
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -374,25 +412,30 @@ Visualization Manager:
         Value: true
       Axis: Z
       Channel Name: intensity
-      Class: rviz/PointCloud2
+      Class: rviz/DepthCloud
       Color: 255; 255; 255
-      Color Transformer: Intensity
+      Color Image Topic: /frontal_rgbd_camera/rgb/image_raw
+      Color Transformer: RGB8
+      Color Transport Hint: raw
       Decay Time: 0
+      Depth Map Topic: /frontal_rgbd_camera/depth/image_raw
+      Depth Map Transport Hint: raw
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: RGBD-PointCloud2
+      Name: FrontalRGBDCamera-DepthCloud
+      Occlusion Compensation:
+        Occlusion Time-Out: 30
+        Value: false
       Position Transformer: XYZ
-      Queue Size: 10
+      Queue Size: 5
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.009999999776482582
       Style: Flat Squares
-      Topic: /rgbd_camera/depth/points
-      Unreliable: false
+      Topic Filter: true
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -423,25 +466,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.4603095054626465
+      Distance: 7.065671920776367
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.517602801322937
-        Y: -0.17543098330497742
-        Z: 0.02439858764410019
+        X: 0.30500033497810364
+        Y: 0.1636192500591278
+        Z: 0.31395432353019714
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4797959327697754
+      Pitch: 0.4247957468032837
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.3640408515930176
+      Yaw: 2.9040310382843018
     Saved:
       - Class: rviz/Orbit
         Distance: 14.003959655761719
@@ -466,12 +509,14 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
+  FrontaRGBDCamera-DepthImage:
+    collapsed: false
+  FrontalRGBDCamera-Image:
+    collapsed: false
   Height: 1025
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000017c00000363fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000207000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000140052004700420044002d0049006d006100670065010000024a000001560000001600ffffff00000001000001b800000363fc0200000006fc0000003d000000d50000000000fffffffaffffffff0100000002fb0000001a0054006f0070004c006500660074002d0049006d0061006700650000000000ffffffff0000009700fffffffb0000001c0054006f007000520069006700680074002d0049006d0061006700650000000541000001fc000000a000fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001c0054006f0070004c006500660074002d00430061006d006500720061010000003d000001ba0000001600fffffffb0000001e0054006f007000520069006700680074002d00430061006d00650072006101000001fd000001a30000001600fffffffb0000000a0056006900650077007300000001b4000001ec000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073d0000003efc0100000002fb0000000800540069006d006501000000000000073d000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000003fd0000036300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
-  RGBD-Image:
-    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001d700000363fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000363000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c0000026100000001000001b800000363fc0200000009fb0000001a0054006f0070004c006500660074002d0049006d006100670065010000003d0000015b0000001600fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001c0054006f0070004c006500660074002d00430061006d0065007200610000000120000000c30000001600fffffffb0000001e0054006f007000520069006700680074002d00430061006d0065007200610000000187000000c20000001600fffffffb0000001c0054006f007000520069006700680074002d0049006d0061006700650000000130000000bd0000001600fffffffb0000003600460072006f006e00740061005200470042004400430061006d006500720061002d004400650070007400680049006d00610067006500000000da000001ad0000001600fffffffb0000002e00460072006f006e00740061006c005200470042004400430061006d006500720061002d0049006d006100670065010000019e000002020000001600fffffffb0000000a0056006900650077007300000001b4000001ec000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073d0000003efc0100000002fb0000000800540069006d006501000000000000073d000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000003a20000036300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

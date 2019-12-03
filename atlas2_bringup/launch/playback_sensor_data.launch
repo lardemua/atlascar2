@@ -11,9 +11,11 @@
 <!--          args="compressed in:=/frontal_camera/image_color raw out:=/frontal_camera/image_color"/>-->
     <node pkg="image_transport" type="republish" name="republish_top_right_camera" output="screen"
           args="compressed in:=/top_right_camera/image_color raw out:=/top_right_camera/image_color"/>
+
     <node pkg="image_transport" type="republish" name="republish_top_left_camera" output="screen"
           args="compressed in:=/top_left_camera/image_color raw out:=/top_left_camera/image_color"/>
-
+    <node pkg="image_transport" type="republish" name="republish_frontal_rgbd_camera_image" output="screen"
+          args="compressed in:=/frontal_rgbd_camera/rgb/image_raw raw out:=/frontal_rgbd_camera/rgb/image_raw"/>
 
 
     <!--playback a bag file in visual mode
