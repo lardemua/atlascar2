@@ -37,7 +37,7 @@
 
         <!-- RGB-D camera  -->
     <include file="$(find atlas2_bringup)/launch/asus_xtion.launch">
-<!--        <arg name="camera" value="frontal_rgbd_camera" />-->
+<!--        <arg name="camera" value="top_center_rgbd_camera" />-->
 <!--        <arg name="camera_serial" default="" />-->
 <!--        <arg name="rgb_frame_id" default="/$(arg cammera_name)_rgb_optical_frame" />-->
 <!--        <arg name="depth_frame_id" default="/$(arg cammera_name)_depth_optical_frame" />-->

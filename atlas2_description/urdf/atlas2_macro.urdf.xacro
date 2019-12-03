@@ -75,12 +75,12 @@
         </joint>
 
         <!-- RGB-D camera -->
-        <xacro:asus_camera_model name="${prefix}frontal_rgbd_camera" />
+        <xacro:asus_camera_model name="${prefix}top_center_rgbd_camera" />
 
-        <joint name="${prefix}base_link_to_${prefix}frontal_rgbd_camera" type="fixed">
+        <joint name="${prefix}base_link_to_${prefix}top_center_rgbd_camera" type="fixed">
             <origin xyz="0 0.0  0.20" rpy="0 0 0" />
             <parent link="${prefix}base_link" />
-            <child link="${prefix}frontal_rgbd_camera_link" />
+            <child link="${prefix}top_center_rgbd_camera_link" />
         </joint>
 
 

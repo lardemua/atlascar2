@@ -79,24 +79,24 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        frontal_rgbd_camera_depth_frame:
+        top_center_rgbd_camera_depth_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        frontal_rgbd_camera_depth_optical_frame:
+        top_center_rgbd_camera_depth_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        frontal_rgbd_camera_link:
+        top_center_rgbd_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        frontal_rgbd_camera_rgb_frame:
+        top_center_rgbd_camera_rgb_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        frontal_rgbd_camera_rgb_optical_frame:
+        top_center_rgbd_camera_rgb_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -154,15 +154,15 @@ Visualization Manager:
           Value: true
         frontal_laser_mount_link:
           Value: true
-        frontal_rgbd_camera_depth_frame:
+        top_center_rgbd_camera_depth_frame:
           Value: true
-        frontal_rgbd_camera_depth_optical_frame:
+        top_center_rgbd_camera_depth_optical_frame:
           Value: true
-        frontal_rgbd_camera_link:
+        top_center_rgbd_camera_link:
           Value: true
-        frontal_rgbd_camera_rgb_frame:
+        top_center_rgbd_camera_rgb_frame:
           Value: true
-        frontal_rgbd_camera_rgb_optical_frame:
+        top_center_rgbd_camera_rgb_optical_frame:
           Value: true
         ground:
           Value: true
@@ -190,12 +190,12 @@ Visualization Manager:
           frontal_laser_mount_link:
             frontal_laser:
               {}
-          frontal_rgbd_camera_link:
-            frontal_rgbd_camera_depth_frame:
-              frontal_rgbd_camera_depth_optical_frame:
+          top_center_rgbd_camera_link:
+            top_center_rgbd_camera_depth_frame:
+              top_center_rgbd_camera_depth_optical_frame:
                 {}
-            frontal_rgbd_camera_rgb_frame:
-              frontal_rgbd_camera_rgb_optical_frame:
+            top_center_rgbd_camera_rgb_frame:
+              top_center_rgbd_camera_rgb_optical_frame:
                 {}
           ground:
             {}
@@ -379,7 +379,7 @@ Visualization Manager:
       Zoom Factor: 1
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /frontal_rgbd_camera/rgb/image_raw
+      Image Topic: /top_center_rgbd_camera/rgb/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -391,7 +391,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: false
-      Image Topic: /frontal_rgbd_camera/depth/image_raw
+      Image Topic: /top_center_rgbd_camera/depth/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -414,11 +414,11 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/DepthCloud
       Color: 255; 255; 255
-      Color Image Topic: /frontal_rgbd_camera/rgb/image_raw
+      Color Image Topic: /top_center_rgbd_camera/rgb/image_raw
       Color Transformer: RGB8
       Color Transport Hint: raw
       Decay Time: 0
-      Depth Map Topic: /frontal_rgbd_camera/depth/image_raw
+      Depth Map Topic: /top_center_rgbd_camera/depth/image_raw
       Depth Map Transport Hint: raw
       Enabled: true
       Invert Rainbow: false
