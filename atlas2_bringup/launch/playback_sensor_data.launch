@@ -23,7 +23,10 @@
 <!--    <node pkg="rosbag" type="play" name="rosbag_play" output="screen"-->
 <!--          args=" /home/$(env USER)/Desktop/$(arg bag).bag &#45;&#45;clock -r $(arg rate) -l"/>-->
 
+    <!--<node pkg="rosbag" type="play" name="rosbag_play" output="screen"-->
+          <!--args=" $(arg bag) &#45;&#45;clock -r $(arg rate) -l -s 0"/>-->
     <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-          args=" $(arg bag) --clock -r $(arg rate) -l -s 0"/>
+          args=" $(arg bag) --clock -r $(arg rate) -l -s 0 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null"/>
+
 
 </launch>
