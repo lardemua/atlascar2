@@ -37,7 +37,7 @@
 
         <!-- RGB-D camera  -->
     <include file="$(find atlas2_bringup)/launch/openni2.launch">
-        <arg name="camera" value="rgbd_camera" />
+        <arg name="camera" value="frontal_rgbd_camera" />
 <!--        <arg name="camera_serial" default="" />-->
 <!--        <arg name="rgb_frame_id" default="/$(arg cammera_name)_rgb_optical_frame" />-->
 <!--        <arg name="depth_frame_id" default="/$(arg cammera_name)_depth_optical_frame" />-->
