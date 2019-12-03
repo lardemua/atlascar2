@@ -25,12 +25,17 @@
             /tf
             /joint_states
             /tf_static
-            /frontal_rgbd_camera/depth/image
-            /frontal_rgbd_camera/depth/camera_info
             /frontal_rgbd_camera/rgb/image_raw/compressed
             /frontal_rgbd_camera/rgb/camera_info
+            /frontal_rgbd_camera/depth/image_raw
+            /frontal_rgbd_camera/depth/camera_info
             -o /tmp/bag_file.bag">
         </node>
+
+<!--         /frontal_rgbd_camera/depth/image_raw/compressed-->
+<!--            /frontal_rgbd_camera/depth/camera_info-->
+
+
 <!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->
     </group>
 </launch>
