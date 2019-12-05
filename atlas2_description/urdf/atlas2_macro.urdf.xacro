@@ -21,10 +21,10 @@
             <child link="${prefix}model" />
         </joint>
         <!-- joints -->
-        <joint name="${prefix}base_link_to_${prefix}ground" type="fixed">
+        <joint name="${prefix}base_link_to_${prefix}base_footprint" type="fixed">
             <origin xyz="0 0 -0.305" rpy="0 0 0" />
             <parent link="${prefix}base_link" />
-            <child link="${prefix}ground" />
+            <child link="${prefix}base_footprint" />
         </joint>
 
         <!-- top-right-camera -->
@@ -78,7 +78,7 @@
         <xacro:asus_camera_model name="${prefix}top_center_rgbd_camera" />
 
         <joint name="${prefix}base_link_to_${prefix}top_center_rgbd_camera" type="fixed">
-            <origin xyz="-1.51 0.1 1.27" rpy="0 0.4 0" />
+            <origin xyz="-1.51 -0.01 1.27" rpy="0 0.4 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}top_center_rgbd_camera_link" />
         </joint>
