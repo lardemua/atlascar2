@@ -10,7 +10,7 @@
     <xacro:macro name="atlas2" params="prefix">
         <!-- links -->
         <link name="${prefix}base_link" />
-        <link name="${prefix}ground" />
+        <link name="${prefix}base_footprint" />
 
 
         <!-- car model -->
@@ -22,7 +22,7 @@
         </joint>
         <!-- joints -->
         <joint name="${prefix}base_link_to_${prefix}ground" type="fixed">
-            <origin xyz="0 0 -0.4" rpy="0 0 0" />
+            <origin xyz="0 0 -0.305" rpy="0 0 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}ground" />
         </joint>
@@ -31,7 +31,7 @@
         <xacro:pointgrey_flea3 name="${prefix}top_right_camera" frame="${prefix}top_right_camera" />
 
         <joint name="${prefix}base_link_to_${prefix}top_right_camera" type="fixed">
-            <origin xyz="-1.50 -0.12 1.25" rpy="0 0.4 0" />
+            <origin xyz="-1.55 -0.22 1.35" rpy="0 0.4 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}top_right_camera" />
         </joint>
@@ -40,7 +40,7 @@
         <xacro:pointgrey_flea3 name="${prefix}top_left_camera" frame="${prefix}top_left_camera" />
 
         <joint name="${prefix}base_link_to_${prefix}top_left_camera" type="fixed">
-            <origin xyz="-1.50 0.12 1.25" rpy="0 0.4 0" />
+            <origin xyz="-1.55 0.22 1.35" rpy="0 0.4 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}top_left_camera" />
         </joint>
@@ -60,7 +60,7 @@
         <xacro:sick_lms1xx frame="${prefix}right_laser" />
 
         <joint name="${prefix}base_link_to_${prefix}right_laser" type="fixed">
-            <origin xyz="-0.05 -0.70 0.10" rpy="0 0 ${-0.63}" />
+            <origin xyz="-0.07 -0.76 0.27" rpy="0 0 ${-0.7854}" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}right_laser" />
         </joint>
@@ -69,7 +69,7 @@
         <xacro:sick_lms1xx frame="${prefix}left_laser" />
 
         <joint name="${prefix}base_link_to_${prefix}left_laser" type="fixed">
-            <origin xyz="-0.05 0.70  0.10" rpy="0 0 ${0.57}" />
+            <origin xyz="-0.07 0.76  0.27" rpy="0 0 ${0.7854}" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}left_laser" />
         </joint>
@@ -78,7 +78,7 @@
         <xacro:asus_camera_model name="${prefix}top_center_rgbd_camera" />
 
         <joint name="${prefix}base_link_to_${prefix}top_center_rgbd_camera" type="fixed">
-            <origin xyz="0 0.0  0.20" rpy="0 0 0" />
+            <origin xyz="-1.51 0.1 1.27" rpy="0 0.4 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}top_center_rgbd_camera_link" />
         </joint>
