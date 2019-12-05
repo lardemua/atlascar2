@@ -7,11 +7,6 @@
 
     <param name="/use_sim_time" value="false"/>
 
-<!--    Sets the cmpression algorithm for the images to 'png' to make sure they are lossless-->
-    <param name="/top_left_camera/image_color/compressed/format" value="png"/>
-    <param name="/top_right_camera/image_color/compressed/format" value="png"/>
-    <param name="/top_center_rgbd_camera/rgb/image_raw/compressed/format" value="png"/>
-
     <!--To record only raw data-->
     <group if="$(arg only_raw_data)">
         <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
@@ -27,7 +22,7 @@
             /tf_static
             /top_center_rgbd_camera/rgb/image_raw/compressed
             /top_center_rgbd_camera/rgb/camera_info
-            /top_center_rgbd_camera/depth/image_raw
+            /top_center_rgbd_camera/depth/image/compressedDepth
             /top_center_rgbd_camera/depth/camera_info
             -o /tmp/bag_file.bag">
         </node>
