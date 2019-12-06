@@ -12,19 +12,20 @@
         <link name="${prefix}base_link" />
         <link name="${prefix}base_footprint" />
 
-
         <!-- car model -->
         <xacro:atlas2_model prefix="${prefix}" />
-        <joint name="${prefix}base_link_to_${prefix}model" type="fixed">
-            <origin xyz="0 0 -0.4" rpy="0 0 ${pi/2}" />
-            <parent link="${prefix}base_link" />
-            <child link="${prefix}model" />
-        </joint>
+
         <!-- joints -->
         <joint name="${prefix}base_link_to_${prefix}base_footprint" type="fixed">
             <origin xyz="0 0 -0.305" rpy="0 0 0" />
             <parent link="${prefix}base_link" />
             <child link="${prefix}base_footprint" />
+        </joint>
+
+        <joint name="${prefix}base_footprint_to_${prefix}model" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+            <parent link="${prefix}base_footprint" />
+            <child link="${prefix}model" />
         </joint>
 
         <!-- top-right-camera -->
