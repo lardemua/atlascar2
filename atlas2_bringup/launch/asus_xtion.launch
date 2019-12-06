@@ -9,6 +9,7 @@
         <!--to make sure we don't have collision between the tfs of the xacro and the camera drivers-->
         <arg name="publish_tf" value="false" />
         <arg name="rgb_processing" value="false" />
+        <arg name="load_driver" value="false" />
     </include>
 
 
