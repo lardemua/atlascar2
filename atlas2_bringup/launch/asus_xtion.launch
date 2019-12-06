@@ -1,6 +1,7 @@
 <!-- Laynch asus xtion_camera -->
 <launch>
 
+    <arg name="load_driver" default="true" />
     <!--    Sets the compression png_level to 5 (rahter than 9) to have 30hz-->
     <param name="/top_center_rgbd_camera/depth/image/compressedDepth/png_level" value="5"/>
 
@@ -9,7 +10,7 @@
         <!--to make sure we don't have collision between the tfs of the xacro and the camera drivers-->
         <arg name="publish_tf" value="false" />
         <arg name="rgb_processing" value="false" />
-        <arg name="load_driver" value="false" />
+        <arg name="load_driver" value="$(arg load_driver)" />
     </include>
 
 
