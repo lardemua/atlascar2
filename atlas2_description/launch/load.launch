@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro '$(find atlas2_description)/urdf/atlas2.urdf.xacro'" />
+    <arg name="robot_description" default="robot_description"/>
+    <param name="$(arg robot_description)" command="$(find xacro)/xacro '$(find atlas2_description)/urdf/atlas2.urdf.xacro'" />
 </launch>
