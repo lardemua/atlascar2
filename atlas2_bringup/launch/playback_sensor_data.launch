@@ -4,6 +4,7 @@
     <!--full path to the bag file-->
     <arg name="bag" default="none"/>
     <arg name="rate" default=".5"/>
+    <arg name="bag_start" default="0"/>
     <!--Parameters-->
     <param name="/use_sim_time" value="true"/>
     <!--uncompress images-->
@@ -49,7 +50,7 @@
     <!--<node pkg="rosbag" type="play" name="rosbag_play" output="screen"-->
           <!--args=" $(arg bag) &#45;&#45;clock -r $(arg rate) -l -s 0"/>-->
     <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-          args=" $(arg bag) --clock -r $(arg rate) -l -s 0 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null"/>
+          args=" $(arg bag) --clock -r $(arg rate) -l -s $(arg bag_start) /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null"/>
 
 
 </launch>
