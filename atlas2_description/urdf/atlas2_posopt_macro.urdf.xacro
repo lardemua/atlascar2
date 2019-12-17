@@ -32,7 +32,8 @@
         <xacro:pointgrey_flea3 name="${prefix}top_right_camera" frame="${prefix}top_right_camera" />
 
         <joint name="${prefix}base_link_to_${prefix}top_right_camera" type="fixed">
-            <origin xyz="-1.55 -0.22 1.35" rpy="0 0.4 0" />
+            <origin xyz="-1.47 -0.2367 1.3423" rpy="-0.007146 0.177238 -0.003179" />
+            <!--            <origin xyz="-1.55 -0.22 1.35" rpy="0 0.4 0" />-->
             <parent link="${prefix}base_link" />
             <child link="${prefix}top_right_camera" />
         </joint>
@@ -41,7 +42,8 @@
         <xacro:pointgrey_flea3 name="${prefix}top_left_camera" frame="${prefix}top_left_camera" />
 
         <joint name="${prefix}base_link_to_${prefix}top_left_camera" type="fixed">
-            <origin xyz="-1.55 0.22 1.35" rpy="0 0.4 0" />
+            <origin xyz="-1.48 0.22 1.35" rpy="0 0.1987204 0" />
+<!--            <origin xyz="-1.55 0.22 1.35" rpy="0 0.4 0" />-->
             <parent link="${prefix}base_link" />
             <child link="${prefix}top_left_camera" />
         </joint>
@@ -61,7 +63,8 @@
         <xacro:sick_lms1xx frame="${prefix}right_laser" />
 
         <joint name="${prefix}base_link_to_${prefix}right_laser" type="fixed">
-            <origin xyz="-0.07 -0.76 0.27" rpy="0 0 ${-0.7854}" />
+            <origin xyz="0.059 -0.6872 0.2287" rpy="0.046505 -0.027762 -0.742348" />
+<!--            <origin xyz="-0.07 -0.76 0.27" rpy="0 0 ${-0.7854}" />-->
             <parent link="${prefix}base_link" />
             <child link="${prefix}right_laser" />
         </joint>
@@ -70,7 +73,8 @@
         <xacro:sick_lms1xx frame="${prefix}left_laser" />
 
         <joint name="${prefix}base_link_to_${prefix}left_laser" type="fixed">
-            <origin xyz="-0.07 0.76  0.27" rpy="0 0 ${0.7854}" />
+            <origin xyz="-0.0415 0.8444 0.3349" rpy="0.001728 -0.012468 0.888841" />
+<!--            <origin xyz="-0.07 0.76  0.27" rpy="0 0 ${0.7854}" />-->
             <parent link="${prefix}base_link" />
             <child link="${prefix}left_laser" />
         </joint>
