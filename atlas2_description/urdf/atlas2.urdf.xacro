@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="atlas">
     <xacro:include filename="$(find atlas2_description)/urdf/atlas2_macro.urdf.xacro"/>
+<!--    <xacro:include filename="$(find atlas2_description)/urdf/atlas2_posopt_macro.urdf.xacro"/>-->
     <xacro:atlas2 prefix=""/>
 
 
