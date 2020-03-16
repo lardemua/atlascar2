@@ -5,7 +5,7 @@ Core packages for the LAR DEMUA Atlas Project
 
 # Table of Contents
 
-- [Atlas Core](#atlas-core)
+- [Atlas Core](#atlascar2)
 - [Table of Contents](#table-of-contents)
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
@@ -133,7 +133,7 @@ apenas para recurso na sua rede' is on and the IPv4 method is 'Automatic')
  
  This launch file, launch the 2 sensors and the camera at once
  
- roslaunch atlas2_bringup bringup.launch
+ roslaunch atlascar2_bringup bringup.launch
  
  __Frontal Camera:__
  IP: 192.168.0.2
@@ -169,7 +169,7 @@ catkin_make
 you can record a bag file using
 
 ```bash
-roslaunch atlas2_bringup record_sensor_data.launch 
+roslaunch atlascar2_bringup record_sensor_data.launch 
 ```
 
 This saves a bag file called **atlascar2.bag** in the Desktop. You must edit the name after recording so that it is not deleted on the next recording.
@@ -184,7 +184,7 @@ rosrun tuw_checkerboard tuw_checkerboard_node image:=/frontal_camera/image_color
 
 To playback recorded sensor data you must use a special launch file which decompresses the images. As follows:
 ```bash
-roslaunch atlas2_bringup playback_sensor_data.launch bag:=atlascar2
+roslaunch atlascar2_bringup playback_sensor_data.launch bag:=atlascar2
 ```
 
 Bag name is referred from the Desktop and without the **.bag** extension

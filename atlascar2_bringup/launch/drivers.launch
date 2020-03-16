@@ -4,19 +4,19 @@
 
 
     <!-- Left laser -->
-    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
+    <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
         <arg name="port" value="192.168.0.134" />
         <arg name="frame_id" value="left_laser" />
     </include>
 
     <!-- Right laser -->
-    <include file="$(find atlas2_bringup)/launch/lms1xx.launch">
+    <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
         <arg name="port" value="192.168.0.231" />
         <arg name="frame_id" value="right_laser" />
     </include>
 
     <!-- top camera right -->
-    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+    <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">
         <arg name="camera_name" value="top_right_camera" />
         <arg name="camera_serial" default="14352340" />
         <arg name="frame_id" value="top_right_camera_optical" />
@@ -26,7 +26,7 @@
     <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_right_camera"/>
 
     <!-- top camera left -->
-    <include file="$(find atlas2_bringup)/launch/pointgrey_flea3.launch">
+    <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">
         <arg name="camera_name" value="top_left_camera" />
         <arg name="camera_serial" default="14352549" />
         <arg name="frame_id" value="top_left_camera_optical" />
@@ -36,7 +36,7 @@
     <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_left_camera"/>
 
         <!-- RGB-D camera  -->
-    <include file="$(find atlas2_bringup)/launch/asus_xtion.launch">
+    <include file="$(find atlascar2_bringup)/launch/asus_xtion.launch">
 <!--        <arg name="camera" value="top_center_rgbd_camera" />-->
 <!--        <arg name="camera_serial" default="" />-->
 <!--        <arg name="rgb_frame_id" default="/$(arg cammera_name)_rgb_optical_frame" />-->
@@ -48,17 +48,17 @@
 
 
     <!-- frontal camera -->
-<!--    <include file="$(find atlas2_bringup)/launch/pointgrey_zebra2.launch">-->
+<!--    <include file="$(find atlascar2_bringup)/launch/pointgrey_zebra2.launch">-->
 <!--        <arg name="camera_name" value="frontal_camera" />-->
 <!--        <arg name="camera_serial" default="14233704" />-->
 <!--        <arg name="frame_id" value="frontal_camera" />-->
 <!--    </include>-->
 
-<!--    <include file="$(find atlas2_bringup)/launch/novatel.launch"></include>-->
+<!--    <include file="$(find atlascar2_bringup)/launch/novatel.launch"></include>-->
 
 
         <group ns="frontal_laser">
-            <include file="$(find atlas2_bringup)/launch/sick_ldmrs_node.launch">
+            <include file="$(find atlascar2_bringup)/launch/sick_ldmrs_node.launch">
             </include>
         </group>
 

@@ -20,7 +20,7 @@
     <node pkg="image_transport" type="republish" name="republish_top_center_rgbd_camera_depthimage" output="screen"
           args="compressedDepth in:=/top_center_rgbd_camera/depth/image raw out:=/top_center_rgbd_camera/depth/image_raw"/>
 
-    <include file="$(find atlas2_bringup)/launch/asus_xtion.launch">
+    <include file="$(find atlascar2_bringup)/launch/asus_xtion.launch">
         <arg name="load_driver" value="false" />
     </include>
 

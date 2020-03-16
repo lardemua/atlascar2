@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="with-rviz" default="false" />
+
+    <include file="$(find atlascar2_bringup)/launch/drivers.launch" />
+    <include file="$(find atlascar2_bringup)/launch/model.launch" />
+
+    <include file="$(find atlascar2_bringup)/launch/visualize.launch"/>
+
+</launch>
