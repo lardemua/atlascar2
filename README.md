@@ -16,6 +16,25 @@ Core packages for the LAR DEMUA Atlas Project
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
 
+
+
+# Description of the Atlascar2
+
+The Atlascar2 is an instrumented vehicle used for scientific research in the areas of Autonomous Driving and Driving Assistance Systems.
+It contains significant computing power onboard which is used to process the data streaming from several sensors.
+
+![atlascar2.png](docs/atlascar2.png?raw=true "Atlascar2")
+
+The set of sensors mounted onboard varies according to the needs of the researchers. Nonetheless, there are a few core sensors which are always available:
+
+Name  | Type | Range (m) | Resolution (px) | Frequency (Hz) | Description
+:---: | :---: | :---: | :---: | :---: | :---:
+left laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the left turn signal.
+right laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the right turn signal.
+front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper, at the center. Four scanning planes.
+top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left.
+top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right.
+
 # SETUP Montage
 
 ## 1: Turning ON everything you need
