@@ -34,6 +34,7 @@ right laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, 
 front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper, at the center. Four scanning planes.
 top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left.
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right.
+gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right.
 
 # SETUP Montage
 
