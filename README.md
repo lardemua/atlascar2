@@ -23,7 +23,7 @@ Core packages for the LAR DEMUA Atlas Project
 The Atlascar2 is an instrumented vehicle used for scientific research in the areas of Autonomous Driving and Driving Assistance Systems.
 It contains significant computing power onboard which is used to process the data streaming from several sensors.
 
-![atlascar2.png](docs/atlascar2.png?raw=true "Atlascar2")
+![atlascar2.png](docs/atlascar2b.png?raw=true "Atlascar2")
 
 The set of sensors mounted onboard varies according to the needs of the researchers. Nonetheless, there are a few core sensors which are always available:
 
