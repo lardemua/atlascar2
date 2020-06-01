@@ -1,0 +1,4 @@
+#!/bin/sh
+# Auto generated on 01/06/2020 09:27:32
+#      ATOMIC Framework
+rosrun atom_calibration configure_calibration_pkg -n atlascar2_calibration
