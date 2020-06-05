@@ -1,7 +1,7 @@
 <launch>
 <!-- %%%%%%%%%% ATOM Calibration Framework %%%%%%%%%%%%%%-->
 <!-- calibrate.launch : Runs an optimization to calibrate the robot's sensors. -->
-<!-- This file was generated automatically by the script configure_calibration_pkg on the 04/06/2020 13:02:43-->
+<!-- This file was generated automatically by the script configure_calibration_pkg on the 05/06/2020 19:50:45-->
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
 
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
@@ -12,8 +12,8 @@
 <arg name="rviz_file" default="$(find atlascar2_calibration)/rviz/calibrate.rviz"/>
 <arg name="single_pattern" default="false"/>
 <arg name="use_incomplete_collections" default="false"/>
-<arg name="sensor_selection_function" default="lambda sensor_name: True"/>
-<arg name="collection_selection_function" default="lambda collection_name: True"/>
+<arg name="ssf" default="lambda sensor_name: True"/>
+<arg name="csf" default="lambda collection_name: True"/>
 
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
 <!-- Start calibrate node -->
