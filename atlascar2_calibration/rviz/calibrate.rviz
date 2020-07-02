@@ -105,6 +105,13 @@ Visualization Manager:
     Transport Hint: raw
     Unreliable: false
     Value: false
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: calibrate/labeled_data
+    Name: left_laser-LabeledData
+    Namespaces: {}
+    Queue Size: 10
+    Value: true
   - Class: rviz/Image
     Enabled: true
     Image Topic: calibrate/c0/top_right_camera/image_color/labeled
@@ -117,6 +124,13 @@ Visualization Manager:
     Transport Hint: raw
     Unreliable: false
     Value: false
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: calibrate/labeled_data
+    Name: right_laser-LabeledData
+    Namespaces: {}
+    Queue Size: 10
+    Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
