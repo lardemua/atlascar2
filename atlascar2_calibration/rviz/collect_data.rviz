@@ -118,7 +118,7 @@ Visualization Manager:
     Axis: Z
     Channel Name: intensity
     Class: rviz/LaserScan
-    Color: 128; 177; 211
+    Color: 251; 128; 114
     Color Transformer: FlatColor
     Decay Time: 0
     Enabled: true
@@ -148,7 +148,7 @@ Visualization Manager:
     Axis: Z
     Channel Name: intensity
     Class: rviz/PointCloud2
-    Color: 128; 177; 211
+    Color: 251; 128; 114
     Color Transformer: FlatColor
     Decay Time: 0
     Enabled: true
@@ -169,6 +169,31 @@ Visualization Manager:
     Use Fixed Frame: true
     Use rainbow: true
     Value: true
+  - Class: rviz/Image
+    Enabled: true
+    Image Topic: /top_center_rgbd_camera/rgb/image_raw/labeled
+    Max Value: 1
+    Median window: 5
+    Min Value: 0
+    Name: top_center_rgbd_camera_rgb-Labels-Image
+    Normalize Range: true
+    Queue Size: 2
+    Transport Hint: raw
+    Unreliable: false
+    Value: false
+  - Class: rviz/Camera
+    Enabled: true
+    Image Rendering: background and overlay
+    Image Topic: /top_center_rgbd_camera/rgb/image_raw
+    Name: top_center_rgbd_camera_rgb-Camera
+    Overlay Alpha: 0.5
+    Queue Size: 2
+    Transport Hint: raw
+    Unreliable: false
+    Value: false
+    Visibility:
+      Value: true
+    Zoom Factor: 1
   - Class: rviz/Image
     Enabled: true
     Image Topic: /top_right_camera/image_color/labeled
