@@ -1,8 +1,6 @@
 # Atlas Core
 Core packages for the LAR DEMUA Atlas Project
 
-(THIS README IS  STILL UNDER CONSTRUCTION)
-
 # Table of Contents
 
 - [Atlas Core](#atlascar2)
