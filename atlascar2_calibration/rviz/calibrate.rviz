@@ -93,18 +93,6 @@ Visualization Manager:
     Namespaces: {}
     Queue Size: 10
     Value: true
-  - Class: rviz/Image
-    Enabled: true
-    Image Topic: calibrate/c0/top_left_camera/image_color/labeled
-    Max Value: 1
-    Median window: 5
-    Min Value: 0
-    Name: top_left_camera-Labels-Image
-    Normalize Range: true
-    Queue Size: 2
-    Transport Hint: raw
-    Unreliable: false
-    Value: false
   - Class: rviz/MarkerArray
     Enabled: true
     Marker Topic: calibrate/labeled_data
@@ -112,13 +100,20 @@ Visualization Manager:
     Namespaces: {}
     Queue Size: 10
     Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: calibrate/labeled_data
+    Name: right_laser-LabeledData
+    Namespaces: {}
+    Queue Size: 10
+    Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: calibrate/c0/top_center_rgbd_camera/rgb/image_raw/labeled
+    Image Topic: calibrate/c0/top_left_camera/image_color/labeled
     Max Value: 1
     Median window: 5
     Min Value: 0
-    Name: top_center_rgbd_camera_rgb-Labels-Image
+    Name: top_left_camera-Labels-Image
     Normalize Range: true
     Queue Size: 2
     Transport Hint: raw
@@ -136,13 +131,6 @@ Visualization Manager:
     Transport Hint: raw
     Unreliable: false
     Value: false
-  - Class: rviz/MarkerArray
-    Enabled: true
-    Marker Topic: calibrate/labeled_data
-    Name: right_laser-LabeledData
-    Namespaces: {}
-    Queue Size: 10
-    Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255

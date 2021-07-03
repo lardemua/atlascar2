@@ -11,7 +11,7 @@
   #    Example 5: /home/$(USER)/catkin_ws/src/calibration_pkg/urdf/description.xacro
   # This is valid for description_file, bag_file and calibration_pattern/mesh_file
   "description_file": "package://atlascar2_description/urdf/atlascar2.urdf.xacro",
-  "bag_file": "$ROS_BAGS/calibration_5_dez_2019_03m-07m.bag",
+  "bag_file": "$ROS_BAGS/atlascar2/calibration_5_dez_2019_03m-07m.bag",
 #  "description_file": "http:///home/mike/catkin_ws/src/calibration/atlascar2/atlascar2_description/urdf/atlascar2.urdf.xacro",
 #  "bag_file": "~/bagfiles/calibration_5_dez_2019_03m-07m.bag",
 
