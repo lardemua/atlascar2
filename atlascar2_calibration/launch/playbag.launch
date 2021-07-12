@@ -53,6 +53,7 @@
 <!-- Image Topic Decompression -->
 <node pkg="image_transport" type="republish" name="republish_top_left_camera" output="screen" args="compressed in:=/top_left_camera/image_color raw out:=/top_left_camera/image_color"/>
 <node pkg="image_transport" type="republish" name="republish_top_right_camera" output="screen" args="compressed in:=/top_right_camera/image_color raw out:=/top_right_camera/image_color"/>
+<node pkg="image_transport" type="republish" name="republish_top_center_rgbd_camera_rgb" output="screen" args="compressed in:=/top_center_rgbd_camera/rgb/image_raw raw out:=/top_center_rgbd_camera/rgb/image_raw"/>
 
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
