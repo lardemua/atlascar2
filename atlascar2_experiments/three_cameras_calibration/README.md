@@ -20,8 +20,8 @@ TODO: Daniela, please create two datasets, atlascar2-1 and atlascar2-2
 
 | Dataset | Link |
 | -------------- | :----------: |
-atlascar2-1 | send me and I put them in the drive
-atlascar2-2 | send me and I put them in the drive
+atlascar2-train_1 |https://drive.google.com/drive/folders/1OBxhHlz6ffcQ0TneoDXW8Q9GWZRZKG-B?usp=sharing 
+atlascar2-test_1 | https://drive.google.com/drive/folders/1PiBpNmbgdbKVtr-aXBviuDFYzwLyPdaJ?usp=sharing
 
 ### How to use
 
