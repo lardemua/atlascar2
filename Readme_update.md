@@ -7,12 +7,6 @@ Core packages for the LAR DEMUA Atlas Project
 - [Table of Contents](#table-of-contents)
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
-  * [2: Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
-    * [Using ssh connection (to work on your own machine)](#using-pr2-robot-instead-of-atlascar2)
-    * [Using monitors of the car](#using-pr2-robot-instead-of-atlascar2)
-- [Compilation](#compilation)
-- [Known problems](#known-problems)
-  * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
 
 
 
