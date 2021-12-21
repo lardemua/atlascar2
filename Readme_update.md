@@ -42,20 +42,15 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 
 * __Case 1__: When the car is stopped:
   * __Step 2__: Connect the atlas machine to an outlet near the car.
-  * ![image](https://user-images.githubusercontent.com/92535336/146978669-fa6c1f84-eb44-4678-9a43-30730298b5a7.png)
-
+ ![image](https://user-images.githubusercontent.com/92535336/146978669-fa6c1f84-eb44-4678-9a43-30730298b5a7.png)
   *  __Step 3__: Turn on the atlas computer.
   *  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
-  *  ![Drawing_readme](https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg)
-
-
+![Drawing_readme](https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg)
 * __Case 2__: When going for a ride:
    * __Step 2__: Connect the atlas machine to the UPS.
-   * ![image](https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png)
-
+![image](https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png)
    * __Step 3__: Turn on the atlas computer and the UPS.
    * __Step 4__: This step isn’t needed in this case because the ethernet cable is only used to experiment on the car.
-
 * __Step 5__: Turn on the sensors circuit switch.
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
