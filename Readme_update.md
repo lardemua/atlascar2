@@ -8,6 +8,8 @@ Core packages for the LAR DEMUA Atlas Project
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
 
+- [Testing the sensors](#Testing-sensors)
+
 
 
 # Description of the Atlascar2
@@ -48,3 +50,5 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 * __Step 5__: Turn on the sensors circuit switch.
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
+
+# Testing the sensors
