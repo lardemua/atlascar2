@@ -8,7 +8,7 @@ Core packages for the LAR DEMUA Atlas Project
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
 
-- [Testing the sensors](#Testing-sensors)
+- [Testing the sensors](#testing-the-sensors)
 
 
 
