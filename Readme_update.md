@@ -52,3 +52,5 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 # Testing the sensors
+
+## Sick LMS151 LIDAR
