@@ -64,7 +64,7 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
   * Left_laser : 192.168.0.134
 
 2: Create a static address with the following IP address and mask:
-'IP: 198.162.0.2   Mask: 255.255.255.0'
+`IP: 198.162.0.2   Mask: 255.255.255.0`
 
 3: Launch the drivers.launch with the following code uncommented:
 ```xml
