@@ -53,4 +53,8 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 # Testing the sensors
 
-## Sick LMS151 LIDAR
+## 1: Sick LMS151 LIDAR
+
+## 2: Point Grey Flea 2 camera
+
+## 3: Sick LD MRS LIDAR
