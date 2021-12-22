@@ -9,6 +9,11 @@ Core packages for the LAR DEMUA Atlas Project
   * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
 
 - [Testing the sensors](#testing-the-sensors)
+  * [1: Sick LMS151 LIDAR]
+  * [2: Point Grey Flea 2 camera]
+  * [3: Sick LD MRS LIDAR]
+
+
 
 
 
