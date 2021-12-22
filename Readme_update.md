@@ -59,6 +59,24 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 # Testing the sensors
 
 ## 1: Sick LMS151 LIDAR
+1: Know the IP addresses of the LIDAR, which are:
+  * Right_laser : 192.168.0.231
+  * Left_laser : 192.168.0.134
+
+2: Create a static address with the following IP address and mask:
+'IP: 198.162.0.2   Mask: 255.255.255.0'
+
+3: Launch the drivers.launch with the following code uncommented:
+```xml
+    <!-- Left laser -->
+    <include file="$(find atlascar2_bringup)/launch/left_laser.launch">
+    </include>
+
+    <!-- Right laser -->
+    <include file="$(find atlascar2_bringup)/launch/right_laser.launch">
+    </include>
+```
+4: Open rviz and it should be working
 
 ## 2: Point Grey Flea2 camera
 
