@@ -65,7 +65,7 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 2: Create a static address with the following IP address and mask:
 
-`IP: 198.162.0.2   Mask: 255.255.255.0`
+`IP: 198.162.0.3   Mask: 255.255.255.0`
 
 3: Launch the drivers.launch with the following code uncommented:
 ```xml
@@ -83,6 +83,14 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 ## 2: Point Grey Flea2 camera
 
 1: Know the IP addresses of the camera, which are:
-  * 
+  * Frontal Camera: IP: 192.168.0.2  (a little weird)
+  * Top Right Camera: IP: 169.254.0.102
+  * Top Left Camera: IP: 169.254.0.101
+
+2: Create a static address with the following IP address and mask:
+
+`IP: 162.254.0.3   Mask: 255.255.255.0`
+
+3: 
 
 ## 3: Sick LD MRS LIDAR
