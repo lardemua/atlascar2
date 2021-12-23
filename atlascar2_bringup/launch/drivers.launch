@@ -4,15 +4,11 @@
 
 
     <!-- Left laser -->
-    <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.134" />
-        <arg name="frame_id" value="left_laser" />
+    <include file="$(find atlascar2_bringup)/launch/left_laser.launch">
     </include>
 
     <!-- Right laser -->
-    <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.231" />
-        <arg name="frame_id" value="right_laser" />
+    <include file="$(find atlascar2_bringup)/launch/right_laser.launch">
     </include>
 
     <!-- top camera right -->
