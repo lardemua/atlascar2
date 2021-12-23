@@ -109,7 +109,8 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 ## 3: Sick LD MRS LIDAR
 
 1: Follow the installation steps in this repository (if you didn't install it already):
-[url](https://github.com/SICKAG/sick_ldmrs_laser)
+
+[Installation guide for the Sick LD MRS LIDAR](https://github.com/SICKAG/sick_ldmrs_laser#installation)
 
 2: Know the IP address of the LIDAR, which is:
   * 3D LIDAR: 192.168.0.244
