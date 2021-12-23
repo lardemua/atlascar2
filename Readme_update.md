@@ -67,7 +67,7 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 `IP: 198.162.0.3   Mask: 255.255.255.0`
 
-3: Launch the drivers.launch with the following code uncommented:
+3: Launch the drivers.launch file with this code uncommented:
 ```xml
     <!-- Left laser -->
     <include file="$(find atlascar2_bringup)/launch/left_laser.launch">
@@ -83,7 +83,6 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 ## 2: Point Grey Flea2 camera
 
 1: Know the IP addresses of the camera, which are:
-  * Frontal Camera: IP: 192.168.0.2  (a little weird)
   * Top Right Camera: IP: 169.254.0.102
   * Top Left Camera: IP: 169.254.0.101
 
@@ -91,6 +90,33 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 `IP: 162.254.0.3   Mask: 255.255.255.0`
 
-3: 
+3: Launch the roslaunch file that should had come with the download of the drivers:
+
+`colocar aqui o ficheiro`
+
+4: Open the flycap program and it should be working
+
+** If the program doesn't find a camera**
+ 1: Open the terminal and write:
+ 
+ `updatergui`
+ 
+ 2: Force IP address (the program goes by serial number so the IP is not very important)
+ 3: Now the flycap program should see the camera 
+ 
+ (still not tested in the rviz)
 
 ## 3: Sick LD MRS LIDAR
+
+1: Follow the installation steps in this repository (if you didn't install it already):
+[url](https://github.com/SICKAG/sick_ldmrs_laser)
+
+2: Know the IP address of the LIDAR, which is:
+  * 3D LIDAR: 192.168.0.244
+
+3: Create a static address with the following IP address and mask:
+
+`IP: 162.254.0.3   Mask: 255.255.255.0`
+
+4: Launch the drivers.launch file with this code uncommented:
+
