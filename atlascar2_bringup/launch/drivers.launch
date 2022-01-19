@@ -4,12 +4,12 @@
 
 
     <!-- Left laser -->
-    <include file="$(find atlascar2_bringup)/launch/left_laser.launch">
-    </include>
+<!--    <include file="$(find atlascar2_bringup)/launch/left_laser.launch">-->
+<!--    </include>-->
 
     <!-- Right laser -->
-    <include file="$(find atlascar2_bringup)/launch/right_laser.launch">
-    </include>
+<!--    <include file="$(find atlascar2_bringup)/launch/right_laser.launch">-->
+<!--    </include>-->
 
     <!-- top camera right -->
     <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">
@@ -22,22 +22,22 @@
     <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_right_camera"/>
 
     <!-- top camera left -->
-    <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">
-        <arg name="camera_name" value="top_left_camera" />
-        <arg name="camera_serial" default="14352549" />
-        <arg name="frame_id" value="top_left_camera_optical" />
-    </include>
-    <param name="/top_left_camera/camera_nodelet/video_mode" value="format7_mode1"/>
-    <param name="/top_left_camera/camera_nodelet/frame_rate" value="15" />
-    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_left_camera"/>
+<!--    <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">-->
+<!--        <arg name="camera_name" value="top_left_camera" />-->
+<!--        <arg name="camera_serial" default="14352549" />-->
+<!--        <arg name="frame_id" value="top_left_camera_optical" />-->
+<!--    </include>-->
+<!--    <param name="/top_left_camera/camera_nodelet/video_mode" value="format7_mode1"/>-->
+<!--    <param name="/top_left_camera/camera_nodelet/frame_rate" value="15" />-->
+<!--    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_left_camera"/>-->
 
         <!-- RGB-D camera  -->
-    <include file="$(find atlascar2_bringup)/launch/asus_xtion.launch">
+<!--    <include file="$(find atlascar2_bringup)/launch/asus_xtion.launch">-->
 <!--        <arg name="camera" value="top_center_rgbd_camera" />-->
 <!--        <arg name="camera_serial" default="" />-->
 <!--        <arg name="rgb_frame_id" default="/$(arg cammera_name)_rgb_optical_frame" />-->
 <!--        <arg name="depth_frame_id" default="/$(arg cammera_name)_depth_optical_frame" />-->
-    </include>
+<!--    </include>-->
 <!--    <param name="/top_left_camera/camera_nodelet/video_mode" value="format7_mode1"/>-->
 <!--    <param name="/top_left_camera/camera_nodelet/frame_rate" value="15" />-->
 <!--    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_left_camera"/>-->
@@ -53,10 +53,10 @@
 <!--    <include file="$(find atlascar2_bringup)/launch/novatel.launch"></include>-->
 
 
-        <group ns="frontal_laser">
-            <include file="$(find atlascar2_bringup)/launch/sick_ldmrs_node.launch">
-            </include>
-        </group>
+<!--        <group ns="frontal_laser">-->
+<!--            <include file="$(find atlascar2_bringup)/launch/sick_ldmrs_node.launch">-->
+<!--            </include>-->
+<!--        </group>-->
 
 
     <!--    Publishes the frames of the scans of the sd_rms laser-->
