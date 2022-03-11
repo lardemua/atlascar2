@@ -106,7 +106,9 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
  
  3: Now the flycap program should see the camera 
  
- (still not tested in the rviz)
+ https://www.flir.com/support-center/iis/machine-vision/knowledge-base/setting-an-ip-address-for-a-gige-camera-to-be-recognized-in-linux/
+ 
+ url needed to create a persistent ip address on the camera (removes the force IP, try it next week)
 
 ## 3: Sick LD MRS LIDAR
 
