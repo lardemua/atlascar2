@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <launch>
-<!--      <arg name="ld_mrs" default="true" /> -->
 
-
-    <!-- Left laser -->
+    <!-- Right laser -->
     <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
-        <arg name="port" value="192.168.0.231" />
+        <arg name="port" value="192.168.0.4" />
         <arg name="frame_id" value="right_laser" />
     </include>
 
