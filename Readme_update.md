@@ -35,6 +35,8 @@ top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on th
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right.
 gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right.
 
+The Ip addresses of the sensors can be seen in the following table:
+
 Name  | Type | IP address |
 :---: | :---: | :---: | 
 left laser | LIDAR, Sick LMS151 | 192.168.0.4 |
