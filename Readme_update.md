@@ -35,6 +35,17 @@ top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on th
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right.
 gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right.
 
+The Ip addresses of the sensors can be seen in the following table:
+
+Name  | Type | IP address |
+:---: | :---: | :---: | 
+left laser | LIDAR, Sick LMS151 | 192.168.0.4 |
+right laser | LIDAR, Sick LMS151 | 192.168.0.5 |
+front laser | LIDAR, Sick LD MRS | 192.168.0.6 |
+top left camera | Camera, Point Grey Flea2 | 162.254.0.4 | 
+top right camera | Camera, Point Grey Flea2 | 162.254.0.5 |
+
+
 # SETUP Montage
 
 ## 1: Turning ON everything you need
@@ -60,8 +71,8 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 ## 1: Sick LMS151 LIDAR
 1: Know the IP addresses of the LIDAR, which are:
-  * Right_laser : 192.168.0.231
-  * Left_laser : 192.168.0.134
+  * Right_laser : 192.168.0.5
+  * Left_laser : 192.168.0.4
 
 2: Create a static address with the following IP address and mask:
 
@@ -83,8 +94,8 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 ## 2: Point Grey Flea2 camera
 
 1: Know the IP addresses of the camera, which are:
-  * Top Right Camera: IP: 169.254.0.102
-  * Top Left Camera: IP: 169.254.0.101
+  * Top Right Camera: IP: 169.254.0.5
+  * Top Left Camera: IP: 169.254.0.4
 
 2: Create a static address with the following IP address and mask:
 
@@ -106,7 +117,9 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
  
  3: Now the flycap program should see the camera 
  
- (still not tested in the rviz)
+ https://www.flir.com/support-center/iis/machine-vision/knowledge-base/setting-an-ip-address-for-a-gige-camera-to-be-recognized-in-linux/
+ 
+ url needed to create a persistent ip address on the camera (removes the force IP, try it next week)
 
 ## 3: Sick LD MRS LIDAR
 
@@ -116,7 +129,7 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 (in the installation guide the line: `git clone https://github.com/SICKAG/libsick_ldmrs.git` is not needed)
 
 2: Know the IP address of the LIDAR, which is:
-  * 3D LIDAR: 192.168.0.244
+  * 3D LIDAR: 192.168.0.6
 
 3: Create a static address with the following IP address and mask:
 
