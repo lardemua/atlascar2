@@ -31,10 +31,10 @@
           <param name="max_prediction_age" type="int" value="0" />
         -->
         <!-- defaults (not dynamically reconfigurable): -->
-        <param name="hostname" type="str" value="192.168.0.244" />
-<!--        <param name="host" value="192.168.0.244"/>-->
+        <param name="hostname" type="str" value="192.168.0.6" />
+<!--        <param name="host" value="192.168.0.6"/>-->
 
-<!--        <param name="hostname" value="192.168.0.244"/>-->
+<!--        <param name="hostname" value="192.168.0.6"/>-->
 <!--        <param name="port" value="12002"/>-->
         <param name="frame_id" type="str" value="frontal_laser" />
     </node>
