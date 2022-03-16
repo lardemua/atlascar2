@@ -42,8 +42,8 @@ Name  | Type | IP address |
 left laser | LIDAR, Sick LMS151 | 192.168.0.4 |
 right laser | LIDAR, Sick LMS151 | 192.168.0.5 |
 front laser | LIDAR, Sick LD MRS | 192.168.0.6 |
-top left camera | Camera, Point Grey Flea2 | 162.254.0.4 | 
-top right camera | Camera, Point Grey Flea2 | 162.254.0.5 |
+top left camera | Camera, Point Grey Flea2 | 169.254.0.4 | 
+top right camera | Camera, Point Grey Flea2 | 169.254.0.5 |
 
 
 # SETUP Montage
