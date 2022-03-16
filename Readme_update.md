@@ -42,8 +42,8 @@ Name  | Type | IP address |
 left laser | LIDAR, Sick LMS151 | 192.168.0.4 |
 right laser | LIDAR, Sick LMS151 | 192.168.0.5 |
 front laser | LIDAR, Sick LD MRS | 192.168.0.6 |
-top left camera | Camera, Point Grey Flea2 | 162.254.0.4 | 
-top right camera | Camera, Point Grey Flea2 | 162.254.0.5 |
+top left camera | Camera, Point Grey Flea2 | 169.254.0.4 | 
+top right camera | Camera, Point Grey Flea2 | 169.254.0.5 |
 
 
 # SETUP Montage
@@ -67,7 +67,17 @@ top right camera | Camera, Point Grey Flea2 | 162.254.0.5 |
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
-# Testing the sensors
+## 2:Working in the Atlascar2
+### Using teamviewer for remote work
+The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
+So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
+
+* Username: Atlas
+* Password: atlas
+
+With this the user will see the atlascar pc!
+
+# 2:Testing the sensors
 
 ## 1: Sick LMS151 LIDAR
 1: Know the IP addresses of the LIDAR, which are:
@@ -99,7 +109,7 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 2: Create a static address with the following IP address and mask:
 
-`IP: 162.254.0.3   Mask: 255.255.255.0`
+`IP: 169.254.0.3   Mask: 255.255.255.0`
 
 3: Launch the roslaunch file that should had come with the download of the drivers:
 
@@ -116,10 +126,6 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
  2: Force IP address (the program goes by serial number so the IP is not very important)
  
  3: Now the flycap program should see the camera 
- 
- https://www.flir.com/support-center/iis/machine-vision/knowledge-base/setting-an-ip-address-for-a-gige-camera-to-be-recognized-in-linux/
- 
- url needed to create a persistent ip address on the camera (removes the force IP, try it next week)
 
 ## 3: Sick LD MRS LIDAR
 
@@ -144,5 +150,4 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
    </group>
 ```
 5: Open rviz and it should be working
-
 
