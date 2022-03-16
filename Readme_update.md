@@ -67,6 +67,16 @@ top right camera | Camera, Point Grey Flea2 | 162.254.0.5 |
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
+## 2:Working in the Atlascar2
+### Using teamviewer for remote work
+The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
+So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
+
+* Username: Atlas
+* Password: atlas
+
+With this the user will see the atlascar pc!
+
 # 2:Testing the sensors
 
 ## 1: Sick LMS151 LIDAR
@@ -141,14 +151,3 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 ```
 5: Open rviz and it should be working
 
-# 3:Using the ATLASCAR2
-To use the atlascar the user needs to make sure every cable is properly connected.
-So after turning the car ON the sensor cables need to be connected.
-## Using teamviewer for remote work
-The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
-So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
-
-* Username: Atlas
-* Password: atlas
-
-With this the user will see the atlascar pc!
