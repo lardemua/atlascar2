@@ -89,14 +89,17 @@ With this the user will see the atlascar pc!
 `IP: 198.162.0.3   Mask: 255.255.255.0`
 
 3: Launch the drivers.launch file with this code uncommented:
-```xml
-    <!-- Left laser -->
-    <include file="$(find atlascar2_bringup)/launch/left_laser.launch">
-    </include>
 
-    <!-- Right laser -->
-    <include file="$(find atlascar2_bringup)/launch/right_laser.launch">
-    </include>
+    roslaunch atlascar2_bringup left_laser.launch
+
+```xml
+<!-- Left laser -->
+<include file="$(find atlascar2_bringup)/launch/left_laser.launch">
+</include>
+
+<!-- Right laser -->
+<include file="$(find atlascar2_bringup)/launch/right_laser.launch">
+</include>
 ```
 4: Open rviz and it should be working
  
