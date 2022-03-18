@@ -4,14 +4,14 @@
    <arg name="name" default="left" doc="lidar type [left, right]"/>
 
    <group if="$(eval arg('name') == left)">
-       <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
+       <include file="$(find atlascar2_bringup)/launch/include/lms1xx.launch">
            <arg name="port" value="192.168.0.5" />
            <arg name="frame_id" value="left_laser" />
        </include>
    </group>
 
    <group if="$(eval arg('name') == right)">
-       <include file="$(find atlascar2_bringup)/launch/lms1xx.launch">
+       <include file="$(find atlascar2_bringup)/launch/include/lms1xx.launch">
            <arg name="port" value="192.168.0.4" />
            <arg name="frame_id" value="right_laser" />
        </include>

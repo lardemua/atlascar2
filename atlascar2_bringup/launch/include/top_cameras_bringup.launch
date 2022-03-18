@@ -4,7 +4,7 @@
    <arg name="name" default="left" doc="camera type [left, right]"/>
 
    <group if="$(eval arg('name') == left)">
-       <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">
+       <include file="$(find atlascar2_bringup)/launch/include/pointgrey_flea3.launch">
             <arg name="camera_name" value="top_left_camera" />
             <arg name="camera_serial" default="14352549" />
             <arg name="frame_id" value="top_left_camera_optical" />
@@ -15,7 +15,7 @@
    </group>
 
    <group if="$(eval arg('name') == right)">
-        <include file="$(find atlascar2_bringup)/launch/pointgrey_flea3.launch">
+        <include file="$(find atlascar2_bringup)/launch/include/pointgrey_flea3.launch">
             <arg name="camera_name" value="top_right_camera" />
             <arg name="camera_serial" default="14352340" />
             <arg name="frame_id" value="top_right_camera_optical" />
