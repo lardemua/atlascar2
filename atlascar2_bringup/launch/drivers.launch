@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-<!--     <arg name="ld_mrs" default="true" /> -->
+     <arg name="ld_mrs" default="true" />
 
 
     <!-- Left laser -->
