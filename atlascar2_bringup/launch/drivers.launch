@@ -38,9 +38,6 @@
 <!--        <arg name="rgb_frame_id" default="/$(arg cammera_name)_rgb_optical_frame" />-->
 <!--        <arg name="depth_frame_id" default="/$(arg cammera_name)_depth_optical_frame" />-->
 <!--    </include>-->
-<!--    <param name="/top_left_camera/camera_nodelet/video_mode" value="format7_mode1"/>-->
-<!--    <param name="/top_left_camera/camera_nodelet/frame_rate" value="15" />-->
-<!--    <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_left_camera"/>-->
 
 
     <!-- frontal camera -->

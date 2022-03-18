@@ -25,6 +25,52 @@
    </group>
 
 <!--    front 3D laser-->
+   <group if="$(arg 3DLidar_bringup)">
+        <group ns="frontal_laser">
+            <include file="$(find atlascar2_bringup)/launch/sick_ldmrs_node.launch">
+            </include>
+        </group>
+   </group>
 
+<!--    top left camera -->
+   <group if="$(arg top_camera_left_bringup)">
+        <include file="$(find atlascar2_bringup)/launch/top_cameras_bringup.launch">
+            <arg name="name" value="left" />
+        </include>
+   </group>
+
+<!--    top right camera -->
+   <group if="$(arg top_camera_right_bringup)">
+        <include file="$(find atlascar2_bringup)/launch/top_cameras_bringup.launch">
+            <arg name="name" value="right" />
+        </include>
+   </group>
+
+<!--    front camera -->
+<!--    perguntar se adiciono esta camera ao ficheiro das cameras do telhado, e a RGBD que era top center, de momento ja
+ nao estao no carro-->
+   <group if="$(arg front_camera_bringup)">
+        <include file="$(find atlascar2_bringup)/launch/pointgrey_zebra2.launch">
+            <arg name="camera_name" value="frontal_camera" />
+            <arg name="camera_serial" default="14233704" />
+            <arg name="frame_id" value="frontal_camera" />
+        </include>
+       <node pkg="free_space_detection" type="device_frame_publisher_node" name="device_frame_publisher" required="true" output="screen"/>
+   </group>
+
+<!--    RGBD camera -->
+   <group if="$(arg RGBD_camera_bringup)">
+        <include file="$(find atlascar2_bringup)/launch/asus_xtion.launch">
+            <arg name="camera" value="top_center_rgbd_camera" />
+            <arg name="camera_serial" default="" />
+            <arg name="rgb_frame_id" default="/$(arg cammera_name)_rgb_optical_frame" />
+            <arg name="depth_frame_id" default="/$(arg cammera_name)_depth_optical_frame" />
+        </include>
+   </group>
+
+    <group if="$(arg novatel_bringup)">
+        <include file="$(find atlascar2_bringup)/launch/novatel.launch">
+        </include>
+    </group>
 
 </launch>
