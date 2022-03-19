@@ -92,8 +92,6 @@ In the ethernet port on the pc it must be the following ip address and mask:
   <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135330-bcf1ba1b-a05a-42cd-98b7-5d9ff9a954cc.png">
 </p>
 
-<a name="working-atlascar2"></a>
-
 ### Roof switch
 
 In the ethernet port on the pc it must be the following ip address and mask:
@@ -103,9 +101,9 @@ In the ethernet port on the pc it must be the following ip address and mask:
   <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
 </p>
 
-
 With this, launching the drivers of the sensors must work!
 
+<a name="working-atlascar2"></a>
 ## 3:Working in the Atlascar2
 ### Using teamviewer for remote work
 The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
@@ -121,78 +119,50 @@ With this the user will see the atlascar pc!
 
 <a name="2d-lidar"></a>
 ## 1: Sick LMS151 LIDAR
-1: Know the IP addresses of the LIDAR, which are:
-  * Right_laser : 192.168.0.5
-  * Left_laser : 192.168.0.4
 
-2: Create a static address with the following IP address and mask:
+To launch one of the 2D Lidars:
 
-`IP: 198.162.0.3   Mask: 255.255.255.0`
+    roslaunch atlascar2_bringup 2dlaser_bringup.launch name:=left
+    or
+    roslaunch atlascar2_bringup drivers_bringup.launch 2DLidar_right_bringup:=true
 
-3: Launch the drivers.launch file with this code uncommented:
-
-    roslaunch atlascar2_bringup left_laser.launch
-
-```xml
-<!-- Left laser -->
-<include file="$(find atlascar2_bringup)/launch/left_laser.launch">
-</include>
-
-<!-- Right laser -->
-<include file="$(find atlascar2_bringup)/launch/right_laser.launch">
-</include>
-```
-4: Open rviz and it should be working
+Where left can be replaced for right.
  
 <a name="top-cameras"></a>
 ## 2: Point Grey Flea2 camera
 
-1: Know the IP addresses of the camera, which are:
-  * Top Right Camera: IP: 169.254.0.5
-  * Top Left Camera: IP: 169.254.0.4
+To launch a camera:
 
-2: Create a static address with the following IP address and mask:
+    roslaunch atlascar2_bringup top_cameras_bringup.launch.launch name:=left
+    or
+    roslaunch atlascar2_bringup drivers_bringup.launch top_camera_left_bringup:=true
 
-`IP: 169.254.0.3   Mask: 255.255.255.0`
-
-3: Launch the roslaunch file that should had come with the download of the drivers:
-
-`roslaunch pointgrey_camera_driver camera.launch`
-
-4: Open the flycap program and it should be working
-
-**If the program doesn't find a camera**
-
- 1: Open the terminal and write:
- 
- `updatorgui`
- 
- 2: Force IP address (the program goes by serial number so the IP is not very important)
- 
- 3: Now the flycap program should see the camera 
+Where left can be replaced for right.
 
 <a name="3d-lidar"></a>
 ## 3: Sick LD MRS LIDAR
 
-1: Follow the installation steps in this repository (if you didn't install it already):
+To launch only this sensor:
 
-[Installation guide for the Sick LD MRS LIDAR](https://github.com/SICKAG/sick_ldmrs_laser#installation)
-(in the installation guide the line: `git clone https://github.com/SICKAG/libsick_ldmrs.git` is not needed)
+    roslaunch atlascar2_bringup drivers_bringup.launch 3DLidar_bringup:=true
 
-2: Know the IP address of the LIDAR, which is:
-  * 3D LIDAR: 192.168.0.6
+## To test the system as a whole
 
-3: Create a static address with the following IP address and mask:
+Launch the file:
 
-`IP: 192.168.0.3   Mask: 255.255.255.0`
+    roslaunch atlascar2_bringup bringup.launch
+    
+Which has the following arguments:
 
-4: Launch the drivers.launch file with this code uncommented:
+* visualize -> see rviz or not
+* 2DLidar_left_bringup -> launch the left 2D lidar
+* 2DLidar_right_bringup -> launch the right 2D lidar
+* 3DLidar_bringup -> launch the 3D lidar
+* top_camera_right_bringup -> launch the right top camera
+* top_camera_left_bringup -> launch the left top camera
+* front_camera_bringup -> launch the front camera
+* RGBD_camera_bringup -> launch the RGBD camera
+* novatel_bringup -> launch the GPS
 
-```xml
-   <group ns="frontal_laser">
-       <include file="$(find atlascar2_bringup)/launch/sick_ldmrs_node.launch">
-       </include>
-   </group>
-```
-5: Open rviz and it should be working
+Note: The front and RGBD camera aren't in the car right now, so these arguments should be false
 
