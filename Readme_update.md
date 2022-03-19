@@ -1,21 +1,24 @@
+<a name="atlascar2"></a>
 # Atlas Core
 Core packages for the LAR DEMUA Atlas Project
 
+<a name="table-of-contents"></a>
 # Table of Contents
 
 - [Atlas Core](#atlascar2)
 - [Table of Contents](#table-of-contents)
+- [Description of the Atlascar2](#description)
 - [SETUP Montage](#setup-montage)
-  * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
+  * [1: Turning ON everything you need](#turning-on) 
   * [2: Configuring the sensors](#configuring-sensors) 
-  * [3: Working in the ATLASCAR2](#working-atlascar2)
+  * [3: Working in the Atlascar2](#working-atlascar2)
 
 - [Testing the sensors](#testing-the-sensors)
-  * [1: Sick LMS151 LIDAR](#1-sick-lms151-lidar)
-  * [2: Point Grey Flea2 camera](#2-point-grey-Flea2-camera)
-  * [3: Sick LD MRS LIDAR](#3-sick-ld-mrs-lidar)
+  * [1: Sick LMS151 LIDAR](#2d-lidar)
+  * [2: Point Grey Flea2 camera](#top-cameras)
+  * [3: Sick LD MRS LIDAR](#3d-lidar)
 
-
+<a name="description"></a>
 # Description of the Atlascar2
 
 The Atlascar2 is an instrumented vehicle used for scientific research in the areas of Autonomous Driving and Driving Assistance Systems.
@@ -34,9 +37,10 @@ top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on th
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right. | 169.254.0.5
 gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right. | ---
 
-
+<a name="setup-montage"></a>
 # SETUP Montage
 
+<a name="turning-on"></a>
 ## 1: Turning ON everything you need
 
 * __Step 1__: Turn on the car.
@@ -68,10 +72,13 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
+
+<a name="configuring-sensors"></a>
 ## 2: Cofiguring the sensors
 
 **Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.
 
+<a name="working-atlascar2"></a>
 ## 3:Working in the Atlascar2
 ### Using teamviewer for remote work
 The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
@@ -82,8 +89,10 @@ So in order to connect to the atlascar the user only needs to add the user and p
 
 With this the user will see the atlascar pc!
 
-# 2:Testing the sensors
+<a name="testing-the-sensors"></a>
+# Testing the sensors
 
+<a name="2d-lidar"></a>
 ## 1: Sick LMS151 LIDAR
 1: Know the IP addresses of the LIDAR, which are:
   * Right_laser : 192.168.0.5
@@ -108,7 +117,7 @@ With this the user will see the atlascar pc!
 ```
 4: Open rviz and it should be working
  
-
+<a name="top-cameras"></a>
 ## 2: Point Grey Flea2 camera
 
 1: Know the IP addresses of the camera, which are:
@@ -135,6 +144,7 @@ With this the user will see the atlascar pc!
  
  3: Now the flycap program should see the camera 
 
+<a name="3d-lidar"></a>
 ## 3: Sick LD MRS LIDAR
 
 1: Follow the installation steps in this repository (if you didn't install it already):
