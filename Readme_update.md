@@ -7,6 +7,8 @@ Core packages for the LAR DEMUA Atlas Project
 - [Table of Contents](#table-of-contents)
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
+  * [2: Configuring the sensors](#configuring-sensors) 
+  * [3: Working in the ATLASCAR2](#working-atlascar2)
 
 - [Testing the sensors](#testing-the-sensors)
   * [1: Sick LMS151 LIDAR](#1-sick-lms151-lidar)
@@ -66,13 +68,17 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
-## 2:Working in the Atlascar2
+## 2: Cofiguring the sensors
+
+**Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.
+
+## 3:Working in the Atlascar2
 ### Using teamviewer for remote work
 The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
 So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
 
-* Username: Atlas
-* Password: atlas
+* User number: ....
+* Password: ask the administrator
 
 With this the user will see the atlascar pc!
 
