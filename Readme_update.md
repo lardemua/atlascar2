@@ -14,9 +14,6 @@ Core packages for the LAR DEMUA Atlas Project
   * [3: Sick LD MRS LIDAR](#3-sick-ld-mrs-lidar)
 
 
-
-
-
 # Description of the Atlascar2
 
 The Atlascar2 is an instrumented vehicle used for scientific research in the areas of Autonomous Driving and Driving Assistance Systems.
@@ -26,24 +23,14 @@ It contains significant computing power onboard which is used to process the dat
 
 The set of sensors mounted onboard varies according to the needs of the researchers. Nonetheless, there are a few core sensors which are always available:
 
-Name  | Type | Range (m) | Resolution (px) | Frequency (Hz) | Description
-:---: | :---: | :---: | :---: | :---: | :---:
-left laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the left turn signal.
-right laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the right turn signal.
-front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper, at the center. Four scanning planes.
-top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left.
-top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right.
-gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right.
-
-The Ip addresses of the sensors can be seen in the following table:
-
-Name  | Type | IP address |
-:---: | :---: | :---: | 
-left laser | LIDAR, Sick LMS151 | 192.168.0.4 |
-right laser | LIDAR, Sick LMS151 | 192.168.0.5 |
-front laser | LIDAR, Sick LD MRS | 192.168.0.6 |
-top left camera | Camera, Point Grey Flea2 | 169.254.0.4 | 
-top right camera | Camera, Point Grey Flea2 | 169.254.0.5 |
+Name  | Type | Range (m) | Resolution (px) | Frequency (Hz) | Description | IP address
+:---: | :---: | :---: | :---: | :---: | :---: | :---: 
+left laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the left turn signal. | 192.168.0.4
+right laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the right turn signal. | 192.168.0.5
+front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper, at the center. Four scanning planes. | 192.168.0.6
+top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left. | 169.254.0.4
+top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right. | 169.254.0.5
+gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right. | ---
 
 
 # SETUP Montage
@@ -60,7 +47,7 @@ top right camera | Camera, Point Grey Flea2 | 169.254.0.5 |
 ![Drawing_readme](https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg)
 * __Case 2__: When going for a ride:
    * __Step 2__: Connect the atlas machine to the UPS.
-![image](https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png)
+![image](https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png )
    * __Step 3__: Turn on the atlas computer and the UPS.
    * __Step 4__: This step isn’t needed in this case because the ethernet cable is only used to experiment on the car.
 * __Step 5__: Turn on the sensors circuit switch.
