@@ -49,21 +49,21 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
   * __Step 2__: Connect the atlas machine to an outlet near the car.
 
  <p align="center">
-  <img width="50%" height="50%" src="https://user-images.githubusercontent.com/92535336/146978669-fa6c1f84-eb44-4678-9a43-30730298b5a7.png">
+  <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978669-fa6c1f84-eb44-4678-9a43-30730298b5a7.png">
 </p>
 
   *  __Step 3__: Turn on the atlas computer.
   *  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
 
  <p align="center">
-  <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg">
+  <img width="30%" height="30%" src="https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg">
 </p>
 
 * __Case 2__: When going for a ride:
    * __Step 2__: Connect the atlas machine to the UPS.
 
  <p align="center">
-  <img width="50%" height="50%" src="https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png ">
+  <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png ">
 </p>
 
    * __Step 3__: Turn on the atlas computer and the UPS.
@@ -72,13 +72,40 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
-
 <a name="configuring-sensors"></a>
 ## 2: Cofiguring the sensors
 
-**Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.
+**Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.**
+
+In the car exists two switches to connect to the server. One for the sensors in the front bumper and other in the roof. 
+* One in the front bumper where are connected the 2D lidars and the 3D lidar.
+* Another in the roof where the top cameras are connected
+ 
+In the table above, it can be seen that both of these sensors need diferent IP addresses to work.
+
+### Front bumper switch
+
+In the ethernet port on the pc it must be the following ip address and mask:
+`IP: 198.162.0.3   Mask: 255.255.255.0`
+
+ <p align="center">
+  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135330-bcf1ba1b-a05a-42cd-98b7-5d9ff9a954cc.png">
+</p>
 
 <a name="working-atlascar2"></a>
+
+### Roof switch
+
+In the ethernet port on the pc it must be the following ip address and mask:
+`IP: 169.254.0.3   Mask: 255.255.255.0`
+
+ <p align="center">
+  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
+</p>
+
+
+With this, launching the drivers of the sensors must work!
+
 ## 3:Working in the Atlascar2
 ### Using teamviewer for remote work
 The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
