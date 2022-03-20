@@ -77,8 +77,8 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 **Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.**
 
-In the car exists two switches to connect to the server. One for the sensors in the front bumper and other in the roof. 
-* One in the front bumper where are connected the 2D lidars and the 3D lidar.
+In the car exists two switches to connect to the server.
+* One in the front bumper which connects the 2D lidars and the 3D lidar.
 * Another in the roof where the top cameras are connected
  
 In the table above, it can be seen that both of these sensors need diferent IP addresses to work.
