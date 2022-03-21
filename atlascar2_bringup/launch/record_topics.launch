@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node name="rosbag_record" pkg="rosbag" type="record" output="screen" if="$(args record)" args="record -o /ld_rms/scan0 /ld_rms/scan1 /ld_rms/scan2 /ld_rms/scan3 /lms151_D_scan /lms151_E_scan /top_camera/image_rect_color /top_camera/camera_nodelet_manager/bond /top_camera/camera_info /top_camera/image_raw -o $(find free_space_detection)/laserData/"/>
-</launch>

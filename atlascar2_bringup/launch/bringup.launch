@@ -1,16 +1,24 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="visualize" default="false" />
+    <arg name="visualize" default="true" />
+    <arg name="2DLidar_left_bringup" default="true"/>
+    <arg name="2DLidar_right_bringup" default="true"/>
+    <arg name="3DLidar_bringup" default="true"/>
+    <arg name="top_camera_right_bringup" default="true"/>
+    <arg name="top_camera_left_bringup" default="true"/>
+    <arg name="front_camera_bringup" default="false"/>
+    <arg name="RGBD_camera_bringup" default="false"/>
+    <arg name="novatel_bringup" default="false"/>
 
     <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
-        <arg name="2DLidar_left_bringup" value="true"/>
-        <arg name="2DLidar_right_bringup" value="true"/>
-        <arg name="3DLidar_bringup" value="true"/>
-        <arg name="top_camera_right_bringup" value="true"/>
-        <arg name="top_camera_left_bringup" value="true"/>
-        <arg name="front_camera_bringup" value="false"/>
-        <arg name="RGBD_camera_bringup" value="false"/>
-        <arg name="novatel_bringup" value="false"/>
+        <arg name="2DLidar_left_bringup" value="$(arg 2DLidar_left_bringup)"/>
+        <arg name="2DLidar_right_bringup" value="$(arg 2DLidar_right_bringup)"/>
+        <arg name="3DLidar_bringup" value="$(arg 2DLidar_left_bringup)"/>
+        <arg name="top_camera_right_bringup" value="$(arg top_camera_right_bringup)"/>
+        <arg name="top_camera_left_bringup" value="$(arg top_camera_left_bringup)"/>
+        <arg name="front_camera_bringup" value="$(arg front_camera_bringup)"/>
+        <arg name="RGBD_camera_bringup" value="$(arg RGBD_camera_bringup)"/>
+        <arg name="novatel_bringup" value="$(arg novatel_bringup)"/>
     </include>
 
     <include file="$(find atlascar2_bringup)/launch/model.launch" />
