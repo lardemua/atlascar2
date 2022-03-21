@@ -3,7 +3,7 @@
     <!-- This launch file launchs one of the atlascar2 top cameras mounted on the car's roof -->
    <arg name="name" default="left" doc="camera type [left, right]"/>
 
-   <group if="$(eval arg('name') == left)">
+   <group if="$(eval arg('name') == 'left')">
        <include file="$(find atlascar2_bringup)/launch/include/pointgrey_flea3.launch">
             <arg name="camera_name" value="top_left_camera" />
             <arg name="camera_serial" default="14352549" />
@@ -14,7 +14,7 @@
         <node name="image_proc" pkg="image_proc" type="image_proc" ns="top_left_camera"/>
    </group>
 
-   <group if="$(eval arg('name') == right)">
+   <group if="$(eval arg('name') == 'right')">
         <include file="$(find atlascar2_bringup)/launch/include/pointgrey_flea3.launch">
             <arg name="camera_name" value="top_right_camera" />
             <arg name="camera_serial" default="14352340" />

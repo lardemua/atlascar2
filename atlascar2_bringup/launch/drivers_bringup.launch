@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <launch>
 <!-- args to specify what sensor to launch -->
-    <arg name="2DLidar_left_bringup" />
-    <arg name="2DLidar_right_bringup" />
-    <arg name="3DLidar_bringup" />
-    <arg name="top_camera_right_bringup" />
-    <arg name="top_camera_left_bringup" />
-    <arg name="front_camera_bringup"/>
-    <arg name="RGBD_camera_bringup" />
-    <arg name="novatel_bringup" />
+    <arg name="2DLidar_left_bringup" default="true"/>
+    <arg name="2DLidar_right_bringup" default="true"/>
+    <arg name="3DLidar_bringup" default="true"/>
+    <arg name="top_camera_right_bringup" default="true"/>
+    <arg name="top_camera_left_bringup" default="true"/>
+    <arg name="front_camera_bringup" default="false"/>
+    <arg name="RGBD_camera_bringup" default="false"/>
+    <arg name="novatel_bringup" default="false"/>
 
 <!--    left 2D laser -->
    <group if="$(arg 2DLidar_left_bringup)">

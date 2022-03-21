@@ -89,7 +89,7 @@ In the ethernet port on the pc it must be the following ip address and mask:
 `IP: 198.162.0.3   Mask: 255.255.255.0`
 
  <p align="center">
-  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135330-bcf1ba1b-a05a-42cd-98b7-5d9ff9a954cc.png">
+  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
 </p>
 
 ### Roof switch
@@ -98,7 +98,7 @@ In the ethernet port on the pc it must be the following ip address and mask:
 `IP: 169.254.0.3   Mask: 255.255.255.0`
 
  <p align="center">
-  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
+  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135330-bcf1ba1b-a05a-42cd-98b7-5d9ff9a954cc.png">
 </p>
 
 With this, launching the drivers of the sensors must work!
