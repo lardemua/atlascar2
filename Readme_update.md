@@ -122,7 +122,7 @@ With this the user will see the atlascar pc!
 
 To launch one of the 2D Lidars:
 
-    roslaunch atlascar2_bringup 2dlaser_bringup.launch name:=left
+    roslaunch atlascar2_bringup laser2d_bringup.launch name:=left
     or
     roslaunch atlascar2_bringup drivers_bringup.launch 2DLidar_right_bringup:=true
 
