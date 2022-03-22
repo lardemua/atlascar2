@@ -8,7 +8,7 @@
     <arg name="top_camera_left_bringup" default="true"/>
     <arg name="front_camera_bringup" default="false"/>
     <arg name="RGBD_camera_bringup" default="false"/>
-    <arg name="novatel_bringup" default="false"/>
+    <arg name="novatel_bringup" default="true"/>
 
     <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
         <arg name="2DLidar_left_bringup" value="$(arg 2DLidar_left_bringup)"/>
