@@ -109,7 +109,7 @@ With this, launching the drivers of the sensors must work!
 The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
 So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
 
-* User number: ....
+* User number: 1 145 728 199
 * Password: ask the administrator
 
 With this the user will see the atlascar pc!
