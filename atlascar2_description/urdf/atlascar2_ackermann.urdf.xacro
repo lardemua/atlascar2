@@ -49,20 +49,6 @@ limitations under the License.
     <xacro:property name="chassis_height" value="0.01"/>
     <xacro:property name="chassis_mass" value="2.788"/>
     <!--
-     battery_dist is the distance between the inner edges of the
-           batteries. battery_comp_depth is the battery compartment depth.
-           battery_length is measured along the x axis, battery_width
-           along the y axis, and battery_height along the z axis.
-    -->
-    <xacro:property name="battery_x_offset" value="0.055"/>
-    <xacro:property name="battery_dist" value="0.065"/>
-    <xacro:property name="battery_comp_depth" value="0.02"/>
-    <xacro:property name="battery_comp_angle" value="0.34906585"/>
-    <xacro:property name="battery_length" value="0.8"/>
-    <xacro:property name="battery_width" value="0.047"/>
-    <xacro:property name="battery_height" value="0.024"/>
-    <xacro:property name="battery_mass" value="0.5025"/>
-    <!--
      hub_dia and tire_dia are the diameters of the hub and tire,
            respectively. hex_hub_depth is the distance that the hex hub is
            inset from the outer edge of the tire. It is set so that each wheel
@@ -121,9 +107,6 @@ limitations under the License.
     -->
     <xacro:property name="servo_stall_torque" value="5649"/>
     <xacro:property name="servo_no_load_speed" value="4553"/>
-    <material name="battery_mat">
-        <color rgba="0 0 1 1"/>
-    </material>
     <material name="chassis_mat">
         <color rgba="0.894 0.054 0.027 1"/>
     </material>
@@ -166,43 +149,6 @@ limitations under the License.
                      iyy="${(1 / 12) * mass * (3 * (inner_rad * inner_rad + outer_rad * outer_rad) + height * height)}"
                      iyz="0" izz="${mass * (inner_rad * inner_rad + outer_rad * outer_rad) / 2}"/>
         </inertial>
-    </xacro:macro>
-    <!-- Battery -->
-    <xacro:macro name="battery" params="prefix reflect">
-        <joint name="chassis_to_${prefix}_battery" type="fixed">
-            <parent link="chassis"/>
-            <child link="${prefix}_battery_offset"/>
-            <origin xyz="${battery_x_offset - battery_length / 2} ${reflect * battery_dist / 2} 0"
-                    rpy="${reflect * battery_comp_angle} 0 0"/>
-        </joint>
-        <link name="${prefix}_battery_offset">
-            <xacro:null_inertial/>
-        </link>
-        <joint name="offset_to_${prefix}_battery" type="fixed">
-            <parent link="${prefix}_battery_offset"/>
-            <child link="${prefix}_battery"/>
-            <origin xyz="0 ${reflect * battery_width / 2} ${(battery_height / 2) - battery_comp_depth}"/>
-        </joint>
-        <link name="${prefix}_battery">
-            <visual>
-                <geometry>
-                    <box size="${battery_length} ${battery_width} ${battery_height}"/>
-                </geometry>
-                <material name="battery_mat"/>
-            </visual>
-            <collision>
-                <geometry>
-                    <box size="${battery_length} ${battery_width} ${battery_height}"/>
-                </geometry>
-            </collision>
-            <xacro:solid_cuboid_inertial width="${battery_length}" depth="${battery_width}" height="${battery_height}"
-                                         mass="${battery_mass}">
-                <origin/>
-            </xacro:solid_cuboid_inertial>
-        </link>
-        <gazebo reference="${prefix}_battery">
-            <material>Gazebo/Blue</material>
-        </gazebo>
     </xacro:macro>
     <!-- Shock absorber -->
     <xacro:macro name="shock" params="lr_prefix fr_prefix lr_reflect fr_reflect child">
@@ -264,8 +210,9 @@ limitations under the License.
         <link name="${lr_prefix}_${fr_prefix}_wheel">
             <visual>
                 <origin xyz="0 ${lr_reflect * (axle_length - (tire_width / 2 - hex_hub_depth))} 0"/>
+                <origin rpy="${degrees_90} 0 0"/>
                 <geometry>
-                    <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.stl"/>
+                    <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
                 </geometry>
                 <material name="tire_mat"/>
             </visual>
@@ -337,7 +284,8 @@ limitations under the License.
     <link name="chassis">
         <visual>
             <!-- <origin xyz="0 0 0"/> -->
-            <origin xyz="-1.7575 -0.91 -0.295" rpy="${degrees_90} 0.02 ${degrees_90}"/>
+<!--            <origin xyz="-1.7575 -0.91 -0.295" rpy="0 0 0"/>-->
+            <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
                 <!--
                  <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
@@ -364,9 +312,6 @@ limitations under the License.
         <parent link="base_link"/>
         <child link="chassis"/>
     </joint>
-    <!-- Batteries -->
-    <xacro:battery prefix="left" reflect="1"/>
-    <xacro:battery prefix="right" reflect="-1"/>
     <!-- Wheels -->
     <xacro:front_wheel lr_prefix="left" fr_prefix="front" lr_reflect="1" fr_reflect="1"/>
     <xacro:front_wheel lr_prefix="right" fr_prefix="front" lr_reflect="-1" fr_reflect="1"/>
