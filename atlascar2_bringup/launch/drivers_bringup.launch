@@ -69,7 +69,7 @@
    </group>
 
     <group if="$(arg novatel_bringup)">
-        <include file="$(find atlascar2_bringup)/launch/include/novatel.launch">
+        <include file="$(find atlascar2_bringup)/launch/include/novatel_simple_bringup.launch">
         </include>
     </group>
 
