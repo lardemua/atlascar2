@@ -6,16 +6,26 @@ Core packages for the LAR DEMUA Atlas Project
 - [Atlas Core](#atlascar2)
 - [Table of Contents](#table-of-contents)
 - [SETUP Montage](#setup-montage)
-  * [1: Turning ON everything you need](#using-pr2-robot-instead-of-atlascar2) 
-  * [2: Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
+- [Description of the Atlascar2](#description)
+- [SETUP Montage](#setup-montage)
+  * [1: Turning ON everything you need](#turning-on) 
+  * [2: Configuring the sensors](#configuring-sensors) 
+  * [3: Working in the Atlascar2](#working-atlascar2)
+
+- [Testing the sensors](#testing-the-sensors)
+  * [1: Sick LMS151 LIDAR](#2d-lidar)
+  * [2: Point Grey Flea2 camera](#top-cameras)
+  * [3: Sick LD MRS LIDAR](#3d-lidar)
+
+(Part in need of a revision)
+ - [ Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
     * [Using ssh connection (to work on your own machine)](#using-pr2-robot-instead-of-atlascar2)
     * [Using monitors of the car](#using-pr2-robot-instead-of-atlascar2)
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
 
-
-
+<a name="description"></a>
 # Description of the Atlascar2
 
 The Atlascar2 is an instrumented vehicle used for scientific research in the areas of Autonomous Driving and Driving Assistance Systems.
@@ -25,100 +35,143 @@ It contains significant computing power onboard which is used to process the dat
 
 The set of sensors mounted onboard varies according to the needs of the researchers. Nonetheless, there are a few core sensors which are always available:
 
-Name  | Type | Range (m) | Resolution (px) | Frequency (Hz) | Description
-:---: | :---: | :---: | :---: | :---: | :---:
-left laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the left turn signal.
-right laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the right turn signal.
-front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper, at the center. Four scanning planes.
-top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left.
-top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right.
-gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right.
+Name  | Type | Range (m) | Resolution (px) | Frequency (Hz) | Description | IP address
+:---: | :---: | :---: | :---: | :---: | :---: | :---: 
+left laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the left turn signal. | 192.168.0.5
+right laser | LIDAR, Sick LMS151 | 80 | --- | 50 | Mounted on the front bumper, near the right turn signal. | 192.168.0.4
+front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper, at the center. Four scanning planes. | 192.168.0.6
+top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left. | 169.254.0.4
+top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right. | 169.254.0.5
+gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right. | ---
 
+<a name="setup-montage"></a>
 # SETUP Montage
 
+<a name="turning-on"></a>
 ## 1: Turning ON everything you need
 
-__Step 1__: Turn on the car.
+* __Step 1__: Turn on the car.
 
-__Step 2:__ Connect atlas machine to a voltage source.
-This connection could be to some electrical outlet outside of the car (in cases where the car doesn't have to move):
+* __Case 1__: When the car is stopped:
+  * __Step 2__: Connect the atlas machine to an outlet near the car.
 
-![docs/1_power_on.jpg](docs/1_power_on.jpg?raw=true "Game arena")
+ <p align="center">
+  <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978669-fa6c1f84-eb44-4678-9a43-30730298b5a7.png">
+</p>
 
-Or to the UPS voltage source (in cases that you'll drive the car):
+  *  __Step 3__: Turn on the atlas computer.
+  *  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
 
-(PUT HERE THE IMAGE OF THE CONNECTED UPS - COMPUTER)
+ <p align="center">
+  <img width="30%" height="30%" src="https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg">
+</p>
 
-__Step 3:__ Turn on the UPS (in the case that you are using it) and turn on the atlas computer.
+* __Case 2__: When going for a ride:
+   * __Step 2__: Connect the atlas machine to the UPS.
 
-__Step 4:__ Plug the eduroam (UA) ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
+ <p align="center">
+  <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png ">
+</p>
 
-![docs/UA_cable_port.jpg](docs/UA_cable_port.jpg?raw=true "Game arena")
-
-__Step 5:__ Turn on the sensors circuit switch:
-
-![switch.jpg](docs/switch.jpg?raw=true "Game arena")
-
-__Step 6:__ Turn on the sensors router (NOT NEEDED, ALWAYS CONNECTED TO THE UPS TOO: DELETE THIS)
+   * __Step 3__: Turn on the atlas computer and the UPS.
+   * __Step 4__: This step isn’t needed in this case because the ethernet cable is only used to experiment on the car.
+* __Step 5__: Turn on the sensors circuit switch.
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
-## 2: Working on ATLAS environment
+<a name="configuring-sensors"></a>
+## 2: Cofiguring the sensors
 
-(IS THIS REALLY USEFULL??)
-### Using ssh connection (to work on your own machine)
-(IS THIS REALLY USEFULL??)
+**Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.**
 
-If you want to work on your own machine, use the router SMC to create a ssh connection to the 
-    atlas computer.
+In the car exists two switches to connect to the server.
+* One in the front bumper which connects the 2D lidars and the 3D lidar.
+* Another in the roof where the top cameras are connected
+ 
+In the table above, it can be seen that both of these sensors need diferent IP addresses to work.
 
-__Step 1:__ Turn on the SMC router.
+### Front bumper switch
 
-__Step 2:__ Plug the ethernet cable from the SMC router to your own computer (white cable on the figure).
+In the ethernet port on the pc it must be the following ip address and mask:
+`IP: 198.162.0.3   Mask: 255.255.255.0`
 
-![SMC_router.jpg](docs/SMC_router.jpg?raw=true "Game arena")
+ <p align="center">
+  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
+</p>
 
-__Step 3:__ On a terminal, run (on your computer):
+### Roof switch
 
-```
-sudo gedit /etc/hosts
-```
+In the ethernet port on the pc it must be the following ip address and mask:
+`IP: 169.254.0.3   Mask: 255.255.255.0`
 
-this will open the hosts file. You should save the AtlasCar2 network ip (add this to your hosts file):
+ <p align="center">
+  <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135330-bcf1ba1b-a05a-42cd-98b7-5d9ff9a954cc.png">
+</p>
 
-192.168.2.102    ATLASCAR2
+With this, launching the drivers of the sensors must work!
 
-Save and close.
+<a name="working-atlascar2"></a>
+## 3:Working in the Atlascar2
+### Using teamviewer for remote work
+The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
+So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
 
-__Step 3:__ Make sure if the connection to atlascar is on, by running 
+* User number: 1 145 728 199
+* Password: ask the administrator
 
-```
-ping ATLASCAR2
-```
+With this the user will see the atlascar pc!
 
-__Step 4:__ Get into the atlas environment by running, on a new terminal (the '-X' is for you visualize the image that 
-    sensors are capturing):
+<a name="testing-the-sensors"></a>
+# Testing the sensors
 
-```
- ssh atlas@ATLASCAR2 -X 
-```
-Now you are inside the atlascar machine in your own computer! 
+<a name="2d-lidar"></a>
+## 1: Sick LMS151 LIDAR
 
-You can work with Visual Studio or CLion, as they are already installed.
+To launch one of the 2D Lidars:
+
+    roslaunch atlascar2_bringup laser2d_bringup.launch name:=left
+    or
+    roslaunch atlascar2_bringup drivers_bringup.launch 2DLidar_right_bringup:=true
+
+Where left can be replaced for right.
+ 
+<a name="top-cameras"></a>
+## 2: Point Grey Flea2 camera
+
+To launch a camera:
+
+    roslaunch atlascar2_bringup top_cameras_bringup.launch.launch name:=left
+    or
+    roslaunch atlascar2_bringup drivers_bringup.launch top_camera_left_bringup:=true
+
+Where left can be replaced for right.
+
+<a name="3d-lidar"></a>
+## 3: Sick LD MRS LIDAR
+
+To launch only this sensor:
+
+    roslaunch atlascar2_bringup drivers_bringup.launch 3DLidar_bringup:=true
+
+## To test the system as a whole
+
+Launch the file:
+
+    roslaunch atlascar2_bringup bringup.launch
     
-### Using monitors the car (to work on atlas machine)
-(OK, THAT'S IT)
- If you want to work with the monitors, mouses and keyboards that are in the car (or directly connected to him):
+Which has the following arguments:
 
-__Step 1:__ Turn on the screens. Just need to get some eletrical outlet outside of the car. Once again,  if you want to go out 
-    with the car, see section "jjjjjjjjjjjjj".
+* visualize -> see rviz or not
+* 2DLidar_left_bringup -> launch the left 2D lidar
+* 2DLidar_right_bringup -> launch the right 2D lidar
+* 3DLidar_bringup -> launch the 3D lidar
+* top_camera_right_bringup -> launch the right top camera
+* top_camera_left_bringup -> launch the left top camera
+* front_camera_bringup -> launch the front camera
+* RGBD_camera_bringup -> launch the RGBD camera
+* novatel_bringup -> launch the GPS
 
-__Step 2:__ Connect the USB port extension to the atlas machine. This will connect the screens and the mouses and the
-        keyboards.
-        
-Now you can work inside the atlas environment! 
-
-If you want, you can use Visual Studio or CLion, once they are already installed.
+Note: The front and RGBD camera aren't in the car right now, so these arguments should be false
 
 # Known problems
 ## Monitors of the car not showing image
