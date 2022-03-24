@@ -43,11 +43,14 @@ limitations under the License.
      chassis_length is measured along the x axis, chassis_width
            along the y axis, and chassis_height along the z axis.
     -->
-    <xacro:property name="chassis_length" value="2.55"/>
-    <!-- c -->
-    <xacro:property name="chassis_width" value="0.7"/>
-    <xacro:property name="chassis_height" value="0.01"/>
-    <xacro:property name="chassis_mass" value="2.788"/>
+<!--    <xacro:property name="chassis_length" value="2.55"/>-->
+<!--    <xacro:property name="chassis_width" value="0.7"/>-->
+<!--    <xacro:property name="chassis_height" value="0.01"/>-->
+<!--    <xacro:property name="chassis_mass" value="2.788"/>-->
+    <xacro:property name="chassis_length" value="3.475"/>
+    <xacro:property name="chassis_width" value="1.475"/>
+    <xacro:property name="chassis_height" value="1.61"/>
+    <xacro:property name="chassis_mass" value="1100"/>
     <!--
      hub_dia and tire_dia are the diameters of the hub and tire,
            respectively. hex_hub_depth is the distance that the hex hub is
@@ -58,7 +61,7 @@ limitations under the License.
     <xacro:property name="hub_dia" value="0.09652"/>
     <xacro:property name="tire_dia" value="0.570"/>
     <!-- c -->
-    <xacro:property name="tire_width" value="0.0889"/>
+    <xacro:property name="tire_width" value="0.145"/>
     <xacro:property name="hex_hub_depth" value="0.01445"/>
     <xacro:property name="wheel_mass" value="15.0"/>
     <!--
@@ -209,8 +212,8 @@ limitations under the License.
         </transmission>
         <link name="${lr_prefix}_${fr_prefix}_wheel">
             <visual>
-                <origin xyz="0 ${lr_reflect * (axle_length - (tire_width / 2 - hex_hub_depth))} 0"/>
-                <origin rpy="${degrees_90} 0 0"/>
+<!--                <origin xyz="0 ${lr_reflect * (axle_length - (tire_width / 2 - hex_hub_depth))} 1" rpy="0 ${-lr_reflect * degrees_90} 0"/>-->
+                <origin xyz="0 0 0" rpy="0 ${-lr_reflect * degrees_90} 0"/>
                 <geometry>
                     <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
                 </geometry>
@@ -226,7 +229,7 @@ limitations under the License.
                                               height="${tire_width}" mass="${wheel_mass}"/>
         </link>
         <gazebo reference="${lr_prefix}_${fr_prefix}_wheel">
-            <material>Gazebo/Black</material>
+            <material>Gazebo/Grey</material>
         </gazebo>
     </xacro:macro>
     <!-- Front wheel -->
@@ -284,26 +287,22 @@ limitations under the License.
     <link name="chassis">
         <visual>
             <!-- <origin xyz="0 0 0"/> -->
-<!--            <origin xyz="-1.7575 -0.91 -0.295" rpy="0 0 0"/>-->
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz=" ${chassis_length/2} ${-chassis_width/2 - 0.15} 0" rpy="0 0 ${degrees_90}"/>
             <geometry>
-                <!--
-                 <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
-                -->
                 <mesh filename="$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
             </geometry>
             <material name="chassis_mat"/>
         </visual>
         <collision>
-            <origin xyz="0 0 ${-chassis_height / 2}"/>
+            <origin xyz="0 0 ${(chassis_height + tire_dia)/ 2}"/>
             <geometry>
-                <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height - tire_dia}"/>
             </geometry>
         </collision>
-        <xacro:solid_cuboid_inertial width="${chassis_length}" depth="${chassis_width}" height="${chassis_height}"
-                                     mass="${chassis_mass}">
-            <origin xyz="0 0 ${-chassis_height / 2}"/>
-        </xacro:solid_cuboid_inertial>
+    <xacro:solid_cuboid_inertial width="${chassis_length}" depth="${chassis_width}" height="${chassis_height - tire_dia}"
+                                 mass="${chassis_mass}">
+        <origin xyz="0 0 ${(chassis_height - tire_dia) / 2}"/>
+    </xacro:solid_cuboid_inertial>
     </link>
     <gazebo reference="chassis">
         <material>Gazebo/Grey</material>
