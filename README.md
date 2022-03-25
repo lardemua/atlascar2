@@ -76,7 +76,7 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 
    - __Step 3__: Turn on the atlas computer and the UPS.
    - __Step 4__: This step isn’t needed in this case because the ethernet cable is only used to experiment on the car.
-* __Step 5__: Turn on the sensors circuit switch.
+* __Step 5__: Turn on the sensors' circuit switch.
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
@@ -85,15 +85,15 @@ Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 **Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.**
 
-In the car exists two switches to connect to the server.
+In the car there are two switches to connect to the server.
 * One in the front bumper which connects the 2D lidars and the 3D lidar.
-* Another in the roof where the top cameras are connected
+* Another in the roof where the top cameras are connected.
  
-In the table above, it can be seen that both of these sensors need diferent IP addresses to work.
+In the table above, it can be seen that both of these sensors need different IP addresses to work.
 
 ### Front bumper switch
 
-In the ethernet port on the pc it must be the following ip address and mask:
+The ethernet port on the pc must have the following ip address and mask:
 `IP: 198.162.0.3   Mask: 255.255.255.0`
 
  <p align="center">
@@ -102,25 +102,25 @@ In the ethernet port on the pc it must be the following ip address and mask:
 
 ### Roof switch
 
-In the ethernet port on the pc it must be the following ip address and mask:
+The ethernet port on the pc must have the following ip address and mask:
 `IP: 169.254.0.3   Mask: 255.255.255.0`
 
  <p align="center">
   <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135330-bcf1ba1b-a05a-42cd-98b7-5d9ff9a954cc.png">
 </p>
 
-With this, launching the drivers of the sensors must work!
+With this, launching the drivers of the sensors should work!
 
 <a name="working-atlascar2"></a>
-## 3:Working in the Atlascar2
+## 3: Working in the Atlascar2
 ### Using teamviewer for remote work
 The teamviewer app is configured to open automatically in atlascar2 after turning on the PC.
-So in order to connect to the atlascar the user only needs to add the user and password in his teamviewer app and it should be working
+So in order to connect to the atlascar, the user only needs to add the user number and password in his teamviewer app and it should be working.
 
 * User number: 1 145 728 199
 * Password: ask the administrator
 
-With this the user will see the atlascar pc!
+With this the user will see the atlascar desktop!
 
 <a name="testing-the-sensors"></a>
 # Testing the sensors
@@ -180,7 +180,7 @@ Just press the POWER button of the atlas machine quickly and only once
 ----Not need for particular user-----
 
 Need to connect 2 cables: for ua ethernet and router
-set the router ipv4 automiatic
+set the router ipv4 automatic
 --------------------------------------------
 
 
