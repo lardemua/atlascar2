@@ -16,6 +16,7 @@ Core packages for the LAR DEMUA Atlas Project
   * [1: Sick LMS151 LIDAR](#2d-lidar)
   * [2: Point Grey Flea2 camera](#top-cameras)
   * [3: Sick LD MRS LIDAR](#3d-lidar)
+- [Launch the system](#Launch)
 
 (Part in need of a revision)
  - [ Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
@@ -130,30 +131,27 @@ With this the user will see the atlascar pc!
 To launch one of the 2D Lidars:
 
     roslaunch atlascar2_bringup laser2d_bringup.launch name:=left
-    or
-    roslaunch atlascar2_bringup drivers_bringup.launch 2DLidar_right_bringup:=true
 
 Where left can be replaced for right.
  
 <a name="top-cameras"></a>
 ## 2: Point Grey Flea2 camera
 
-To launch a camera:
+To launch one camera:
 
-    roslaunch atlascar2_bringup top_cameras_bringup.launch.launch name:=left
-    or
-    roslaunch atlascar2_bringup drivers_bringup.launch top_camera_left_bringup:=true
+    roslaunch atlascar2_bringup top_cameras_bringup.launch name:=left
 
 Where left can be replaced for right.
 
 <a name="3d-lidar"></a>
 ## 3: Sick LD MRS LIDAR
 
-To launch only this sensor:
+To launch the 3D Lidar:
 
-    roslaunch atlascar2_bringup drivers_bringup.launch 3DLidar_bringup:=true
+    roslaunch atlascar2_bringup sick_ldmrs_node.launch
 
-## To test the system as a whole
+<a name="Launch"></a>
+# Launch the system
 
 Launch the file:
 
