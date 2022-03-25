@@ -259,3 +259,46 @@ roslaunch atlascar2_bringup playback_sensor_data.launch bag:=atlascar2
 Bag name is referred from the Desktop and without the **.bag** extension
 
 New way to read and display the bag files
+
+
+
+# Using ssh connection (to work on your own machine)
+(IS THIS REALLY USEFULL??)
+
+If you want to work on your own machine, use the router SMC to create a ssh connection to the 
+    atlas computer.
+
+__Step 1:__ Turn on the SMC router.
+
+__Step 2:__ Plug the ethernet cable from the SMC router to your own computer (white cable on the figure).
+
+![SMC_router.jpg](docs/SMC_router.jpg?raw=true "Game arena")
+
+__Step 3:__ On a terminal, run (on your computer):
+
+```
+sudo gedit /etc/hosts
+```
+
+this will open the hosts file. You should save the AtlasCar2 network ip (add this to your hosts file):
+
+192.168.2.102    ATLASCAR2
+
+Save and close.
+
+__Step 3:__ Make sure if the connection to atlascar is on, by running 
+
+```
+ping ATLASCAR2
+```
+
+__Step 4:__ Get into the atlas environment by running, on a new terminal (the '-X' is for you visualize the image that 
+    sensors are capturing):
+
+```
+ ssh atlas@ATLASCAR2 -X 
+```
+Now you are inside the atlascar machine in your own computer! 
+
+You can work with Visual Studio or CLion, as they are already installed.
+    
