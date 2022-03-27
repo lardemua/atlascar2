@@ -133,6 +133,7 @@ To launch one of the 2D Lidars:
     roslaunch atlascar2_bringup laser2d_bringup.launch name:=left
 
 Where left can be replaced for right.
+Then, open rviz.
  
 <a name="top-cameras"></a>
 ## 2: Point Grey Flea2 camera
@@ -141,14 +142,18 @@ To launch one camera:
 
     roslaunch atlascar2_bringup top_cameras_bringup.launch name:=left
 
-Where left can be replaced for right.
+Where left can be replaced for right depending which camera the user wants to see.
+
+Then, open rviz or in the terminal write `rosrun image_view image_view image:=/camera/image_raw`
 
 <a name="3d-lidar"></a>
 ## 3: Sick LD MRS LIDAR
 
-To launch the 3D Lidar:
+Launch the 3D Lidar:
 
     roslaunch atlascar2_bringup sick_ldmrs_node.launch
+    
+Then, open rviz.
 
 <a name="Launch"></a>
 # Launch the system
