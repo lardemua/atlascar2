@@ -50,7 +50,7 @@ limitations under the License.
     <xacro:property name="chassis_length" value="3.475"/>
     <xacro:property name="chassis_width" value="1.475"/>
     <xacro:property name="chassis_height" value="1.61"/>
-    <xacro:property name="chassis_mass" value="1100"/>
+    <xacro:property name="chassis_mass" value="11"/>
     <!--
      hub_dia and tire_dia are the diameters of the hub and tire,
            respectively. hex_hub_depth is the distance that the hex hub is
@@ -72,7 +72,7 @@ limitations under the License.
     -->
     <xacro:property name="wheelbase" value="2.55"/>
     <!-- c -->
-    <xacro:property name="hex_hub_dist" value="1.310"/>
+    <xacro:property name="hex_hub_dist" value="1.475"/>
     <!-- c -->
     <xacro:property name="axle_length" value="0.03"/>
     <xacro:property name="wheel_travel" value="0.294"/>
@@ -166,14 +166,14 @@ limitations under the License.
         <transmission name="${lr_prefix}_${fr_prefix}_shock_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="${lr_prefix}_${fr_prefix}_shock">
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="${lr_prefix}_${fr_prefix}_shock_act">
                 <!--
                  This hardwareInterface element exists for compatibility
                              with ROS Hydro.
                 -->
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 <mechanicalReduction>1</mechanicalReduction>
             </actuator>
         </transmission>
@@ -199,14 +199,14 @@ limitations under the License.
         <transmission name="${lr_prefix}_${fr_prefix}_axle_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="${lr_prefix}_${fr_prefix}_axle">
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="${lr_prefix}_${fr_prefix}_axle_act">
                 <!--
                  This hardwareInterface element exists for compatibility
                              with ROS Hydro.
                 -->
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 <mechanicalReduction>1</mechanicalReduction>
             </actuator>
         </transmission>
@@ -249,14 +249,14 @@ limitations under the License.
         <transmission name="${lr_prefix}_steering_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="${lr_prefix}_steering_joint">
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </joint>
             <actuator name="${lr_prefix}_steering_act">
                 <!--
                  This hardwareInterface element exists for compatibility
                              with ROS Hydro.
                 -->
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
                 <mechanicalReduction>1</mechanicalReduction>
             </actuator>
         </transmission>
@@ -286,19 +286,18 @@ limitations under the License.
     <!-- Chassis -->
     <link name="chassis">
         <visual>
-            <!-- <origin xyz="0 0 0"/> -->
-            <origin xyz=" ${chassis_length/2} ${-chassis_width/2 - 0.15} 0" rpy="0 0 ${degrees_90}"/>
+            <origin xyz=" ${chassis_length/2} ${-chassis_width/2 - 0.15} ${-tire_dia/2 + 0.1}" rpy="0 0 ${degrees_90}"/>
             <geometry>
                 <mesh filename="$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
             </geometry>
             <material name="chassis_mat"/>
         </visual>
-        <collision>
-            <origin xyz="0 0 ${(chassis_height + tire_dia)/ 2}"/>
-            <geometry>
-                <box size="${chassis_length} ${chassis_width} ${chassis_height - tire_dia}"/>
-            </geometry>
-        </collision>
+<!--        <collision>-->
+<!--            <origin xyz="0 0 ${(chassis_height + tire_dia)/ 2}"/>-->
+<!--            <geometry>-->
+<!--                <box size="${chassis_length} ${chassis_width - 0.5} ${chassis_height - 3*tire_dia/2}"/>-->
+<!--            </geometry>-->
+<!--        </collision>-->
     <xacro:solid_cuboid_inertial width="${chassis_length}" depth="${chassis_width}" height="${chassis_height - tire_dia}"
                                  mass="${chassis_mass}">
         <origin xyz="0 0 ${(chassis_height - tire_dia) / 2}"/>
