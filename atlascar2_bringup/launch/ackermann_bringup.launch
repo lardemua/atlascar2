@@ -17,7 +17,7 @@
     <arg name="message_type" default="ackermann_drive_stamped"/>
 
     <group ns="$(arg vehicle_name)">
-<!--        <param name="tf_prefix" value="$(arg vehicle_name)"/>-->
+        <param name="tf_prefix" value="$(arg vehicle_name)"/>
 
         <!-- robot_description is used by nodes that publish to joint_states. -->
         <param name="robot_description"
