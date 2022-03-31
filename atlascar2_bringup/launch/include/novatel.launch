@@ -18,7 +18,7 @@
   <node name="novatel_imu" pkg="nodelet" type="nodelet" args="standalone novatel_gps_driver/novatel_gps_nodelet">
     <rosparam>
       connection_type: serial
-      device: /dev/ttyUSB6
+      device: /dev/ttyUSB1
       publish_novatel_positions: false
       publish_novatelgnss_positions: false
       publish_imu_messages: true
@@ -28,44 +28,43 @@
       frame_id: /gps
     </rosparam>
   </node>
-    <!--
+
 <!-- Transformacao geométrica com valores de gps ..... nas sistuções de paragem ou de baixa velocidade a componente Yaw perde-se ..(a imagem gira) -->
-<!--&ndash;&gt;-->
-<!--    <node pkg="swri_transform_util" type="gps_transform_publisher" name="gps_transform_publisher" output="screen"/>-->
-<!--    &lt;!&ndash;-->
-<!-- Transformacao geométrica com valores de gps+unidade inercial  ... Resolve o problema do gps_transform_publisher nas situções de paragem ou velocidade baixa  mas não está disponivel durante o processo de alinhamento .................. dá origem ao sistema de eixos "base_link_imu"   utiliza o topic /bestpos para obter a coordenada X, Y no mapa e o tópico /inspva para obter o Yaw.......Criáda por Pedro Bouça Nova-->
-<!--&ndash;&gt;-->
-<!--    <node pkg="swri_transform_util" type="imu_transform_publisher" name="imu_transform_publisher" output="screen"/>-->
-<!--    &lt;!&ndash; Aplicação mapviz &ndash;&gt;-->
-<!--    &lt;!&ndash;-->
-<!-- <env name="ROSCONSOLE_FORMAT" value="[${thread}] [${node}/${function}:${line}]: ${message}"/> -->
-<!--&ndash;&gt;-->
-<!--    <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 1.5708 0 0 /world /map 100"/>-->
-<!--    &lt;!&ndash;-->
-<!-- <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" required="true" output="log"/> -->
-<!--&ndash;&gt;-->
-<!--    <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" output="screen">-->
-<!--        <param name="local_xy_frame" value="/world"/>-->
-<!--        <param name="local_xy_origin" value="auto"/>-->
-<!--        &lt;!&ndash;-->
-<!-- "auto" setting will set the origin to the first gps fix that it recieves -->
-<!--&ndash;&gt;-->
-<!--        <remap from="gps" to="/gps/fix"/>-->
-<!--    </node>-->
+    <node pkg="swri_transform_util" type="gps_transform_publisher" name="gps_transform_publisher" output="screen"/>
+    <!--
+ Transformacao geométrica com valores de gps+unidade inercial  ... Resolve o problema do gps_transform_publisher nas situções de paragem ou velocidade baixa  mas não está disponivel durante o processo de alinhamento .................. dá origem ao sistema de eixos "base_link_imu"   utiliza o topic /bestpos para obter a coordenada X, Y no mapa e o tópico /inspva para obter o Yaw.......Criáda por Pedro Bouça Nova
+-->
+    <node pkg="swri_transform_util" type="imu_transform_publisher" name="imu_transform_publisher" output="screen"/>
+    <!-- Aplicação mapviz -->
+    <!--
+ <env name="ROSCONSOLE_FORMAT" value="[${thread}] [${node}/${function}:${line}]: ${message}"/>
+-->
+    <node pkg="tf" type="static_transform_publisher" name="swri_transform" args="0 0 0 1.5708 0 0 /world /map 100"/>
+    <!--
+ <node pkg="mapviz" type="mapviz" name="$(anon mapviz)" required="true" output="log"/>
+-->
+    <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" output="screen">
+        <param name="local_xy_frame" value="/world"/>
+        <param name="local_xy_origin" value="auto"/>
+        <!--
+ "auto" setting will set the origin to the first gps fix that it recieves
+-->
+        <remap from="gps" to="/gps/fix"/>
+    </node>
     <!--
  Needed only for searching for services
-    <node pkg="rosapi" type="rosapi_node" name="rosapi"/><node pkg="global_planning" name="global_planning_node" type="global_planning_node" output="screen" launch-prefix="xterm -e"/><node pkg="global_planning" name="global_planning_client" type="global_planning_client" output="screen" launch-prefix="xterm -e"/> 
+    <node pkg="rosapi" type="rosapi_node" name="rosapi"/><node pkg="global_planning" name="global_planning_node" type="global_planning_node" output="screen" launch-prefix="xterm -e"/><node pkg="global_planning" name="global_planning_client" type="global_planning_client" output="screen" launch-prefix="xterm -e"/>
 -->
     <!-- Camara -->
     <!--
- <include file="$(find pointgrey_camera_driver)/launch/camera.launch" if="true"/> 
+ <include file="$(find pointgrey_camera_driver)/launch/camera.launch" if="true"/>
 -->
     <!-- Guardar dados num bag -->
     <!-- Launch the recorder-->
     <!--
- <node name="rosbag_record" pkg="rosbag" type="record" output="screen" if="true" args=" /bestpos /clock /corrimudata / destination /diagnostics /fix /gpgga /gpmrc / gps /imu /inspva /inscov / local_xy_origin /tf /tf_static /waypoints_full /waypoints_previous_next /waypoints_steps  /camera/image_color   -o /media/pedro/DADOS/"/> 
+ <node name="rosbag_record" pkg="rosbag" type="record" output="screen" if="true" args=" /bestpos /clock /corrimudata / destination /diagnostics /fix /gpgga /gpmrc / gps /imu /inspva /inscov / local_xy_origin /tf /tf_static /waypoints_full /waypoints_previous_next /waypoints_steps  /camera/image_color   -o /media/pedro/DADOS/"/>
 -->
     <!--
- <node name="rosbag_record" pkg="rosbag" type="record" output="screen" if="true" args=" /bestpos /clock /corrimudata / destination /diagnostics /fix /gpgga /gpmrc / gps /imu /inspva /inscov / local_xy_origin /tf /tf_static /waypoints_full /waypoints_previous_next /waypoints_steps    -o /media/pedro/DADOS/"/> 
+ <node name="rosbag_record" pkg="rosbag" type="record" output="screen" if="true" args=" /bestpos /clock /corrimudata / destination /diagnostics /fix /gpgga /gpmrc / gps /imu /inspva /inscov / local_xy_origin /tf /tf_static /waypoints_full /waypoints_previous_next /waypoints_steps    -o /media/pedro/DADOS/"/>
 -->
 </launch>
