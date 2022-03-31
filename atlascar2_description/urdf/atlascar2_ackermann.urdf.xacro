@@ -215,10 +215,9 @@ limitations under the License.
 <!--                <origin xyz="0 ${lr_reflect * (axle_length - (tire_width / 2 - hex_hub_depth))} 1" rpy="0 ${-lr_reflect * degrees_90} 0"/>-->
                 <origin xyz="0 0 0" rpy="0 ${-lr_reflect * degrees_90} 0"/>
                 <geometry>
-<!--                    <cylinder radius="${tire_dia / 2}" length="${tire_width}"/>-->
                     <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
                 </geometry>
-<!--                <material name="tire_mat"/>-->
+                <material name="tire_mat"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0"/>

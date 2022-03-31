@@ -24,10 +24,15 @@ def cmd_callback(data):
     global pub
     global message_type
 
+    # Hard simulation limit
+    if data.angular.z > 1.30:
+        data.angular.z = 1.30
+    elif data.angular.z < -1.30:
+        data.angular.z = -1.30
 
     if message_type == 'ackermann_drive':
         v = data.linear.x
-        steering = convert_trans_rot_vel_to_steering_angle(v, data.angular.z, wheelbase)
+        steering = data.angular.z
 
         msg = AckermannDrive()
         msg.steering_angle = steering
@@ -37,7 +42,6 @@ def cmd_callback(data):
 
     else:
         v = data.linear.x
-        # steering = convert_trans_rot_vel_to_steering_angle(v, data.angular.z, wheelbase)
         steering = data.angular.z
 
         msg = AckermannDriveStamped()
