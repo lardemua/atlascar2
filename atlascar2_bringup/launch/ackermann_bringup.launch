@@ -44,12 +44,12 @@
         <!-- Load the joint controllers. One of these publishes the joint states
      to joint_states. -->
         <node name="controller_spawner" pkg="controller_manager" type="spawner"
-              args="$(find atlascar2_description)/config/em_3905_joint_ctrlr_params.yaml"/>
+              args="$(find atlascar2_description)/config/atlascar2_joint_ctrlr_params.yaml"/>
 
         <!-- Control the steering, axle, and shock absorber joints. -->
         <node name="ackermann_controller" pkg="atlascar2_description" type="ackermann_controller.py">
             <param name="cmd_timeout" value="$(arg cmd_timeout)"/>
-            <rosparam file="$(find atlascar2_description)/config/em_3905_ackermann_ctrlr_params.yaml" command="load"/>
+            <rosparam file="$(find atlascar2_description)/config/atlascar2_ackermann_ctrlr_params.yaml" command="load"/>
         </node>
 
 <!--        Convert from a twist message to an ackermann message-->

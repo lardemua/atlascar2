@@ -293,9 +293,10 @@ limitations under the License.
             <material name="chassis_mat"/>
         </visual>
         <collision>
-            <origin xyz="0 0 ${(chassis_height + tire_dia)/ 2}"/>
+            <origin xyz="0 0 ${(chassis_height)/ 2}"/>
             <geometry>
-                <box size="${chassis_length} ${chassis_width} ${chassis_height - 3*tire_dia/2}"/>
+                <box size="${chassis_length} ${chassis_width - 2 * tire_width} ${chassis_height - tire_dia/2}"/>
+<!--                <box size="${chassis_length} ${chassis_width} ${chassis_height - 3*tire_dia/2}"/>-->
             </geometry>
         </collision>
     <xacro:solid_cuboid_inertial width="${chassis_length}" depth="${chassis_width}" height="${chassis_height - tire_dia}"
