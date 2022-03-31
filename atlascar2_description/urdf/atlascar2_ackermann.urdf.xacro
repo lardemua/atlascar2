@@ -63,7 +63,7 @@ limitations under the License.
     <!-- c -->
     <xacro:property name="tire_width" value="0.145"/>
     <xacro:property name="hex_hub_depth" value="0.01445"/>
-    <xacro:property name="wheel_mass" value="15.0"/>
+    <xacro:property name="wheel_mass" value="0.3"/>
     <!--
      hex_hub_dist is the distance between left and right hex hubs when
            the shock absorbers are fully extended. axle_length is the distance
@@ -217,7 +217,7 @@ limitations under the License.
                 <geometry>
                     <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
                 </geometry>
-                <material name="tire_mat"/>
+<!--                <material name="tire_mat"/>-->
             </visual>
             <collision>
                 <origin xyz="0 ${lr_reflect * (axle_length - (tire_width / 2 - hex_hub_depth))} 0"/>
@@ -292,12 +292,12 @@ limitations under the License.
             </geometry>
             <material name="chassis_mat"/>
         </visual>
-<!--        <collision>-->
-<!--            <origin xyz="0 0 ${(chassis_height + tire_dia)/ 2}"/>-->
-<!--            <geometry>-->
-<!--                <box size="${chassis_length} ${chassis_width - 0.5} ${chassis_height - 3*tire_dia/2}"/>-->
-<!--            </geometry>-->
-<!--        </collision>-->
+        <collision>
+            <origin xyz="0 0 ${(chassis_height + tire_dia)/ 2}"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height - 3*tire_dia/2}"/>
+            </geometry>
+        </collision>
     <xacro:solid_cuboid_inertial width="${chassis_length}" depth="${chassis_width}" height="${chassis_height - tire_dia}"
                                  mass="${chassis_mass}">
         <origin xyz="0 0 ${(chassis_height - tire_dia) / 2}"/>
