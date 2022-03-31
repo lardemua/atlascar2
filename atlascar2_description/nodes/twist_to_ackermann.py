@@ -38,7 +38,8 @@ def cmd_callback(data):
 
     else:
         v = data.linear.x
-        steering = convert_trans_rot_vel_to_steering_angle(v, data.angular.z, wheelbase)
+        # steering = convert_trans_rot_vel_to_steering_angle(v, data.angular.z, wheelbase)
+        steering = data.angular.z
 
         msg = AckermannDriveStamped()
         msg.header.stamp = rospy.Time.now()
