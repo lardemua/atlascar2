@@ -5,7 +5,7 @@
   <arg name="frame_id" default="odom"/>
   <arg name="message_type" default="ackermann_drive_stamped"/>
 
-    <node pkg="traxxas_description" type="twist_to_ackermann.py" name="twist_to_ackermann" output="screen">
+    <node pkg="atlascar2_description" type="twist_to_ackermann.py" name="twist_to_ackermann" output="screen">
         <param name="twist_cmd_topic" value="$(arg twist_cmd_topic)"/>
         <param name="ackermann_cmd_topic" value="$(arg ackermann_cmd_topic)"/>
         <param name="wheelbase" value="$(arg wheelbase)"/>
