@@ -24,7 +24,6 @@ def cmd_callback(data):
     global pub
     global message_type
 
-    print('sup')
 
     if message_type == 'ackermann_drive':
         v = data.linear.x
