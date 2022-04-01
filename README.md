@@ -25,6 +25,7 @@ Core packages for the LAR DEMUA Atlas Project
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
+- [Simulation](#simulation)
 
 <a name="description"></a>
 # Description of the Atlascar2
@@ -306,4 +307,35 @@ __Step 4:__ Get into the atlas environment by running, on a new terminal (the '-
 Now you are inside the atlascar machine in your own computer! 
 
 You can work with Visual Studio or CLion, as they are already installed.
-    
+
+<a name="simulation"></a>
+# Simulation
+In order to ease the remote work with this vehicle, a simulated environment was developed.
+This environment uses an ackermann controller developed by [jbpassot](https://github.com/jbpassot/ackermann_vehicle).
+
+
+
+![simulation.png](docs/simulation.png?raw=true "Simulation")
+
+To run AtlasCar2 in Gazebo the user needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection).
+
+With this step done, the user needs to install some dependencies with this command:
+
+``` 
+sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs
+```
+
+Now, to start Gazebo the user writes:
+
+``` 
+roslaunch atlascar2_bringup gazebo.launch
+```
+
+And to spawn the car and start the controller the user writes:
+
+``` 
+roslaunch atlascar2_bringup ackermann_bringup.launch
+```
+To control the car, publish a twist message to the `/atlascar2/cmd_vel` topic.
+
+A video example of the simulation can be seen [here](https://www.youtube.com/watch?v=UWo4ndSZ1XU).
