@@ -64,7 +64,7 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
    -  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port enp5s0f1).
 
  <p align="center">
-  <img width="30%" height="30%" src="https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg">
+  <img width="25%" height="25%" src="https://user-images.githubusercontent.com/92535336/161252671-b540bd35-3695-4a42-a245-36b14e1c8c24.png">
 </p>
 
 * __Case 2__: When going for a ride:
