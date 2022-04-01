@@ -61,7 +61,7 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
    </p>
 
    -  __Step 3__: Turn on the atlas computer.
-   -  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
+   -  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port enp5s0f1).
 
  <p align="center">
   <img width="30%" height="30%" src="https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg">
@@ -93,7 +93,7 @@ In the table above, it can be seen that both of these sensors need different IP 
 
 ### Front bumper switch
 
-The ethernet port on the pc must have the following ip address and mask:
+The ethernet port on the pc (ens6f1) must have the following ip address and mask:
 `IP: 198.162.0.3   Mask: 255.255.255.0`
 
  <p align="center">
@@ -102,7 +102,7 @@ The ethernet port on the pc must have the following ip address and mask:
 
 ### Roof switch
 
-The ethernet port on the pc must have the following ip address and mask:
+The ethernet port on the pc (ens6f0) must have the following ip address and mask:
 `IP: 169.254.0.3   Mask: 255.255.255.0`
 
  <p align="center">
