@@ -95,7 +95,7 @@ In the table above, it can be seen that both of these sensors need different IP 
 ### Front bumper switch
 
 The ethernet port on the pc (ens6f1) must have the following ip address and mask:
-`IP: 198.162.0.3   Mask: 255.255.255.0`
+`IP: 192.168.0.3   Mask: 255.255.255.0`
 
  <p align="center">
   <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
