@@ -23,12 +23,14 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
 
   <!-- Links: inertial,visual,collision -->
   <link name="base_link">
-<!--    <inertial>-->
-<!--      &lt;!&ndash; origin is relative &ndash;&gt;-->
-<!--      <origin xyz="0 0 0" rpy="0 0 0"/>-->
-<!--      <mass value="5"/>-->
-<!--      <inertia ixx="5" ixy="0" ixz="0" iyy="5" iyz="0" izz="5"/>-->
-<!--    </inertial>-->
+    <inertial>
+      <!-- origin is relative -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="5" ixy="0" ixz="0"
+               iyy="5" iyz="0"
+               izz="5"/>
+    </inertial>
     <visual>
       <geometry>
         <box size="${length} ${width} 0.1"/>
@@ -88,9 +90,10 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
     <origin xyz="${-length/2+axel_offset} ${-width/2-axel_offset} 0" rpy="${-90 * deg_to_rad} 0 0"/>
   </xacro:rear_wheel_lr>
   <gazebo>
-      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
-  </gazebo>
-
+  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotNamespace>/atlascar2</robotNamespace>
+  </plugin>
+</gazebo>
   <!-- Colour -->
   <gazebo reference="base_link">
     <material>Gazebo/Green</material>

@@ -10,7 +10,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -36,6 +36,16 @@
              velocity="${steer_velocity}"/>
      </joint>
 
+           <!-- Transmission is important to link the joints and the controller -->
+    <transmission name="${name}_steer_joint_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${name}_steer_joint_motor"/>
+      <joint name="${name}_steer_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <mechanicalReduction>1</mechanicalReduction>
+      <motorTorqueConstant>1</motorTorqueConstant>
+    </transmission>
     <gazebo reference="${name}_steer_link">
       <material>Gazebo/Yellow</material>
     </gazebo>
@@ -46,7 +56,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -77,7 +87,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+        <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="10"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -133,7 +143,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -161,12 +171,11 @@
       <type>transmission_interface/SimpleTransmission</type>
       <actuator name="${name}_wheel_joint_motor"/>
       <joint name="${name}_wheel_joint">
-              <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+              <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       </joint>
       <mechanicalReduction>1</mechanicalReduction>
       <motorTorqueConstant>1</motorTorqueConstant>
     </transmission>
-
     <gazebo reference="${name}_wheel_link">
       <material>Gazebo/Yellow</material>
     </gazebo>
@@ -177,7 +186,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>

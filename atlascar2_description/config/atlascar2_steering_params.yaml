@@ -1,5 +1,5 @@
 
-ackermann_steering_bot_controller:
+ackermann_steering_controller:
   type: "ackermann_steering_controller/AckermannSteeringController"
   rear_wheel  : 'rear_wheel_joint'
   front_steer : 'front_steer_joint'
