@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<robot name="atlascar2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Constants for math -->
+    <xacro:property name="PI" value="3.1415926535897931" />
+    <!-- Constants for robot dimensions -->
+    <xacro:property name="length_wheel" value="0.570" />
+    <xacro:property name="radius_wheel" value="0.285" />
+<!--    value taken from chassis_length/2 in atlascar2_ackermann -->
+    <xacro:property name="base_center_x" value="0.50" />
+<!--    value taken from base_center_x - radius_wheel - offset (measuring it today) -->
+    <xacro:property name="length_from_base_center_to_wheel_x" value="0.25" />
+<!--    dont get this very well , need to measure (right now both are equal) -->
+    <xacro:property name="length_from_base_to_wheel_front_x" value="0.5875" />
+    <xacro:property name="length_from_base_to_wheel_rear_x" value="0.5875" />
+<!--   value taken from chassis_width/2 + 0.15 in atlascar2_ackermann  -->
+    <xacro:property name="base_center_y" value="1.7375" />
+    <xacro:property name="length_from_base_to_wheel_y" value="1.35" />
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                iyy="1.0" iyz="0.0"
+                izz="1.0" />
+        </inertial>
+    </xacro:macro>
+
+    <!-- wheel macro -->
+    <xacro:macro name="rear_wheel">
+        <link name="rear_wheel_link">
+            <collision>
+                <origin rpy="${PI/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="${length_wheel}" radius="${radius_wheel}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="rear_wheel_joint" type="continuous">
+            <axis xyz="0 1 0"/>
+            <parent link="base_link"/>
+            <child link="rear_wheel_link"/>
+            <origin xyz="${-base_center_x-length_from_base_center_to_wheel_x} ${-base_center_y} ${radius_wheel}"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="wheel" params="right_left reflect_right_left front_rear reflect_front_rear">
+        <link name="${right_left}_${front_rear}_wheel">
+            <visual>
+                <!-- when reflect_right_left = 1 to be 0 reflect_right_left= -1 to be PI -->
+                <origin rpy="${PI/2-reflect_right_left*PI/2} 0 0" xyz="0 0 0"/>
+                <!-- <origin rpy="${PI/2-reflect_right_left*PI/2} 0 0" xyz="0 0 0"/> -->
+                <geometry>
+                     <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="${PI/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="${length_wheel}" radius="${radius_wheel}"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertial mass="1"/>
+        </link>
+        <joint name="base_to_${right_left}_${front_rear}_wheel" type="continuous">
+            <axis xyz="0 1 0"/>
+            <parent link="base_link"/>
+            <child link="${right_left}_${front_rear}_wheel"/>
+            <origin xyz="${base_center_x+reflect_front_rear*length_from_base_center_to_wheel_x} ${base_center_y-reflect_right_left*length_from_base_to_wheel_y} ${radius_wheel}"/>
+        </joint>
+
+        <transmission name="tran_${right_left}_${front_rear}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="base_to_${right_left}_${front_rear}_wheel">
+                <hardwareInterface>VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${right_left}_${front_rear}">
+                <hardwareInterface>VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <!-- front wheel macro -->
+    <xacro:macro name="front_wheel" params="right_left reflect_right_left">
+        <!-- steer_right -->
+        <link name="steer_${right_left}">
+            <inertial>
+                <mass value="1.0" />
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                    iyy="1.0" iyz="0.0"
+                    izz="1.0" />
+            </inertial>
+        </link>
+
+        <joint name="base_to_${right_left}_front_steer" type="revolute">
+            <axis xyz="0 0 1"/>
+            <parent link="base_link"/>
+            <child link="steer_${right_left}"/>
+            <origin xyz="${base_center_x+length_from_base_center_to_wheel_x} ${base_center_y-reflect_right_left*length_from_base_to_wheel_y} ${radius_wheel}"/>
+            <dynamics damping="0.7" friction="0.7"/>
+            <limit effort="7.0" lower="${-80*PI/180}" upper="${80*PI/180}" velocity="${200.0*PI/180.0*0.95}"/>
+        </joint>
+
+        <link name="${right_left}_front_wheel">
+            <visual>
+                <!-- when reflect_right_left = 1 to be 0 reflect_right_left= -1 to be PI -->
+                <origin rpy="${PI/2-reflect_right_left*PI/2} 0 0" xyz="0 0 0"/>
+                <!-- <origin rpy="${PI/2-reflect_right_left*PI/2} 0 0" xyz="0 0 0"/> -->
+                <geometry>
+                     <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin rpy="${PI/2} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="${length_wheel}" radius="${radius_wheel}"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertial mass="1"/>
+        </link>
+        <joint name="base_to_${right_left}_front_wheel" type="continuous">
+            <axis xyz="0 1 0"/>
+            <parent link="steer_${right_left}"/>
+            <child link="${right_left}_front_wheel"/>
+             <origin xyz="${base_center_x+length_from_base_center_to_wheel_x} ${base_center_y-reflect_right_left*length_from_base_to_wheel_y} ${radius_wheel}"/>
+<!--            <origin xyz="0 0 -0.16"/>-->
+        </joint>
+
+        <transmission name="tran_${right_left}_front">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="base_to_${right_left}_front_wheel">
+                <hardwareInterface>VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${right_left}_front">
+                <hardwareInterface>VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+</robot>

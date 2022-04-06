@@ -31,6 +31,7 @@
 
 
         <!-- Including robots spawn -->
+<!--        É aqui que dá o problema, o anterior dá load a controladores e o novo não... algo está errado no xacro (se fosse so isso...)-->
         <include file="$(find atlascar2_bringup)/launch/ackermann_spawn.launch">
             <arg name="vehicle_name" value="$(arg vehicle_name)"/>
             <arg name="x_pos" value="$(arg x_pos)"/>
@@ -46,11 +47,14 @@
         <node name="controller_spawner" pkg="controller_manager" type="spawner"
               args="$(find atlascar2_description)/config/atlascar2_joint_ctrlr_params.yaml"/>
 
+
         <!-- Control the steering, axle, and shock absorber joints. -->
         <node name="ackermann_controller" pkg="atlascar2_description" type="ackermann_controller.py">
             <param name="cmd_timeout" value="$(arg cmd_timeout)"/>
             <rosparam file="$(find atlascar2_description)/config/atlascar2_ackermann_ctrlr_params.yaml" command="load"/>
         </node>
+
+
 
 <!--        Convert from a twist message to an ackermann message-->
         <include file="$(find atlascar2_bringup)/launch/ackermann_conversion.launch">
