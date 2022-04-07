@@ -127,7 +127,7 @@
       <type>transmission_interface/SimpleTransmission</type>
       <actuator name="${name}_steer_joint_motor"/>
       <joint name="${name}_steer_joint">
-        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         <dynamics damping="${damping}" friction="${friction}"/>
       </joint>
       <mechanicalReduction>1</mechanicalReduction>
