@@ -2,10 +2,10 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:property name="steer_radius" value="0.05" /> <!-- Link 1 -->
   <xacro:property name="steer_thickness" value="0.02" /> <!-- Link 1 -->
-  <xacro:property name="steer_effort"   value="10.0"/>
+  <xacro:property name="steer_effort"   value="15.0"/>
   <xacro:property name="steer_velocity" value="5.0"/>
-  <xacro:property name="inertia" value="0.5"/>
-  <xacro:property name="damping" value="0.5"/>
+  <xacro:property name="inertia" value="0.05"/>
+  <xacro:property name="damping" value="0.02"/>
 
   <xacro:macro name="front_steer" params="name parent radius thickness length width axel_offset steer_height *origin">
     <link name="${name}_steer_link">
