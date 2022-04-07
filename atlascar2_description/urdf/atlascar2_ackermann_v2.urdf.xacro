@@ -89,10 +89,14 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
   <xacro:rear_wheel_lr name="rear_left" parent="base" radius="${wheel_radius}" thickness="${thickness}">
     <origin xyz="${-length/2+axel_offset} ${-width/2-axel_offset} 0" rpy="${-90 * deg_to_rad} 0 0"/>
   </xacro:rear_wheel_lr>
+
+    <!-- Gazebo plugin for ROS Control -->
   <gazebo>
-  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-  </plugin>
-</gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+      <robotSimType>steer_bot_hardware_gazebo/SteerBotHardwareGazebo</robotSimType>
+    </plugin>
+  </gazebo>
 
   <!-- Colour -->
   <gazebo reference="base_link">
