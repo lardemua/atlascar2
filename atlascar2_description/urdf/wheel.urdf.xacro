@@ -79,11 +79,11 @@
     </link>
 
     <joint name="${name}_steer_joint" type="revolute">
-<!--      <parent link="${parent}_link"/>-->
-      <parent link="front_steer_link"/>
+      <parent link="${parent}_link"/>
+<!--      <parent link="front_steer_link"/>-->
       <child link="${name}_steer_link"/>
-<!--      <origin xyz="${length/2-axel_offset} ${right_left*(width/2+axel_offset)} ${steer_height}" rpy="0 0 0"/>-->
-      <origin xyz="0 ${right_left*(width/2+axel_offset)} 0" rpy="0 0 0"/>
+      <origin xyz="${length/2-axel_offset} ${right_left*(width/2+axel_offset)} ${steer_height}" rpy="0 0 0"/>
+<!--      <origin xyz="0 ${right_left*(width/2+axel_offset)} 0" rpy="0 0 0"/>-->
       <!--xacro:insert_block name="origin"/-->
       <axis xyz="0 0 1"/>
       <dynamics damping="${damping}" friction="${friction}"/>
