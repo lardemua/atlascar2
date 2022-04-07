@@ -4,15 +4,17 @@
   <xacro:property name="steer_thickness" value="0.02" /> <!-- Link 1 -->
   <xacro:property name="steer_effort"   value="15.0"/>
   <xacro:property name="steer_velocity" value="5.0"/>
-  <xacro:property name="inertia" value="0.05"/>
+  <xacro:property name="inertia" value="0.002"/>
+  <xacro:property name="inertia_yy" value="0.02"/>
   <xacro:property name="damping" value="0.02"/>
+  <xacro:property name="friction" value="0.02" />
 
   <xacro:macro name="front_steer" params="name parent radius thickness length width axel_offset steer_height *origin">
     <link name="${name}_steer_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia}" iyz="0" izz="${inertia}"/>
+        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -36,7 +38,7 @@
       <limit effort="${steer_effort}"
              lower="${-180.0 * deg_to_rad}" upper="${180.0 * deg_to_rad}"
              velocity="${steer_velocity}"/>
-      <dynamics damping="${damping}" friction="0.0"/>
+      <dynamics damping="${damping}" friction="${friction}"/>
      </joint>
 
            <!-- Transmission is important to link the joints and the controller -->
@@ -60,7 +62,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia}" iyz="0" izz="${inertia}"/>
+        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -77,12 +79,14 @@
     </link>
 
     <joint name="${name}_steer_joint" type="revolute">
-      <parent link="${parent}_link"/>
+<!--      <parent link="${parent}_link"/>-->
+      <parent link="front_steer_link"/>
       <child link="${name}_steer_link"/>
-      <origin xyz="${length/2-axel_offset} ${right_left*(width/2+axel_offset)} ${steer_height}" rpy="0 0 0"/>
+<!--      <origin xyz="${length/2-axel_offset} ${right_left*(width/2+axel_offset)} ${steer_height}" rpy="0 0 0"/>-->
+      <origin xyz="0 ${right_left*(width/2+axel_offset)} 0" rpy="0 0 0"/>
       <!--xacro:insert_block name="origin"/-->
       <axis xyz="0 0 1"/>
-      <dynamics damping="${damping}" friction="0.0"/>
+      <dynamics damping="${damping}" friction="${friction}"/>
       <limit effort="${steer_effort}"
              lower="${-180.0 * deg_to_rad}" upper="${180.0 * deg_to_rad}"
              velocity="${steer_velocity}"/>
@@ -92,7 +96,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia}" iyz="0" izz="${inertia}"/>
+        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -109,11 +113,13 @@
     </link>
 
     <joint name="${name}_wheel_joint" type="continuous">
+<!--      <parent link="front_steer_link"/>-->
       <parent link="${name}_steer_link"/>
       <child link="${name}_wheel_link"/>
-      <origin xyz="0 0 ${-steer_height}" rpy="${-90 * deg_to_rad} 0 0"/>
+<!--      <origin xyz="0 ${right_left*(width/2+axel_offset)} ${-steer_height}" rpy="${-90 * deg_to_rad} 0 0"/>-->
+      <origin xyz="0 0 ${-steer_height}" rpy="${-90 * deg_to_rad} 0 0"/>-->
       <axis xyz="0 0 1"/>
-      <dynamics damping="${damping}" friction="0.0"/>
+      <dynamics damping="${damping}" friction="${friction}"/>
     </joint>
 
     <!-- Transmission is important to link the joints and the controller -->
@@ -121,8 +127,8 @@
       <type>transmission_interface/SimpleTransmission</type>
       <actuator name="${name}_steer_joint_motor"/>
       <joint name="${name}_steer_joint">
-        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        <dynamics damping="${damping}" friction="0.0"/>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <dynamics damping="${damping}" friction="${friction}"/>
       </joint>
       <mechanicalReduction>1</mechanicalReduction>
       <motorTorqueConstant>1</motorTorqueConstant>
@@ -132,7 +138,7 @@
       <actuator name="${name}_wheel_joint_motor"/>
       <joint name="${name}_wheel_joint">
         <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        <dynamics damping="${damping}" friction="0.0"/>
+        <dynamics damping="${damping}" friction="${friction}"/>
       </joint>
       <mechanicalReduction>1</mechanicalReduction>
       <motorTorqueConstant>1</motorTorqueConstant>
@@ -151,7 +157,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia}" iyz="0" izz="${inertia}"/>
+        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -172,7 +178,7 @@
       <child link="${name}_wheel_link"/>
       <xacro:insert_block name="origin"/>
       <axis xyz="0 0 1"/>
-      <dynamics damping="${damping}" friction="0.0"/>
+      <dynamics damping="${damping}" friction="${friction}"/>
     </joint>
 
     <!-- Transmission is important to link the joints and the controller -->
@@ -181,7 +187,7 @@
       <actuator name="${name}_wheel_joint_motor"/>
       <joint name="${name}_wheel_joint">
           <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-          <dynamics damping="${damping}" friction="0.0"/>
+          <dynamics damping="${damping}" friction="${friction}"/>
       </joint>
       <mechanicalReduction>1</mechanicalReduction>
       <motorTorqueConstant>1</motorTorqueConstant>
@@ -196,7 +202,7 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="1"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia}" iyz="0" izz="${inertia}"/>
+        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -217,7 +223,7 @@
       <child link="${name}_wheel_link"/>
       <xacro:insert_block name="origin"/>
       <axis xyz="0 0 1"/>
-      <dynamics damping="${damping}" friction="0.0"/>
+      <dynamics damping="${damping}" friction="${friction}"/>
     </joint>
 
     <!-- Transmission is important to link the joints and the controller -->
@@ -226,7 +232,7 @@
       <actuator name="${name}_wheel_joint_motor"/>
       <joint name="${name}_wheel_joint">
           <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-          <dynamics damping="${damping}" friction="0.0"/>
+          <dynamics damping="${damping}" friction="${friction}"/>
       </joint>
       <mechanicalReduction>1</mechanicalReduction>
       <motorTorqueConstant>1</motorTorqueConstant>

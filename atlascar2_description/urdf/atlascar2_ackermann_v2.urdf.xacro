@@ -91,9 +91,9 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
   </xacro:rear_wheel_lr>
   <gazebo>
   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-    <robotNamespace>/atlascar2</robotNamespace>
   </plugin>
 </gazebo>
+
   <!-- Colour -->
   <gazebo reference="base_link">
     <material>Gazebo/Green</material>

@@ -1,5 +1,9 @@
 gazebo_ros_control/pid_gains:
-  rear_wheel_joint :  {p: 35.0, d: 0.0, i: 0.0, i_clamp: 0.0}
-#  front_right_steer_joint:  {p: 35.0, d: 0.0, i: 0.0, i_clamp: 0.0}
-#  front_left_steer_joint: {p: 35.0, d: 0.0, i: 0.0, i_clamp: 0.0}
-  front_steer_joint: {p: 5.0, d: 0.0, i: 0.0, i_clamp: 0.0}
+  rear_wheel_joint :  {p: 1.0, i: 0.0, d: 0.0}
+  rear_left_wheel_joint :  {p: 1.0, i: 0.0, d: 0.0}
+  rear_right_wheel_joint :  {p: 1.0, i: 0.0, d: 0.0}
+  front_right_steer_joint:  {p: 1.0, i: 0.0, d: 0.0}
+  front_left_steer_joint: {p: 1.0, i: 0.0, d: 0.0}
+  front_steer_joint: {p: 1.0, i: 0.0, d: 0.0}
+  front_left_wheel_joint: {p: 1.0, i: 0.0, d: 0.0}
+  front_right_wheel_joint: {p: 1.0, i: 0.0, d: 0.0}
