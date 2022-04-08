@@ -7,13 +7,6 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
 
   <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
 
-  <!-- Constants for robot dimensions -->
-<!--  <xacro:property name="length" value="3.475" />-->
-<!--  <xacro:property name="width" value="1.475" />-->
-<!--  <xacro:property name="wheel_radius" value="0.285" /> &lt;!&ndash; Link 1 &ndash;&gt;-->
-<!--  <xacro:property name="thickness" value="0.145" /> &lt;!&ndash; Link 2 &ndash;&gt;-->
-<!--  <xacro:property name="axel_offset" value="1.5" /> &lt;!&ndash; Space btw top of beam and the each joint &ndash;&gt;-->
-<!--  <xacro:property name="steer_offset" value="0.02" /> &lt;!&ndash; Link 1 &ndash;&gt;-->
     <xacro:property name="length" value="0.5" />
   <xacro:property name="width" value="0.3" />
   <xacro:property name="wheel_radius" value="0.11" /> <!-- Link 1 -->

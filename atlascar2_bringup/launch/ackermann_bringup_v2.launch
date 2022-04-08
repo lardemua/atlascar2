@@ -20,8 +20,10 @@
         <param name="tf_prefix" value="$(arg vehicle_name)"/>
 
         <!-- Load ackermann_steering_bot model -->
+<!--        <param name="robot_description"-->
+<!--               command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2_ackermann_v2.urdf.xacro"/>-->
         <param name="robot_description"
-               command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2_ackermann_v2.urdf.xacro"/>
+                command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2_body_macro.urdf.xacro"/>
 
         <!-- Read joint positions from joint_states, then publish the vehicle's
      state to tf. -->
