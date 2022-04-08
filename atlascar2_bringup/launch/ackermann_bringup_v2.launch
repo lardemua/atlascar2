@@ -35,7 +35,6 @@
 
         <!--      &lt;!&ndash; Load ackermann_steering_bot config &ndash;&gt;-->
         <rosparam command="load" file="$(find atlascar2_description)/config/atlascar2_hw_sim.yaml" />
-        <rosparam command="load" file="$(find atlascar2_description)/config/atlascar2_steering_params.yaml"/>
 
         <!-- Including robots spawn -->
         <!--        É aqui que dá o problema, o anterior dá load a controladores e o novo não... algo está errado no xacro (se fosse so isso...)-->
@@ -50,13 +49,7 @@
         </include>
 
         <node name="controller_spawner" pkg="controller_manager" type="spawner"
-            args="$(find atlascar2_description)/config/atlascar2_steering_params.yaml
-            $(find atlascar2_description)/config/atlascar2_joint_publisher.yaml"/>
-
-<!--         Spawn controller -->
-<!--              <node name="controller_spawner"-->
-<!--                    pkg="controller_manager" type="spawner" output="screen"-->
-<!--                    args="ackermann_steering_controller" />-->
+            args="$(find atlascar2_description)/config/atlascar2_steering_params.yaml"/>
 
 
     </group>

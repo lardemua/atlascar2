@@ -1,3 +1,7 @@
+# Configuration for the ros_controllers joint_state_controller.
+joint_state_publisher:
+    type: "joint_state_controller/JointStateController"
+    publish_rate: 50
 
 ackermann_steering_controller:
   type: "ackermann_steering_controller/AckermannSteeringController"
@@ -14,7 +18,7 @@ ackermann_steering_controller:
   wheel_separation_h_multiplier: 1.0 # calibration parameter for odometory, needed for test.
 
   # Velocity commands timeout [s], default 0.5
-  cmd_vel_timeout: 0.25
+  cmd_vel_timeout: 0.5
 
   # Base frame_id
   base_frame_id: atlascar2/base_footprint #default: base_link
@@ -27,8 +31,8 @@ ackermann_steering_controller:
   linear:
     x:
       has_velocity_limits: true
-      max_velocity: 1.0  # m/s
-      min_velocity: -1.0 # m/s
+      max_velocity: 2.0  # m/s
+      min_velocity: -2.0 # m/s
       has_acceleration_limits: true
       max_acceleration: 0.8  # m/s^2
       min_acceleration: -0.4 # m/s^2
@@ -41,6 +45,6 @@ ackermann_steering_controller:
       max_velocity: 1.5  # rad/s
       min_velocity: -1.5  # rad/s
       has_acceleration_limits: true
-      max_acceleration: 1.5  # rad/s^2
+      max_acceleration: 1.0  # rad/s^2
       has_jerk_limits: true
-      max_jerk: 2.5 # rad/s^3
+      max_jerk: 100.0 # rad/s^3
