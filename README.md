@@ -311,9 +311,7 @@ You can work with Visual Studio or CLion, as they are already installed.
 <a name="simulation"></a>
 # Simulation
 In order to ease the remote work with this vehicle, a simulated environment was developed.
-This environment uses an ackermann controller developed by [jbpassot](https://github.com/jbpassot/ackermann_vehicle).
-
-
+This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller).
 
 ![simulation.png](docs/simulation.png?raw=true "Simulation")
 
@@ -324,6 +322,8 @@ With this step done, the user needs to install some dependencies with this comma
 ``` 
 sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs
 ```
+
+Also, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
 
 Now, to start Gazebo the user writes:
 
@@ -336,6 +336,6 @@ And to spawn the car and start the controller the user writes:
 ``` 
 roslaunch atlascar2_bringup ackermann_bringup.launch
 ```
-To control the car, publish a twist message to the `/atlascar2/cmd_vel` topic.
+To control the car, publish a twist message to the `/atlascar2/ackermann_steering_controller/cmd_vel` topic.
 
 A video example of the simulation can be seen [here](https://www.youtube.com/watch?v=UWo4ndSZ1XU).
