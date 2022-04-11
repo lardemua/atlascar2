@@ -31,7 +31,7 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
     <visual>
       <origin xyz=" ${length/2} ${-width/2 - 0.15} ${-wheel_radius + 0.05}" rpy="0 0 ${90*deg_to_rad}"/>
       <geometry>
-        <mesh filename="$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
+        <mesh filename="file:///$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
       </geometry>
     </visual>
     <collision>

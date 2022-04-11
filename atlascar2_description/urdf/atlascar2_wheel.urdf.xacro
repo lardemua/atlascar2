@@ -97,7 +97,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
+          <mesh filename="file:///$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
         </geometry>
       </visual>
       <collision>
@@ -194,7 +194,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-            <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
+            <mesh filename="file:///$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
         </geometry>
       </visual>
       <collision>
