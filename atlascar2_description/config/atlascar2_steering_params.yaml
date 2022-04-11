@@ -13,8 +13,8 @@ ackermann_steering_controller:
   pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
   twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
 
-  #wheel_separation_h : 0.4
-  #wheel_radius : 0.11
+  wheel_separation_h : 1.475
+  wheel_radius : 0.285
   wheel_separation_h_multiplier: 1.0 # calibration parameter for odometory, needed for test.
 
   # Velocity commands timeout [s], default 0.5
@@ -31,13 +31,13 @@ ackermann_steering_controller:
   linear:
     x:
       has_velocity_limits: true
-      max_velocity: 2.0  # m/s
-      min_velocity: -2.0 # m/s
+      max_velocity: 1.0  # m/s
+      min_velocity: -1.0 # m/s
       has_acceleration_limits: true
       max_acceleration: 0.8  # m/s^2
       min_acceleration: -0.4 # m/s^2
-      has_jerk_limits: true
-      max_jerk: 5.0 # m/s^3
+#      has_jerk_limits: true
+#      max_jerk: 5.0 # m/s^3
 
   angular:
     z:
@@ -46,5 +46,5 @@ ackermann_steering_controller:
       min_velocity: -1.5  # rad/s
       has_acceleration_limits: true
       max_acceleration: 1.0  # rad/s^2
-      has_jerk_limits: true
-      max_jerk: 100.0 # rad/s^3
+#      has_jerk_limits: true
+#      max_jerk: 1000.0 # rad/s^3

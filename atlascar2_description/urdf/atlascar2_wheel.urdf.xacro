@@ -4,16 +4,17 @@
   <xacro:property name="steer_thickness" value="0.02" /> <!-- Link 1 -->
   <xacro:property name="steer_effort"   value="15.0"/>
   <xacro:property name="steer_velocity" value="5.0"/>
-  <xacro:property name="inertia" value="30"/>
-  <xacro:property name="inertia_yy" value="30"/>
-  <xacro:property name="damping" value="5.0"/>
-  <xacro:property name="friction" value="5.0" />
+  <xacro:property name="mass" value="0.3"/>
+  <xacro:property name="inertia" value="0.02"/>
+  <xacro:property name="inertia_yy" value="0.002"/>
+  <xacro:property name="damping" value="0"/>
+  <xacro:property name="friction" value="0" />
 
   <xacro:macro name="front_steer" params="name parent radius thickness length width axel_offset steer_height *origin">
     <link name="${name}_steer_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="100"/>
+        <mass value="${mass}"/>
         <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
 <!--      <visual>-->
@@ -58,7 +59,7 @@
     <link name="${name}_steer_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="100"/>
+        <mass value="${mass}"/>
         <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
 <!--      <visual>-->
@@ -90,7 +91,7 @@
     <link name="${name}_wheel_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="100"/>
+        <mass value="${mass}"/>
         <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>
@@ -145,11 +146,14 @@
     <link name="${name}_wheel_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="100"/>
+        <mass value="${mass}"/>
         <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
 <!--      <visual>-->
 <!--        <origin xyz="0 0 0" rpy="0 0 0"/>-->
+<!--        <geometry>-->
+<!--          <cylinder radius="${wheel_radius}" length="${thickness}"/>-->
+<!--        </geometry>-->
 <!--      </visual>-->
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -163,7 +167,7 @@
       <parent link="${parent}_link"/>
       <child link="${name}_wheel_link"/>
       <xacro:insert_block name="origin"/>
-      <axis xyz="0 0 0"/>
+      <axis xyz="1 0 0"/>
       <dynamics damping="${damping}" friction="${friction}"/>
     </joint>
 
@@ -184,7 +188,7 @@
     <link name="${name}_wheel_link">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="100"/>
+        <mass value="${mass}"/>
         <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
       </inertial>
       <visual>

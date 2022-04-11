@@ -23,10 +23,10 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
     <inertial>
       <!-- origin is relative -->
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1000"/>
-      <inertia ixx="700" ixy="0" ixz="0"
-               iyy="700" iyz="0"
-               izz="700"/>
+      <mass value="2"/>
+      <inertia ixx="1" ixy="0" ixz="0"
+               iyy="1" iyz="0"
+               izz="1"/>
     </inertial>
     <visual>
       <origin xyz=" ${length/2} ${-width/2 - 0.15} ${-wheel_radius + 0.05}" rpy="0 0 ${90*deg_to_rad}"/>
@@ -91,7 +91,6 @@ Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF
     <!-- Gazebo plugin for ROS Control -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-<!--      <robotNamespace>/atlascar2</robotNamespace>-->
       <robotSimType>steer_bot_hardware_gazebo/SteerBotHardwareGazebo</robotSimType>
     </plugin>
   </gazebo>
