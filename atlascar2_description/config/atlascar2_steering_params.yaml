@@ -5,7 +5,6 @@ joint_state_publisher:
 
 ackermann_steering_controller:
   type: "ackermann_steering_controller/AckermannSteeringController"
-#  type: "steer_drive_controller/SteerDriveController"
   rear_wheel  : 'rear_wheel_joint'
   front_steer : 'front_steer_joint'
   publish_rate: 100.0 # defaults to 50

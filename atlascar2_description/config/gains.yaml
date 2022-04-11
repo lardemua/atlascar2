@@ -1,10 +1,3 @@
-#gazebo_ros_control/pid_gains:
-#  rear_wheel_joint :  {p: 1.0, i: 0.0, d: 0.0}
-#  front_steer_joint: {p: 1.0, i: 0.5, d: 0.0}
-
-
 gains:
-#  rear_left_wheel_joint: {p: 100000.0, d: 10.0, i: 0.50, i_clamp: 3.0}
-#  rear_right_wheel_joint: {p: 100000.0, d: 10.0, i: 0.50, i_clamp: 3.0}
   rear_left_wheel_joint: { p: 1.0, d: 0.0, i: 0.00, i_clamp: 0.0 }
   rear_right_wheel_joint: { p: 1.0, d: 0.0, i: 0.00, i_clamp: 0.0 }
