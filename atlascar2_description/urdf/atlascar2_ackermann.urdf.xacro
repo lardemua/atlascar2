@@ -1,322 +1,103 @@
 <?xml version="1.0"?>
+<robot name="atlascar2" xmlns:xacro="http://www.ros.org/wiki/xacro">
 <!--
- em_3905.urdf.xacro
-
-This file defines a model of a Traxxas(R) E-Maxx(R) #3905 RC (Radio Controlled)
-truck.
-
-Lengths are measured in meters, angles are measured in radians, and masses are
-measured in kilograms. All of these values are approximations.
-
-To work with Gazebo, each link must have an inertial element, even if
-the link only serves to connect two joints. To be visible in Gazebo, a link
-must have a collision element. Furthermore, the link must have a Gazebo
-material.
-
-Traxxas(R), E-Maxx(R), and Titan(R) are registered trademarks of Traxxas
-Management, LLC. em_3905.urdf.xacro was independently created by Wunderkammer
-Laboratory, and neither em_3905.urdf.xacro nor Wunderkammer Laboratory is
-affiliated with, sponsored by, approved by, or endorsed by Traxxas Management,
-LLC. Mabuchi Motor(R) is a registered trademark of Mabuchi Motor Co., Ltd.
-Corporation Japan. All other trademarks and service marks are the property of
-their respective owners.
-
-Copyright (c) 2011-2014 Wunderkammer Laboratory
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF-Controller%20Example
 -->
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="atlascar2">
-    <!-- Degree-to-radian conversions -->
-    <xacro:property name="degrees_45" value="0.785398163"/>
-    <xacro:property name="degrees_90" value="1.57079633"/>
-    <!--
-     chassis_length is measured along the x axis, chassis_width
-           along the y axis, and chassis_height along the z axis.
-    -->
-<!--    <xacro:property name="chassis_length" value="2.55"/>-->
-<!--    <xacro:property name="chassis_width" value="0.7"/>-->
-<!--    <xacro:property name="chassis_height" value="0.01"/>-->
-<!--    <xacro:property name="chassis_mass" value="2.788"/>-->
-    <xacro:property name="chassis_length" value="3.475"/>
-    <xacro:property name="chassis_width" value="1.475"/>
-    <xacro:property name="chassis_height" value="1.61"/>
-    <xacro:property name="chassis_mass" value="11"/>
-    <!--
-     hub_dia and tire_dia are the diameters of the hub and tire,
-           respectively. hex_hub_depth is the distance that the hex hub is
-           inset from the outer edge of the tire. It is set so that each wheel
-           is a "zero offset" wheel. hex_hub_depth = tire_width / 2 -
-           axle_length.
-    -->
-    <xacro:property name="hub_dia" value="0.09652"/>
-    <xacro:property name="tire_dia" value="0.570"/>
-    <!-- c -->
-    <xacro:property name="tire_width" value="0.145"/>
-    <xacro:property name="hex_hub_depth" value="0.01445"/>
-    <xacro:property name="wheel_mass" value="0.3"/>
-    <!--
-     hex_hub_dist is the distance between left and right hex hubs when
-           the shock absorbers are fully extended. axle_length is the distance
-           from a U joint to the corresponding hex hub. wheel_travel is the
-           vertical wheel travel.
-    -->
-    <xacro:property name="wheelbase" value="2.55"/>
-    <!-- c -->
-    <xacro:property name="hex_hub_dist" value="1.475"/>
-    <!-- c -->
-    <xacro:property name="axle_length" value="0.03"/>
-    <xacro:property name="wheel_travel" value="0.294"/>
-    <xacro:property name="shock_z_offset" value="0.0655"/>
-    <!--
-     shock_eff_limit is 2 * ((shock_stroke / 2) * shock_spring_constant) N.
-           shock_stroke is 0.028575 meters. shock_spring_constant, an approximation
-           of a Traxxas Ultra Shock shock absorber spring's constant, is
-           437.817 N/m.
-    -->
-    <xacro:property name="shock_eff_limit" value="125.106"/>
-    <xacro:property name="shock_vel_limit" value="1000"/>
-    <!--
-     The specifications for a Titan(R) 550 motor could not be found, so the
-           stall torque of a Mabuchi Motor(R) RS-550VC-7525 motor was used instead.
+  <xacro:include filename="atlascar2_wheel.urdf.xacro"/>
 
-           num_spur_gear_teeth = 68
-           num_pinion_gear_teeth = 19
-           final_gear_ratio = (num_spur_gear_teeth / num_pinion_gear_teeth) *
-             5.22 = 18.68
-           stall_torque = 0.549 N m
-           axle_eff_limit = ((2 * stall_torque) * final_gear_ratio) / 4 =
-             5.12766 N m
+  <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
 
-           max_speed = 40 mph (30+ mph) = 17.8816 m/s
-           axle_vel_limit = (2 * pi) * (max_speed / (pi * tire_dia)) =
-             244.8696 rad/s
-    -->
-    <xacro:property name="axle_eff_limit" value="51.2766"/>
-    <xacro:property name="axle_vel_limit" value="244.8696"/>
-    <!--
-     These constants are used to simulate a Traxxas 2056 servo operated at
-           6 V. servo_stall_torque is measured in N m. servo_no_load_speed is
-           measured in rad/s.
-    -->
-    <xacro:property name="servo_stall_torque" value="5649"/>
-    <xacro:property name="servo_no_load_speed" value="4553"/>
-    <material name="chassis_mat">
-        <color rgba="0.894 0.054 0.027 1"/>
-    </material>
-    <material name="tire_mat">
-        <color rgba="0 0 0 1"/>
-    </material>
-    <!--
-     Null inertial element. This is needed to make the model work with
-           Gazebo.
-    -->
-    <xacro:macro name="null_inertial">
-        <inertial>
-            <mass value="0.001"/>
-            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-        </inertial>
-    </xacro:macro>
-    <!--
-     Inertia of a solid cuboid. Width is measured along the x axis, depth
-           along the y axis, and height along the z axis.
-    -->
-    <xacro:macro name="solid_cuboid_inertial" params="width depth height mass *origin">
-        <inertial>
-            <xacro:insert_block name="origin"/>
-            <mass value="${mass}"/>
-            <inertia ixx="${mass * (depth * depth + height * height) / 12}" ixy="0" ixz="0"
-                     iyy="${mass * (width * width + height * height) / 12}" iyz="0"
-                     izz="${mass * (width * width + depth * depth) / 12}"/>
-        </inertial>
-    </xacro:macro>
-    <!--
-     Inertia of a thick-walled cylindrical tube with open ends. Height is
-           measured along the z axis, which is the tube's axis. inner_rad and
-           outer_rad are the tube's inner and outer radii, respectively.
-    -->
-    <xacro:macro name="thick_walled_tube_inertial" params="inner_rad outer_rad height mass">
-        <inertial>
-            <mass value="${mass}"/>
-            <inertia ixx="${(1 / 12) * mass * (3 * (inner_rad * inner_rad + outer_rad * outer_rad) + height * height)}"
-                     ixy="0" ixz="0"
-                     iyy="${(1 / 12) * mass * (3 * (inner_rad * inner_rad + outer_rad * outer_rad) + height * height)}"
-                     iyz="0" izz="${mass * (inner_rad * inner_rad + outer_rad * outer_rad) / 2}"/>
-        </inertial>
-    </xacro:macro>
-    <!-- Shock absorber -->
-    <xacro:macro name="shock" params="lr_prefix fr_prefix lr_reflect fr_reflect child">
-        <joint name="${lr_prefix}_${fr_prefix}_shock" type="prismatic">
-            <parent link="chassis"/>
-            <child link="${child}"/>
-            <origin xyz="${fr_reflect * wheelbase / 2} ${lr_reflect * ((hex_hub_dist / 2) - axle_length)} ${(wheel_travel / 2) - shock_z_offset}"/>
-            <axis xyz="0 0 -1"/>
-            <limit lower="${-wheel_travel / 2}" upper="${wheel_travel / 2}" effort="${shock_eff_limit}"
-                   velocity="${shock_vel_limit}"/>
-        </joint>
-        <transmission name="${lr_prefix}_${fr_prefix}_shock_trans">
-            <type>transmission_interface/SimpleTransmission</type>
-            <joint name="${lr_prefix}_${fr_prefix}_shock">
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            </joint>
-            <actuator name="${lr_prefix}_${fr_prefix}_shock_act">
-                <!--
-                 This hardwareInterface element exists for compatibility
-                             with ROS Hydro.
-                -->
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-                <mechanicalReduction>1</mechanicalReduction>
-            </actuator>
-        </transmission>
-    </xacro:macro>
-    <!--
-     The "wheel" macro defines an axle carrier, axle, and wheel.
-    -->
-    <xacro:macro name="wheel" params="lr_prefix fr_prefix lr_reflect">
-        <link name="${lr_prefix}_${fr_prefix}_axle_carrier">
-            <xacro:null_inertial/>
-        </link>
-        <!--
-         The left and right axles have the same axis so that identical
-                 rotation values cause the wheels to rotate in the same direction.
-        -->
-        <joint name="${lr_prefix}_${fr_prefix}_axle" type="continuous">
-            <parent link="${lr_prefix}_${fr_prefix}_axle_carrier"/>
-            <child link="${lr_prefix}_${fr_prefix}_wheel"/>
-            <origin rpy="${degrees_90} 0 0"/>
-            <axis xyz="0 0 -1"/>
-            <limit effort="${axle_eff_limit}" velocity="${axle_vel_limit}"/>
-        </joint>
-        <transmission name="${lr_prefix}_${fr_prefix}_axle_trans">
-            <type>transmission_interface/SimpleTransmission</type>
-            <joint name="${lr_prefix}_${fr_prefix}_axle">
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            </joint>
-            <actuator name="${lr_prefix}_${fr_prefix}_axle_act">
-                <!--
-                 This hardwareInterface element exists for compatibility
-                             with ROS Hydro.
-                -->
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-                <mechanicalReduction>1</mechanicalReduction>
-            </actuator>
-        </transmission>
-        <link name="${lr_prefix}_${fr_prefix}_wheel">
-            <visual>
-<!--                <origin xyz="0 ${lr_reflect * (axle_length - (tire_width / 2 - hex_hub_depth))} 1" rpy="0 ${-lr_reflect * degrees_90} 0"/>-->
-                <origin xyz="0 0 ${lr_reflect * 0.05}" rpy="0 ${-lr_reflect * degrees_90} 0"/>
-                <geometry>
-                    <mesh filename="$(find atlascar2_description)/meshes/atlascar2_wheel.dae"/>
-                </geometry>
-                <material name="tire_mat"/>
-            </visual>
-            <collision>
-                <origin xyz="0 0 ${lr_reflect * 0.05}"/>
-                <geometry>
-                    <cylinder radius="${tire_dia / 2}" length="${tire_width}"/>
-                </geometry>
-            </collision>
-            <xacro:thick_walled_tube_inertial inner_rad="${hub_dia / 2}" outer_rad="${tire_dia / 2}"
-                                              height="${tire_width}" mass="${wheel_mass}"/>
-        </link>
-        <gazebo reference="${lr_prefix}_${fr_prefix}_wheel">
-            <material>Gazebo/Grey</material>
-        </gazebo>
-    </xacro:macro>
-    <!-- Front wheel -->
-    <xacro:macro name="front_wheel" params="lr_prefix fr_prefix lr_reflect fr_reflect">
-        <xacro:shock lr_prefix="${lr_prefix}" fr_prefix="${fr_prefix}" lr_reflect="${lr_reflect}"
-                     fr_reflect="${fr_reflect}" child="${lr_prefix}_steering_link"/>
-        <link name="${lr_prefix}_steering_link">
-            <xacro:null_inertial/>
-        </link>
-        <joint name="${lr_prefix}_steering_joint" type="revolute">
-            <parent link="${lr_prefix}_steering_link"/>
-            <child link="${lr_prefix}_${fr_prefix}_axle_carrier"/>
-            <axis xyz="0 0 1"/>
-            <limit lower="${-degrees_45}" upper="${degrees_45}" effort="${servo_stall_torque}"
-                   velocity="${servo_no_load_speed}"/>
-        </joint>
-        <transmission name="${lr_prefix}_steering_trans">
-            <type>transmission_interface/SimpleTransmission</type>
-            <joint name="${lr_prefix}_steering_joint">
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            </joint>
-            <actuator name="${lr_prefix}_steering_act">
-                <!--
-                 This hardwareInterface element exists for compatibility
-                             with ROS Hydro.
-                -->
-                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-                <mechanicalReduction>1</mechanicalReduction>
-            </actuator>
-        </transmission>
-        <xacro:wheel lr_prefix="${lr_prefix}" fr_prefix="${fr_prefix}" lr_reflect="${lr_reflect}"/>
-    </xacro:macro>
-    <!-- Rear wheel -->
-    <xacro:macro name="rear_wheel" params="lr_prefix fr_prefix lr_reflect fr_reflect">
-        <xacro:shock lr_prefix="${lr_prefix}" fr_prefix="${fr_prefix}" lr_reflect="${lr_reflect}"
-                     fr_reflect="${fr_reflect}" child="${lr_prefix}_${fr_prefix}_axle_carrier"/>
-        <xacro:wheel lr_prefix="${lr_prefix}" fr_prefix="${fr_prefix}" lr_reflect="${lr_reflect}"/>
-    </xacro:macro>
-    <!--
-     base_link must have geometry so that its axes can be displayed in
-           rviz.
-    -->
-    <link name="base_link">
-        <visual>
-            <geometry>
-                <box size="0.01 0.01 0.01"/>
-            </geometry>
-            <material name="chassis_mat"/>
-        </visual>
-    </link>
-    <gazebo reference="base_link">
-        <material>Gazebo/Grey</material>
-    </gazebo>
-    <!-- Chassis -->
-    <link name="chassis">
-        <visual>
-            <origin xyz=" ${chassis_length/2} ${-chassis_width/2 - 0.15} ${-tire_dia/2 + 0.1}" rpy="0 0 ${degrees_90}"/>
-            <geometry>
-                <mesh filename="$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
-            </geometry>
-            <material name="chassis_mat"/>
-        </visual>
-        <collision>
-            <origin xyz="0 0 ${(chassis_height)/ 2}"/>
-            <geometry>
-                <box size="${chassis_length} ${chassis_width - 2 * tire_width} ${chassis_height - tire_dia/2}"/>
-<!--                <box size="${chassis_length} ${chassis_width} ${chassis_height - 3*tire_dia/2}"/>-->
-            </geometry>
-        </collision>
-    <xacro:solid_cuboid_inertial width="${chassis_length}" depth="${chassis_width}" height="${chassis_height - tire_dia}"
-                                 mass="${chassis_mass}">
-        <origin xyz="0 0 ${(chassis_height - tire_dia) / 2}"/>
-    </xacro:solid_cuboid_inertial>
-    </link>
-    <gazebo reference="chassis">
-        <material>Gazebo/Grey</material>
-    </gazebo>
-    <joint name="base_link_to_chassis" type="fixed">
-        <parent link="base_link"/>
-        <child link="chassis"/>
-    </joint>
-    <!-- Wheels -->
-    <xacro:front_wheel lr_prefix="left" fr_prefix="front" lr_reflect="1" fr_reflect="1"/>
-    <xacro:front_wheel lr_prefix="right" fr_prefix="front" lr_reflect="-1" fr_reflect="1"/>
-    <xacro:rear_wheel lr_prefix="left" fr_prefix="rear" lr_reflect="1" fr_reflect="-1"/>
-    <xacro:rear_wheel lr_prefix="right" fr_prefix="rear" lr_reflect="-1" fr_reflect="-1"/>
-    <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
-    </gazebo>
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="length" value="3.475" />
+  <xacro:property name="width" value="1.475" />
+  <xacro:property name="height" value="1.61"/>
+  <xacro:property name="wheel_radius" value="0.285" /> <!-- Link 1 -->
+  <xacro:property name="thickness" value="0.145" /> <!-- Link 2 -->
+<!--  we need two because the car isn't a square-->
+  <xacro:property name="axel_offset_x" value="0.5" /> <!-- Space btw top of beam and the each joint -->
+  <xacro:property name="axel_offset_y" value="0" /> <!-- Space btw top of beam and the each joint -->
+  <xacro:property name="steer_offset" value="0.02" /> <!-- Link 1 -->
+
+  <!-- Links: inertial,visual,collision -->
+  <link name="base_link">
+    <inertial>
+      <!-- origin is relative -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="2"/>
+      <inertia ixx="1" ixy="0" ixz="0"
+               iyy="1" iyz="0"
+               izz="1"/>
+    </inertial>
+    <visual>
+      <origin xyz=" ${length/2} ${-width/2 - 0.15} ${-wheel_radius + 0.05}" rpy="0 0 ${90*deg_to_rad}"/>
+      <geometry>
+        <mesh filename="file:///$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <!-- origin is relative -->
+      <origin xyz=" 0 0 ${-wheel_radius + 0.05 + height/2}"/>
+      <geometry>
+        <box size="${length} ${width} ${height}"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+  <link name="base_footprint">
+<!--    <visual>-->
+<!--      <geometry>-->
+<!--        <sphere radius="0.01"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.00000001"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+    <child link="base_link"/>
+    <parent link="base_footprint"/>
+  </joint>
+
+  <!-- joints for ackermann_steering_controller -->
+  <xacro:front_steer name="front" parent="base" radius="${wheel_radius}" thickness="${thickness}"
+      length="${length}" width="${width}" axel_offset="${axel_offset_x}" steer_height="${wheel_radius+steer_offset}">
+    <origin xyz="${length/2-axel_offset_x} 0 0" rpy="${-90 * deg_to_rad} 0 ${90 * deg_to_rad}"/>
+  </xacro:front_steer>
+  <xacro:rear_wheel name="rear" parent="base" radius="${wheel_radius}" thickness="${thickness}">
+    <origin xyz="${-length/2+axel_offset_x} 0 0" rpy="${-90 * deg_to_rad} 0 ${-90 * deg_to_rad}"/>
+  </xacro:rear_wheel>
+
+  <!-- Wheels -->
+  <xacro:front_wheel_lr name="front_right" parent="base" radius="${wheel_radius}" thickness="${thickness}"
+      length="${length}" width="${width}" axel_offset="${axel_offset_x}" right_left="1" steer_height="${wheel_radius+steer_offset}">
+    <origin xyz="${length/2-axel_offset_x} ${width/2+axel_offset_y} 0" rpy="${-90 * deg_to_rad} 0 0"/>
+  </xacro:front_wheel_lr>
+  <xacro:front_wheel_lr name="front_left" parent="base" radius="${wheel_radius}" thickness="${thickness}"
+      length="${length}" width="${width}" axel_offset="${axel_offset_x}" right_left="-1" steer_height="${wheel_radius+steer_offset}">
+    <origin xyz="${length/2-axel_offset_x} ${-width/2-axel_offset_y} 0" rpy="${-90 * deg_to_rad} 0 0"/>
+  </xacro:front_wheel_lr>
+  <xacro:rear_wheel_lr name="rear_right" parent="base" radius="${wheel_radius}" right_left="1" thickness="${thickness}">
+    <origin xyz="${-length/2+axel_offset_x - 0.05} ${width/2+axel_offset_y} 0" rpy="${-90 * deg_to_rad} 0 ${-90 * deg_to_rad}"/>
+  </xacro:rear_wheel_lr>
+  <xacro:rear_wheel_lr name="rear_left" parent="base" radius="${wheel_radius}" right_left="-1" thickness="${thickness}">
+    <origin xyz="${-length/2+axel_offset_x - 0.05} ${-width/2-axel_offset_y} 0" rpy="${-90 * deg_to_rad} 0 ${90 * deg_to_rad}"/>
+  </xacro:rear_wheel_lr>
+
+    <!-- Gazebo plugin for ROS Control -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotSimType>steer_bot_hardware_gazebo/SteerBotHardwareGazebo</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <!-- Colour -->
+  <gazebo reference="base_footprint">
+    <material>Gazebo/Purple</material>
+  </gazebo>
+
 </robot>
