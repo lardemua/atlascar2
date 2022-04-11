@@ -46,6 +46,13 @@ top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on th
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right. | 169.254.0.4
 gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right. | ---
 
+This project uses the following drivers:
+
+* [LIDAR, Sick LMS151](http://wiki.ros.org/LMS1xx)
+* [LIDAR, Sick LD MRS](https://github.com/SICKAG/sick_ldmrs_laser)
+* [Camera, Point Grey Flea2](http://wiki.ros.org/pointgrey_camera_driver)
+* [Novatel GPS + IMU](https://github.com/swri-robotics/novatel_gps_driver)
+
 <a name="setup-montage"></a>
 # SETUP Montage
 
