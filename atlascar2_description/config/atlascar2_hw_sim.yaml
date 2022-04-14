@@ -7,5 +7,5 @@ steer_bot_hardware_gazebo:
 
     # ackermann link mechanism
     enable_ackermann_link: true
-    wheel_separation_w : 0.3
-    wheel_separation_h : 0.4
+    wheel_separation_w : 1.2
+    wheel_separation_h : 2.55
