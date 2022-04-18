@@ -23,13 +23,12 @@ def odom_callback(data):
     x += delta_x
     y += delta_y
     th += delta_th
-    # if abs(th) > abs(2*math.pi):
-    #     th = 0
 
     # method 3 from  https://answers.ros.org/question/296112/odometry-message-for-ackerman-car/
+    offset = 0.015
     vx = data.drive.speed
     vy = 0.0
-    vth = data.drive.speed*math.tan(data.drive.steering_angle)/wheelbase
+    vth = (data.drive.speed*math.tan(data.drive.steering_angle))/(wheelbase)
     odomMsg = Odometry()
     odomMsg.twist.twist.linear.x = vx
     odomMsg.twist.twist.linear.y = vy
@@ -63,12 +62,12 @@ def main():
     global odom_pub, odom_broadcaster
 
     rospy.init_node('odometry_publisher')
-    odom_pub = rospy.Publisher("atlascar2/odom", Odometry, queue_size=1)
+    odom_pub = rospy.Publisher("atlascar2/odom", Odometry, queue_size=10)
     odom_broadcaster = tf.TransformBroadcaster()
     wheelbase = rospy.get_param('~wheelbase', 2.55)
     current_time = rospy.Time.now()
     last_time = rospy.Time.now()
-    rospy.Subscriber('atlascar2/ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, odom_callback, queue_size=1)
+    rospy.Subscriber('atlascar2/ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, odom_callback, queue_size=10)
     x = 0.0
     y = 0.0
     th = 0.0
