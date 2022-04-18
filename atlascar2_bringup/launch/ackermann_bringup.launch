@@ -9,12 +9,8 @@
     <arg name="roll" default="0.0"/>
     <arg name="pitch" default="0.0"/>
     <arg name="yaw" default="0.0"/>
-    <arg name="cmd_timeout" default="0.5"/>
-    <arg name="twist_cmd_topic" default="/$(arg vehicle_name)/cmd_vel"/>
-    <arg name="ackermann_cmd_topic" default="/$(arg vehicle_name)/ackermann_cmd"/>
-    <arg name="wheelbase" default="2.55"/>
-    <arg name="frame_id" default="base_link"/>
-    <arg name="message_type" default="ackermann_drive_stamped"/>
+    <arg name="visualize" default="true"/>
+    <arg name="file_name" default="rviz_ackermann"/>
 
     <group ns="$(arg vehicle_name)">
         <param name="tf_prefix" value="$(arg vehicle_name)"/>
@@ -50,8 +46,12 @@
         <node name="controller_spawner" pkg="controller_manager" type="spawner"
             args="$(find atlascar2_description)/config/atlascar2_steering_params.yaml">
         </node>
+    </group>
 
-
+    <group if="$(arg visualize)">
+        <include file="$(find atlascar2_bringup)/launch/visualize.launch">
+            <arg name="file_name" value="$(arg file_name)"/>
+        </include>
     </group>
 
 </launch>
