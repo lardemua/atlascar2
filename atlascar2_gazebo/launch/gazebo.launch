@@ -16,4 +16,6 @@
 
     </include>
 
+  <!-- <node name="interactive_pattern" pkg="mmtbot_gazebo" type="interactive_pattern" output="screen"/> -->
+
 </launch>

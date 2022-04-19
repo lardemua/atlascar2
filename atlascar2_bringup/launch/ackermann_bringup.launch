@@ -9,19 +9,15 @@
     <arg name="roll" default="0.0"/>
     <arg name="pitch" default="0.0"/>
     <arg name="yaw" default="0.0"/>
-    <arg name="cmd_timeout" default="0.5"/>
-    <arg name="twist_cmd_topic" default="/$(arg vehicle_name)/cmd_vel"/>
-    <arg name="ackermann_cmd_topic" default="/$(arg vehicle_name)/ackermann_cmd"/>
-    <arg name="wheelbase" default="2.55"/>
-    <arg name="frame_id" default="base_link"/>
-    <arg name="message_type" default="ackermann_drive_stamped"/>
+    <arg name="visualize" default="true"/>
+    <arg name="model_name" default="_ackermann_VLP"/>
 
     <group ns="$(arg vehicle_name)">
         <param name="tf_prefix" value="$(arg vehicle_name)"/>
 
         <!-- Load ackermann_steering_bot model -->
         <param name="robot_description"
-                command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2_ackermann.urdf.xacro"/>
+                command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2$(arg model_name).urdf.xacro"/>
 
         <!-- Read joint positions from joint_states, then publish the vehicle's
      state to tf. -->
@@ -50,8 +46,12 @@
         <node name="controller_spawner" pkg="controller_manager" type="spawner"
             args="$(find atlascar2_description)/config/atlascar2_steering_params.yaml">
         </node>
+    </group>
 
-
+    <group if="$(arg visualize)">
+        <include file="$(find atlascar2_bringup)/launch/visualize.launch">
+            <arg name="model_name" value="$(arg model_name)"/>
+        </include>
     </group>
 
 </launch>
