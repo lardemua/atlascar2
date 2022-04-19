@@ -25,6 +25,33 @@ Core packages for the LAR DEMUA Atlas Project
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
+- [Simulation](#simul# Atlas Core
+Core packages for the LAR DEMUA Atlas Project
+
+# Table of Contents
+
+- [Atlas Core](#atlascar2)
+- [Table of Contents](#table-of-contents)
+- [SETUP Montage](#setup-montage)
+- [Description of the Atlascar2](#description)
+- [SETUP Montage](#setup-montage)
+  * [1: Turning ON everything you need](#turning-on) 
+  * [2: Configuring the sensors](#configuring-sensors) 
+  * [3: Working in the Atlascar2](#working-atlascar2)
+
+- [Testing the sensors](#testing-the-sensors)
+  * [1: Sick LMS151 LIDAR](#2d-lidar)
+  * [2: Point Grey Flea2 camera](#top-cameras)
+  * [3: Sick LD MRS LIDAR](#3d-lidar)
+- [Launch the system](#Launch)
+
+(Part in need of a revision)
+ - [ Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
+    * [Using ssh connection (to work on your own machine)](#using-pr2-robot-instead-of-atlascar2)
+    * [Using monitors of the car](#using-pr2-robot-instead-of-atlascar2)
+- [Compilation](#compilation)
+- [Known problems](#known-problems)
+  * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
 - [Simulation](#simulation)
 
 <a name="description"></a>
@@ -335,7 +362,7 @@ Also, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the 
 Now, to start Gazebo the user writes:
 
 ``` 
-roslaunch atlascar2_bringup gazebo.launch
+roslaunch atlascar2_gazebo gazebo.launch
 ```
 
 And to spawn the car and start the controller the user writes:

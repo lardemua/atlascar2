@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Creating a world in GAZEBO -->
+
+<!--    &lt;!&ndash; Including another launch file &ndash;&gt;-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+<!--        &lt;!&ndash;        World from https://github.com/chaolmu/gazebo_models_worlds_collection&ndash;&gt;-->
+<!--        TODO replace this world for another world but you have to add the interative pattern in the .world file -->
+        <arg name="world_name" value="$(find atlascar2_gazebo)/worlds/larcc.world"/>
+
+
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+
+    </include>
+
+<!--    <include file="$(find ur_gazebo)/launch/ur10e_bringup.launch">-->
+<!--        <arg name="gui" value="true"/>-->
+<!--        <arg name="robot_description_file" value="$(find ur_gazebo)/launch/inc/load_larcc_ur10e.launch.xml"/>-->
+<!--        &lt;!&ndash;    <arg name="robot_description_file" value="$(find ur_gazebo)/launch/inc/load_ur10e.launch.xml"/>&ndash;&gt;-->
+<!--        &lt;!&ndash;    <arg name="robot_description_file" value="$(find larcc_description)/urdf/larcc.urdf.xacro"/>&ndash;&gt;-->
+<!--    </include>-->
+
+    <node name="interactive_pattern" pkg="atlascar2_gazebo" type="interactive_pattern" output="screen"/>
+
+
+</launch>
