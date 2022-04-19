@@ -10,14 +10,14 @@
     <arg name="pitch" default="0.0"/>
     <arg name="yaw" default="0.0"/>
     <arg name="visualize" default="true"/>
-    <arg name="file_name" default="rviz_ackermann"/>
+    <arg name="model_name" default="_ackermann_VLP"/>
 
     <group ns="$(arg vehicle_name)">
         <param name="tf_prefix" value="$(arg vehicle_name)"/>
 
         <!-- Load ackermann_steering_bot model -->
         <param name="robot_description"
-                command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2_ackermann.urdf.xacro"/>
+                command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2$(arg model_name).urdf.xacro"/>
 
         <!-- Read joint positions from joint_states, then publish the vehicle's
      state to tf. -->
@@ -50,7 +50,7 @@
 
     <group if="$(arg visualize)">
         <include file="$(find atlascar2_bringup)/launch/visualize.launch">
-            <arg name="file_name" value="$(arg file_name)"/>
+            <arg name="model_name" value="$(arg model_name)"/>
         </include>
     </group>
 

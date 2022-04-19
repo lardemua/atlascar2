@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="file_name" default="rviz"/>
+    <arg name="model_name" default=""/>
 
-    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/$(arg file_name).rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/rviz$(arg model_name).rviz"/>
 </launch>
