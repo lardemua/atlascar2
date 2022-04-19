@@ -7,7 +7,7 @@
 
 <!--        &lt;!&ndash;        World from https://github.com/chaolmu/gazebo_models_worlds_collection&ndash;&gt;-->
 <!--        TODO replace this world for another world but you have to add the interative pattern in the .world file -->
-        <arg name="world_name" value="$(find larcc_gazebo)/worlds/larcc.world"/>
+        <arg name="world_name" value="$(find atlascar2_gazebo)/worlds/larcc.world"/>
 
 
         <arg name="paused" value="false"/>
