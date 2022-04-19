@@ -42,6 +42,7 @@ def receive_all():
                     motor_rpm = msg.data[6]*256 - 1000
                     speed = (motor_rpm*math.pi*0.285)/30
                     ackMsg.drive.speed = speed
+                    print(speed)
                 if msg.arbitration_id == 0x236:
                     # to get the steering angle its the following formula:
                     # ((B0*256 + B1) -4096)/2
