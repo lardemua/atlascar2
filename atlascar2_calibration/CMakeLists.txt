@@ -8,6 +8,7 @@ project(atlascar2_calibration)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  atom_calibration
   rospy
 )
 
@@ -103,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES atlascar2_calibration
-#  CATKIN_DEPENDS rospy
+#  CATKIN_DEPENDS atom_calibration rospy
 #  DEPENDS system_lib
 )
 

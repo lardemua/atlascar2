@@ -22,45 +22,76 @@
     Sets up image decompressors if needed, reads the urdf robot description.
 
 @arg bag_file  Absolute path to the playing bag.
-    default: $(env ROS_BAGS)/atlascar2/calibration_5_dez_2019_03m-07m.bag
+    default: $(env ROS_BAGS)/atlascar2/stopped_simulated.bag
 @arg bag_start Playback starting time (in seconds). default: 0.0
 @arg bag_rate  Playback rate. default: 1.0
+@arg use_tfs  Use tfs in the bag file or generate new ones using the urdf, joint state messages and the robot state publisher. default: False
 -->
 
 <launch>
 
-<arg name="bag_file"  default="$(env ROS_BAGS)/atlascar2/calibration_5_dez_2019_03m-07m.bag"/>
-<arg name="bag_start" default="0"/>
-<arg name="bag_rate"  default ="1" />
-<arg name="rviz_file" default="$(find atlascar2_calibration)/rviz/set_initial_estimate.rviz"/>
-<arg name="description_file" default="$(find atlascar2_calibration)/urdf/initial_estimate.urdf.xacro"/>
+    <arg name="bag_file" default="$(env ROS_BAGS)/atlascar2/stopped_simulated.bag"/>
+    <arg name="bag_start" default="0"/>
+    <arg name="bag_rate" default="1"/>
+    <arg name="optimized" default="false"/>
+    <arg name="use_tfs" default="False"
+         doc="If false ignore tfs in the bag file and use the xacro, joint_state_msgs and robot state publisher to generate new tfs."/>
+    <arg name="rviz_file" default="$(find atlascar2_calibration)/rviz/set_initial_estimate.rviz"/>
+    <arg name="description_file" default="$(find atlascar2_calibration)/urdf/initial_estimate.urdf.xacro"
+         unless="$(arg optimized)"/>
+    <arg name="description_file" default="$(find atlascar2_calibration)/urdf/optimized.urdf.xacro"
+         if="$(arg optimized)"/>
 
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Load robot description and tf generators -->
-<param name="robot_description"     command="$(find xacro)/xacro $(arg description_file)"   />
-<node  name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Playback the bag file -->
-<param name="/use_sim_time" value="true"/>
-<node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-    args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null"/>
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-
-
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Image Topic Decompression -->
-<node pkg="image_transport" type="republish" name="republish_top_left_camera" output="screen" args="compressed in:=/top_left_camera/image_color raw out:=/top_left_camera/image_color"/>
-<node pkg="image_transport" type="republish" name="republish_top_right_camera" output="screen" args="compressed in:=/top_right_camera/image_color raw out:=/top_right_camera/image_color"/>
-<node pkg="image_transport" type="republish" name="republish_top_center_rgbd_camera_rgb" output="screen" args="compressed in:=/top_center_rgbd_camera/rgb/image_raw raw out:=/top_center_rgbd_camera/rgb/image_raw"/>
-
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Throttle topics -->
+    
+    
+    <node pkg="topic_tools" type="throttle" name="throttler_top_left_camera"
+          args="messages /atlascar2/top_left_camera/image_raw_to_throttle 10 /atlascar2/top_left_camera/image_raw"/>
+    
+    
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    
+    <node pkg="topic_tools" type="throttle" name="throttler_top_right_camera"
+          args="messages /atlascar2/top_right_camera/image_raw_to_throttle 10 /atlascar2/top_right_camera/image_raw"/>
+    
+    
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    
+    
 
 
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Visualization -->
-<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_file)" required="true"/>
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Load robot description and tf generators -->
+    <param name="robot_description" command="$(find xacro)/xacro $(arg description_file)"/>
+
+    <group unless="$(arg use_tfs)">
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    </group>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Playback the bag file -->
+    <param name="/use_sim_time" value="true"/>
+
+    <group if="$(arg use_tfs)"> <!--Play bag file using tfs, ignore joint states -->
+        <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
+              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /joint_states:=/joint_states_null /atlascar2/top_left_camera/image_raw:=/atlascar2/top_left_camera/image_raw_to_throttle /atlascar2/top_right_camera/image_raw:=/atlascar2/top_right_camera/image_raw_to_throttle"/>
+    </group>
+    <group unless="$(arg use_tfs)"> <!--Play bag file ignoring tfs-->
+        <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
+              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null /atlascar2/top_left_camera/image_raw:=/atlascar2/top_left_camera/image_raw_to_throttle /atlascar2/top_right_camera/image_raw:=/atlascar2/top_right_camera/image_raw_to_throttle"/>
+    </group>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    
+
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Visualization -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_file)" required="true"/>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
 </launch>

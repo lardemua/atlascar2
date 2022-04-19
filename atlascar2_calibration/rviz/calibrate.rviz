@@ -86,9 +86,16 @@ Visualization Manager:
     Namespaces: {}
     Queue Size: 10
     Value: true
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /lidar_1/velodyne_points/labeled3d
+    Name: lidar_1-LabeledData
+    Namespaces: {}
+    Queue Size: 10
+    Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: calibrate/c0/top_left_camera/image_color/labeled
+    Image Topic: /atlascar2/top_left_camera/image_raw/c0/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -100,23 +107,11 @@ Visualization Manager:
     Value: false
   - Class: rviz/Image
     Enabled: true
-    Image Topic: calibrate/c0/top_right_camera/image_color/labeled
+    Image Topic: /atlascar2/top_right_camera/image_raw/c0/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
     Name: top_right_camera-Labels-Image
-    Normalize Range: true
-    Queue Size: 2
-    Transport Hint: raw
-    Unreliable: false
-    Value: false
-  - Class: rviz/Image
-    Enabled: true
-    Image Topic: calibrate/c0/top_center_rgbd_camera/rgb/image_raw/labeled
-    Max Value: 1
-    Median window: 5
-    Min Value: 0
-    Name: top_center_rgbd_camera_rgb-Labels-Image
     Normalize Range: true
     Queue Size: 2
     Transport Hint: raw
