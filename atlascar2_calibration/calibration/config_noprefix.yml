@@ -33,7 +33,7 @@
 description_file: "package://atlascar2_description/urdf/atlascar2_ackermann_VLP.urdf.xacro"
 
 # The calibration framework requires a bagfile to extract the necessary data for the calibration.
-bag_file: "$ROS_BAGS/atlascar2/stopped_simulated.bag"
+bag_file: "$ROS_BAGS/atlascar2/gazebo_fixed.bag"
 
 # You must define a frame of reference for the optimization process.
 # It must exist in the transformation chains of all the sensors which are being calibrated.
@@ -72,33 +72,28 @@ sensors:
   #   /world_camera/rgb/image_raw
   #
 
-  top_left_camera:
+  top_left_camera: 
     link: "top_left_camera_optical"
     parent_link: "base_link"
     child_link: "top_left_camera"
     topic_name: "/atlascar2/top_left_camera/image_raw"
     throttle: 10
     modality: rgb
-
-
-  # You can have more than one sensor:
-  top_right_camera:
+  
+  top_right_camera: 
     link: "top_right_camera_optical"
     parent_link: "base_link"
     child_link: "top_right_camera"
     topic_name: "/atlascar2/top_right_camera/image_raw"
     throttle: 10
     modality: rgb
-
+  
   lidar_1:
-      link: "VLP_lidar"
-      parent_link: "base_link"
-      child_link: "VLP_lidar_base_link"
-      topic_name: "/lidar_1/velodyne_points"
-      # throttle: 5
-      modality: "lidar3d"
-
-
+    link: "VLP_lidar"
+    parent_link: "base_link"
+    child_link: "VLP_lidar_base_link"
+    topic_name: "/lidar_1/velodyne_points"
+    modality: "lidar3d"
 
 # The calibration requires a detectable pattern.
 # This section describes the properties of the calibration pattern used in th calibration.
@@ -136,6 +131,7 @@ calibration_pattern:
   # Used for 3D sensors and lidars.
   # It can be a scalar (same border in x and y directions), or it can be {'x': ..., 'y': ,,,}
   border_size: {'x': 0.04, 'y': 0.03}
+
 
   # The number of corners the pattern has in the X and Y dimensions.
   # Note: The charuco detector uses the number of squares per dimension in its detector.
