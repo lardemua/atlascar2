@@ -33,7 +33,8 @@
 description_file: "package://atlascar2_description/urdf/atlascar2_ackermann_VLP.urdf.xacro"
 
 # The calibration framework requires a bagfile to extract the necessary data for the calibration.
-bag_file: "$ROS_BAGS/atlascar2/gazebo_fixed.bag"
+# bag_file: "$ROS_BAGS/atlascar2/gazebo_fixed.bag"
+bag_file: "$ROS_BAGS/atlascar2/test_miguel.bag"
 
 # You must define a frame of reference for the optimization process.
 # It must exist in the transformation chains of all the sensors which are being calibrated.
@@ -72,22 +73,22 @@ sensors:
   #   /world_camera/rgb/image_raw
   #
 
-  top_left_camera: 
+  top_left_camera:
     link: "atlascar2/top_left_camera_optical"
     parent_link: "atlascar2/base_link"
     child_link: "atlascar2/top_left_camera"
     topic_name: "/atlascar2/top_left_camera/image_raw"
     throttle: 10
     modality: rgb
-  
-  top_right_camera: 
+
+  top_right_camera:
     link: "atlascar2/top_right_camera_optical"
     parent_link: "atlascar2/base_link"
     child_link: "atlascar2/top_right_camera"
     topic_name: "/atlascar2/top_right_camera/image_raw"
     throttle: 10
     modality: rgb
-  
+
   lidar_1:
     link: "atlascar2/VLP_lidar"
     parent_link: "atlascar2/base_link"
@@ -98,7 +99,6 @@ sensors:
 # The calibration requires a detectable pattern.
 # This section describes the properties of the calibration pattern used in th calibration.
 calibration_pattern:
-
   # The frame id (or link) of the pattern.
   # This link/transformation will be optimized.
   link: "pattern_link"
@@ -130,21 +130,19 @@ calibration_pattern:
   # The border width from the edge corner to the pattern physical edge.
   # Used for 3D sensors and lidars.
   # It can be a scalar (same border in x and y directions), or it can be {'x': ..., 'y': ,,,}
-  border_size: {'x': 0.04, 'y': 0.03}
-
+  border_size: { "x": 0.04, "y": 0.03 }
 
   # The number of corners the pattern has in the X and Y dimensions.
   # Note: The charuco detector uses the number of squares per dimension in its detector.
   # Internally we add a +1 to Y and X dimensions to account for that.
   # Therefore, the number of corners should be used even for the charuco pattern.
-  dimension: {"x": 11, "y": 8}
+  dimension: { "x": 11, "y": 8 }
 
   # The length of the square edge.
   size: 0.06
 
   # The length of the charuco inner marker.
   inner_size: 0.045
-
 
 # Miscellaneous configuration
 
@@ -155,4 +153,3 @@ anchored_sensor: ""
 
 # Max time delta (in milliseconds) between sensor data messages when creating a collection.
 max_duration_between_msgs: 1000
-

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+    <!--arguments-->
+    <arg name="only_raw_data" default="true"/>
+    <!--Whether or not to record only raw data-->
+    <arg name="bag" default="atlascar2"/>
+
+    <param name="/use_sim_time" value="false"/>
+
+    <!--To record only raw data-->
+    <group if="$(arg only_raw_data)">
+        <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
+            /atlascar2/frontal_laser/cloud
+            /atlascar2/left_laser/laserscan
+            /atlascar2/right_laser/laserscan
+            /atlascar2/top_left_camera/camera_info
+            /atlascar2/top_left_camera/image_raw/compressed
+            /atlascar2/top_right_camera/camera_info
+            /atlascar2/top_right_camera/image_raw/compressed
+            /lidar_1/velodyne_points
+            /tf
+            /tf_static
+            /atlascar2/joint_states
+            /atlascar2/ackermann_steering_controller/cmd_vel
+            /atlascar2/ackermann_steering_controller/odom
+            -o /tmp/bag_file.bag">
+        </node>
+
+<!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->
+    </group>
+</launch>
