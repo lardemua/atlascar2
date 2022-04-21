@@ -1,5 +1,5 @@
 #!/bin/sh
-# Auto generated on 20/04/2022 19:08:26
+# Auto generated on 21/04/2022 18:02:15
 #      ATOMIC Framework
 
 helpFunction()
@@ -19,7 +19,7 @@ done
 
 if test -z "$configfile"
 then
-rosrun atom_calibration configure_calibration_pkg -n atlascar2_calibration
+rosrun atom_calibration configure_calibration_pkg -n atlascar2_calibration --use_tfs
 else
-rosrun atom_calibration configure_calibration_pkg -n atlascar2_calibration -cfg $configfile
+rosrun atom_calibration configure_calibration_pkg -n atlascar2_calibration --use_tfs -cfg $configfile
 fi
