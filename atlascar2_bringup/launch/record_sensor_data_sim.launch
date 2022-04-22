@@ -17,7 +17,7 @@
             /atlascar2/top_left_camera/image_raw/compressed
             /atlascar2/top_right_camera/camera_info
             /atlascar2/top_right_camera/image_raw/compressed
-            /lidar_1/velodyne_points
+            /atlascar2/top_laser/cloud
             /tf
             /tf_static
             /atlascar2/joint_states
