@@ -52,7 +52,8 @@ def receive_all():
                         # to get the steering angle its the following formula:
                         # ((B0*256 + B1) -4096)/2
                         # sendo B1 o byte 1 do identificador 0x412 e B0 0 byte 0 do identificador 0x236
-                        steering_angle= ((msg.data[0] * 256 + msg.data[1]) - 4096) / 2
+                        # angulo do volante e não o das rodas. steering ratio : 16.06
+                        steering_angle = ((msg.data[0] * 256 + msg.data[1]) - 4096) / (2*16.06)
                         ackMsg.header.stamp = rospy.Time.now()
                         ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
                         ackMsg.drive.speed = speed
