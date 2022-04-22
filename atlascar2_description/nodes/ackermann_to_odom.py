@@ -25,7 +25,6 @@ def odom_callback(data):
     th += delta_th
 
     # method 3 from  https://answers.ros.org/question/296112/odometry-message-for-ackerman-car/
-    offset = 0.015
     vx = data.drive.speed
     vy = 0.0
     vth = (data.drive.speed*math.tan(data.drive.steering_angle))/(wheelbase)

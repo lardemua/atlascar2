@@ -10,7 +10,7 @@
     <arg name="pitch" default="0.0"/>
     <arg name="yaw" default="0.0"/>
     <arg name="visualize" default="true"/>
-    <arg name="model_name" default="_ackermann_VLP"/>
+    <arg name="model_name" default="_ackermann"/>
 
     <group ns="$(arg vehicle_name)">
         <param name="tf_prefix" value="$(arg vehicle_name)"/>
