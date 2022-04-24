@@ -4,9 +4,9 @@
   <xacro:property name="steer_thickness" value="0.02" /> <!-- Link 1 -->
   <xacro:property name="steer_effort"   value="15.0"/>
   <xacro:property name="steer_velocity" value="5.0"/>
-  <xacro:property name="mass" value="0.3"/>
-  <xacro:property name="inertia" value="0.02"/>
-  <xacro:property name="inertia_yy" value="0.002"/>
+  <xacro:property name="mass" value="11.16"/>
+<!--  <xacro:property name="inertia" value="0.02"/>-->
+<!--  <xacro:property name="inertia_yy" value="0.02"/>-->
   <xacro:property name="damping" value="0"/>
   <xacro:property name="friction" value="0" />
 
@@ -15,7 +15,10 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
+<!--        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>-->
+        <inertia  ixx="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" ixy = "0" ixz = "0"
+                  iyy="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" iyz = "0"
+                  izz="${(mass*wheel_radius*wheel_radius)/2}" />
       </inertial>
 <!--      <visual>-->
 <!--        <origin xyz="0 0 0" rpy="0 0 0"/>-->
@@ -60,7 +63,10 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
+<!--        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>-->
+        <inertia  ixx="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" ixy = "0" ixz = "0"
+                  iyy="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" iyz = "0"
+                  izz="${(mass*wheel_radius*wheel_radius)/2}" />
       </inertial>
 <!--      <visual>-->
 <!--        <origin xyz="0 0 0" rpy="0 0 0"/>-->
@@ -92,7 +98,10 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
+<!--        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>-->
+        <inertia  ixx="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" ixy = "0" ixz = "0"
+                  iyy="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" iyz = "0"
+                  izz="${(mass*wheel_radius*wheel_radius)/2}" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -147,7 +156,10 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
+<!--        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>-->
+        <inertia  ixx="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" ixy = "0" ixz = "0"
+                  iyy="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" iyz = "0"
+                  izz="${(mass*wheel_radius*wheel_radius)/2}" />
       </inertial>
 <!--      <visual>-->
 <!--        <origin xyz="0 0 0" rpy="0 0 0"/>-->
@@ -189,7 +201,10 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass}"/>
-        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>
+<!--        <inertia ixx="${inertia}" ixy="0" ixz="0" iyy="${inertia_yy}" iyz="0" izz="${inertia}"/>-->
+        <inertia  ixx="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" ixy = "0" ixz = "0"
+                  iyy="${(mass*((3*wheel_radius*wheel_radius)+(thickness*thickness)))/12}" iyz = "0"
+                  izz="${(mass*wheel_radius*wheel_radius)/2}" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
