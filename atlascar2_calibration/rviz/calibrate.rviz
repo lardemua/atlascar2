@@ -86,13 +86,6 @@ Visualization Manager:
     Namespaces: {}
     Queue Size: 10
     Value: true
-  - Class: rviz/MarkerArray
-    Enabled: true
-    Marker Topic: /lidar_1/velodyne_points/labeled3d
-    Name: lidar_1-LabeledData
-    Namespaces: {}
-    Queue Size: 10
-    Value: true
   - Class: rviz/Image
     Enabled: true
     Image Topic: /atlascar2/top_left_camera/image_raw/c0/labeled2d
@@ -105,6 +98,13 @@ Visualization Manager:
     Transport Hint: raw
     Unreliable: false
     Value: false
+  - Class: rviz/MarkerArray
+    Enabled: true
+    Marker Topic: /atlascar2/top_laser/cloud/labeled3d
+    Name: top_lidar-LabeledData
+    Namespaces: {}
+    Queue Size: 10
+    Value: true
   - Class: rviz/Image
     Enabled: true
     Image Topic: /atlascar2/top_right_camera/image_raw/c0/labeled2d

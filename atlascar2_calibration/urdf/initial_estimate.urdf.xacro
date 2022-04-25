@@ -6,6 +6,9 @@
     <xacro:include filename="$(find atlascar2_description)/urdf/atlascar2_wheel.urdf.xacro"/>
     <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro"/>
     <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+    <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro"/>
+    <!-- <xacro:include filename="$(find sick_ldmrs_description)/urdf/sick_ldmrs_macros.urdf.xacro"/> -->
+    <xacro:include filename="$(find lms1xx)/urdf/sick_lms1xx.urdf.xacro"/>
     <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
 
     <!-- Constants for robot dimensions -->
@@ -20,6 +23,7 @@
     <xacro:property name="axel_offset_x" value="0.5" /> <!-- Space btw top of beam and the each joint -->
     <xacro:property name="axel_offset_y" value="0" /> <!-- Space btw top of beam and the each joint -->
     <xacro:property name="steer_offset" value="0.02" /> <!-- Link 1 -->
+    <xacro:property name="vehicle_name" value="atlascar2"/> <!-- Name of vehicle-->
 
     <!-- Links: inertial,visual,collision -->
     <link name="base_link">
@@ -92,7 +96,7 @@
       <child link="top_left_camera"/>
     </joint>
     <!-- top velodyne lidar -->
-    <xacro:VLP-16 name="VLP_lidar" parent="base_link" topic="/lidar_1/velodyne_points">
+    <xacro:VLP-16 name="top_laser" parent="base_link" topic="top_laser/cloud">
       <origin xyz="0 0 ${1.35+height_offset}" rpy="0 0 0"/>
     </xacro:VLP-16>
     <!-- joints for ackermann_steering_controller -->
@@ -103,6 +107,27 @@
     <xacro:rear_wheel name="rear" parent="base" radius="${wheel_radius}" thickness="${thickness}">
         <origin xyz="${-length/2+axel_offset_x} 0 0" rpy="${-90 * deg_to_rad} 0 ${-90 * deg_to_rad}"/>
     </xacro:rear_wheel>
+    <!-- laser sensor lms_ldmrs400001 -->
+    <!-- <xacro:sick_ldmrs name="frontal_laser"/> -->
+    <!-- <joint name="base_link_to_frontal_laser_mount_link" type="fixed"> -->
+      <!-- <origin xyz="${length/2 + length_offset} 0 ${height_offset}" rpy="0 0 0"/> -->
+      <!-- <parent link="base_link"/> -->
+      <!-- <child link="frontal_laser_mount_link"/> -->
+    <!-- </joint> -->
+    <!-- left lms151 laser -->
+    <xacro:sick_lms1xx frame="left_laser" topic="/atlascar2/left_laser/scan"/>
+    <joint name="base_link_to_left_laser" type="fixed">
+      <origin xyz="${length/2 + length_offset - 0.08} 0.76 ${height_offset+0.27}" rpy="0 0 ${0.7854}"/>
+      <parent link="base_link"/>
+      <child link="left_laser"/>
+    </joint>
+    <!-- right lms151 laser -->
+    <xacro:sick_lms1xx frame="right_laser" topic="/atlascar2/right_laser/scan"/>
+    <joint name="base_link_to_right_laser" type="fixed">
+      <origin xyz="${length/2 + length_offset - 0.08} -0.76 ${height_offset+0.27}" rpy="0 0 ${-0.7854}"/>
+      <parent link="base_link"/>
+      <child link="right_laser"/>
+    </joint>
 
     <!-- Wheels -->
     <xacro:front_wheel_lr name="front_right" parent="base" radius="${wheel_radius}" thickness="${thickness}"
