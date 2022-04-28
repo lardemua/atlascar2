@@ -25,34 +25,15 @@ Core packages for the LAR DEMUA Atlas Project
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
-- [Simulation](#simul# Atlas Core
-Core packages for the LAR DEMUA Atlas Project
-
-# Table of Contents
-
-- [Atlas Core](#atlascar2)
-- [Table of Contents](#table-of-contents)
-- [SETUP Montage](#setup-montage)
-- [Description of the Atlascar2](#description)
-- [SETUP Montage](#setup-montage)
-  * [1: Turning ON everything you need](#turning-on) 
-  * [2: Configuring the sensors](#configuring-sensors) 
-  * [3: Working in the Atlascar2](#working-atlascar2)
-
-- [Testing the sensors](#testing-the-sensors)
-  * [1: Sick LMS151 LIDAR](#2d-lidar)
-  * [2: Point Grey Flea2 camera](#top-cameras)
-  * [3: Sick LD MRS LIDAR](#3d-lidar)
-- [Launch the system](#Launch)
-
-(Part in need of a revision)
- - [ Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
-    * [Using ssh connection (to work on your own machine)](#using-pr2-robot-instead-of-atlascar2)
-    * [Using monitors of the car](#using-pr2-robot-instead-of-atlascar2)
-- [Compilation](#compilation)
-- [Known problems](#known-problems)
-  * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
 - [Simulation](#simulation)
+
+# Atlas Core
+Core packages for the LAR DEMUA Atlas Project:
+* [LIDAR, Sick LMS151](http://wiki.ros.org/LMS1xx)
+* [LIDAR, Sick LD MRS](https://github.com/SICKAG/sick_ldmrs_laser)
+* [Camera, Point Grey Flea2](http://wiki.ros.org/pointgrey_camera_driver)
+* [Novatel GPS + IMU](https://github.com/swri-robotics/novatel_gps_driver)
+
 
 <a name="description"></a>
 # Description of the Atlascar2
@@ -72,13 +53,6 @@ front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper,
 top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left. | 169.254.0.5
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right. | 169.254.0.4
 gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right. | ---
-
-This project uses the following drivers:
-
-* [LIDAR, Sick LMS151](http://wiki.ros.org/LMS1xx)
-* [LIDAR, Sick LD MRS](https://github.com/SICKAG/sick_ldmrs_laser)
-* [Camera, Point Grey Flea2](http://wiki.ros.org/pointgrey_camera_driver)
-* [Novatel GPS + IMU](https://github.com/swri-robotics/novatel_gps_driver)
 
 <a name="setup-montage"></a>
 # SETUP Montage
