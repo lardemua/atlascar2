@@ -25,7 +25,9 @@ Core packages for the LAR DEMUA Atlas Project
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
-- [Simulation](#simulation)
+- [Simulating the Atlascar2](#simulation)
+  * [Installing](#installing)
+  * [Running](#running)
 
 # Atlas Core
 Core packages for the LAR DEMUA Atlas Project:
@@ -317,22 +319,26 @@ Now you are inside the atlascar machine in your own computer!
 You can work with Visual Studio or CLion, as they are already installed.
 
 <a name="simulation"></a>
-# Simulation
+# Simulating the Atlascar2
+
+<a name="Installing"></a>
+## Installing
 In order to ease the remote work with this vehicle, a simulated environment was developed.
-This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller).
-
-![simulation.png](docs/simulation.png?raw=true "Simulation")
-
-To run AtlasCar2 in Gazebo the user needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection).
-
-With this step done, the user needs to install some dependencies with this command:
+This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller) that needs to be installed with the following command:
 
 ``` 
 sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs
 ```
 
-Also, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
+![simulation.png](docs/simulation.png?raw=true "Simulation")
 
+The user also needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection) in order to run AtlasCar2 in Gazebo.
+
+
+Lastly, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
+
+<a name="Running"></a>
+## Running
 Now, to start Gazebo the user writes:
 
 ``` 
