@@ -25,19 +25,20 @@ def receive_all():
         # right now I need the B1 with the ID 0x412 and B0 with the ID 0x236
         while not rospy.is_shutdown():
             msg = bus.recv(1)
+            print(msg.arbitration_id)
             if msg is not None:
                 if msg.arbitration_id == 0x412:
                     # speed is in km/h
                     speed_km = msg.data[1]
                     speed_ms = (speed_km * 1000)/3600
-                    print(speed_ms)
+                    # print(speed_ms)
 
                 if msg.arbitration_id == 0x298:
                     motor_rpm = (msg.data[6]*256 + msg.data[7]) - 10000
                     # 7.065 -> final drive ratio from the vehicle
                     # 0.285 -> radius of the wheel
                     speed = (motor_rpm*math.pi*0.285)/(30*7.065)
-                    print(speed)
+                    # print(speed)
                     ackMsg.header.stamp = rospy.Time.now()
                     ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
                     ackMsg.drive.speed = speed
@@ -62,6 +63,9 @@ def receive_all():
                         # print(speed)
                         ack_pub.publish(ackMsg)
                         rate.sleep()
+
+                if msg.arbitration_id == 0x500:
+                    print(msg.data)
 
 
 def main():
