@@ -34,7 +34,6 @@ description_file: "package://atlascar2_description/urdf/atlascar2_ackermann_VLP.
 
 # The calibration framework requires a bagfile to extract the necessary data for the calibration.
 bag_file: "$ROS_BAGS/atlascar2/gazebo_fixed.bag"
-# bag_file: "$ROS_BAGS/atlascar2/test_miguel.bag"
 
 # You must define a frame of reference for the optimization process.
 # It must exist in the transformation chains of all the sensors which are being calibrated.
