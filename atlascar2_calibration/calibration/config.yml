@@ -33,11 +33,11 @@
 description_file: "package://atlascar2_description/urdf/atlascar2_ackermann_VLP.urdf.xacro"
 
 # The calibration framework requires a bagfile to extract the necessary data for the calibration.
-bag_file: "$ROS_BAGS/atlascar2/gazebo_fixed.bag"
+bag_file: "$ROS_BAGS/atlascar2/gazebo_move.bag"
 
 # You must define a frame of reference for the optimization process.
 # It must exist in the transformation chains of all the sensors which are being calibrated.
-world_link: "atlascar2/base_link"
+world_link: "base_link"
 
 # ATOM will calibrate the extrinsic parameters of your sensors.
 # In this section you should discriminate the sensors that will be part of the calibrations.
@@ -73,25 +73,25 @@ sensors:
   #
 
   top_left_camera:
-    link: "atlascar2/top_left_camera_optical"
-    parent_link: "atlascar2/base_link"
-    child_link: "atlascar2/top_left_camera"
+    link: "top_left_camera_optical"
+    parent_link: "base_link"
+    child_link: "top_left_camera"
     topic_name: "/atlascar2/top_left_camera/image_raw"
     throttle: 10
     modality: rgb
 
   top_right_camera:
-    link: "atlascar2/top_right_camera_optical"
-    parent_link: "atlascar2/base_link"
-    child_link: "atlascar2/top_right_camera"
+    link: "top_right_camera_optical"
+    parent_link: "base_link"
+    child_link: "top_right_camera"
     topic_name: "/atlascar2/top_right_camera/image_raw"
     throttle: 10
     modality: rgb
 
   top_lidar:
-    link: "atlascar2/top_laser"
-    parent_link: "atlascar2/base_link"
-    child_link: "atlascar2/top_laser_base_link"
+    link: "top_laser"
+    parent_link: "base_link"
+    child_link: "top_laser_base_link"
     topic_name: "/atlascar2/top_laser/cloud"
     modality: "lidar3d"
 
@@ -105,7 +105,7 @@ calibration_pattern:
   # The parent frame id (or link) of the pattern.
   # For example, in hand-eye calibration the parent link
   # of the pattern can be the end-effector or the base of the arm
-  parent_link: "atlascar2/base_link"
+  parent_link: "base_link"
 
   # Defines if the pattern link is the same in all collections (i.e. fixed=true),
   # or each collection will have its own estimate of the link transformation.

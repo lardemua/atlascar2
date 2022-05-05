@@ -13,7 +13,7 @@
     <arg name="model_name" default="_ackermann_VLP"/>
 
     <group ns="$(arg vehicle_name)">
-        <param name="tf_prefix" value="$(arg vehicle_name)"/>
+        <!-- <param name="tf_prefix" value="$(arg vehicle_name)"/> -->
 
         <!-- Load ackermann_steering_bot model -->
         <param name="robot_description"
@@ -21,7 +21,7 @@
 
         <!-- Read joint positions from joint_states, then publish the vehicle's
      state to tf. -->
-        <node name="vehicle_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
             <param name="publish_frequency" value="30.0"/>
         </node>
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
