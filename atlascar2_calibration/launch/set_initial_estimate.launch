@@ -22,38 +22,40 @@
     Rviz interactive markers are used to set the pose of the sensors.
 
 @arg bag_file  Absolute path to the playing bag.
-    default: $(env ROS_BAGS)/atlascar2/calibration_5_dez_2019_03m-07m.bag
+    default: $(env ROS_BAGS)/atlascar2/gazebo_move.bag
 @arg bag_start Playback starting time (in seconds). default: 0.0
 @arg bag_rate  Playback rate. default: 1.0
+@arg marker_size  Size of the markers. default: 0.5
 -->
 
 <launch>
 
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Parameters-->
-<arg name="config_file" default="$(find atlascar2_calibration)/calibration/config.yml"/>
-<arg name="output_file" default="$(find atlascar2_calibration)/urdf/initial_estimate.urdf.xacro"/>
-<arg name="rviz_file"   default="$(find atlascar2_calibration)/rviz/set_initial_estimate.rviz"/>
-<!-- arguments to be passed onto playbag.launch  -->
-<arg name="bag_file"  default="$(env ROS_BAGS)/atlascar2/calibration_5_dez_2019_03m-07m.bag"/>
-<arg name="bag_start" default="0"/>
-<arg name="bag_rate"  default ="1" />
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Parameters-->
+    <arg name="config_file" default="$(find atlascar2_calibration)/calibration/config.yml"/>
+    <arg name="output_file" default="$(find atlascar2_calibration)/urdf/initial_estimate.urdf.xacro"/>
+    <arg name="rviz_file" default="$(find atlascar2_calibration)/rviz/set_initial_estimate.rviz"/>
+    <!-- arguments to be passed onto playbag.launch  -->
+    <arg name="bag_file" default="$(env ROS_BAGS)/atlascar2/gazebo_move.bag"/>
+    <arg name="bag_start" default="0"/>
+    <arg name="bag_rate" default="1"/>
+    <arg name="marker_size" default="0.5"/>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Call play bag launch file -->
-<include file="$(find atlascar2_calibration)/launch/playbag.launch">
-   <arg name="rviz_file" value="$(arg rviz_file)"/>
-   <arg name="bag_file"  value="$(arg bag_file)" />
-   <arg name="bag_start" value="$(arg bag_start)"/>
-   <arg name="bag_rate"  value="$(arg bag_rate)" />
-</include>
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Call play bag launch file -->
+    <include file="$(find atlascar2_calibration)/launch/playbag.launch">
+        <arg name="rviz_file" value="$(arg rviz_file)"/>
+        <arg name="bag_file" value="$(arg bag_file)"/>
+        <arg name="bag_start" value="$(arg bag_start)"/>
+        <arg name="bag_rate" value="$(arg bag_rate)"/>
+    </include>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!-- Start set initial estimate node -->
-<node name="set_initial_estimate" pkg="atom_calibration" type="set_initial_estimate"
-    args="-s 0.5 -f $(arg output_file) -c $(arg config_file)" required="true" output="screen"/>
-<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Start set initial estimate node -->
+    <node name="set_initial_estimate" pkg="atom_calibration" type="set_initial_estimate"
+          args="-s $(arg marker_size) -f $(arg output_file) -c $(arg config_file)" required="true" output="screen"/>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
 </launch>

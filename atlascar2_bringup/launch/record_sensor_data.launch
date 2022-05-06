@@ -4,8 +4,9 @@
     <arg name="only_raw_data" default="true"/>
     <!--Whether or not to record only raw data-->
     <arg name="bag" default="atlascar2"/>
+    <arg name="simulation" default="false"/>
 
-    <param name="/use_sim_time" value="false"/>
+    <param name="/use_sim_time" value="$(arg simulation)"/>
 
     <!--To record only raw data-->
     <group if="$(arg only_raw_data)">
@@ -13,23 +14,22 @@
             /frontal_laser/cloud
             /left_laser/laserscan
             /right_laser/laserscan
-            /top_left_camera/image_color/compressed
             /top_left_camera/camera_info
-            /top_right_camera/image_color/compressed
+            /top_left_camera/image_raw/compressed
             /top_right_camera/camera_info
+            /top_right_camera/image_raw/compressed
+            /top_laser/cloud
             /tf
-            /joint_states
             /tf_static
+            /joint_states
+            /ackermann_steering_controller/cmd_vel
+            /ackermann_steering_controller/odom
             /top_center_rgbd_camera/rgb/image_raw/compressed
             /top_center_rgbd_camera/rgb/camera_info
             /top_center_rgbd_camera/depth/image/compressedDepth
             /top_center_rgbd_camera/depth/camera_info
             -o /tmp/bag_file.bag">
         </node>
-
-<!--         /top_center_rgbd_camera/depth/image_raw/compressed-->
-<!--            /top_center_rgbd_camera/depth/camera_info-->
-
 
 <!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->
     </group>

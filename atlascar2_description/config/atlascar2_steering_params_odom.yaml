@@ -25,7 +25,7 @@ ackermann_steering_controller:
   publish_ackermann_drive: true
 
   # get odometry values
-  enable_odom_tf: false
+  enable_odom_tf: true
   # Base frame_id
   base_frame_id: base_footprint #default: base_link
 

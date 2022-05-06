@@ -3,11 +3,11 @@
     <!--
     Robot model taken from http://wiki.ros.org/pr2_mechanism/Tutorials/SImple%20URDF-Controller%20Example
     -->
-    <xacro:include filename="atlascar2_wheel.urdf.xacro"/>
-    <xacro:include filename="$(find pointgrey_camera_description)/urdf/pointgrey_flea3.urdf.xacro"/>
+    <xacro:include filename="$(find atlascar2_description)/urdf/atlascar2_wheel.urdf.xacro"/>
+    <xacro:include filename="$(find atlascar2_description)/urdf/atlascar2_ackermann.macro.urdf.xacro"/>
     <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+    <!-- <xacro:include filename="$(find sick_ldmrs_description)/urdf/sick_ldmrs_macros.urdf.xacro"/> -->
     <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
-
     <!-- Constants for robot dimensions -->
     <xacro:property name="length" value="3.475" />
     <xacro:property name="width" value="1.475" />
@@ -21,80 +21,26 @@
     <xacro:property name="axel_offset_y" value="0" /> <!-- Space btw top of beam and the each joint -->
     <xacro:property name="steer_offset" value="0.02" /> <!-- Link 1 -->
 
-    <!-- Links: inertial,visual,collision -->
-    <link name="base_link">
-        <inertial>
-            <!-- origin is relative -->
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="2"/>
-            <inertia ixx="1" ixy="0" ixz="0"
-                     iyy="1" iyz="0"
-                     izz="1"/>
-        </inertial>
-        <visual>
-            <origin xyz=" ${length/2} ${-width/2 - 0.15} ${-wheel_radius + 0.05}" rpy="0 0 ${90*deg_to_rad}"/>
-            <geometry>
-                <mesh filename="file:///$(find atlascar2_description)/meshes/atlascar2_nowheels.dae"/>
-            </geometry>
-        </visual>
-        <collision>
-            <!-- origin is relative -->
-            <origin xyz=" 0 0 ${-wheel_radius + height/2}"/>
-            <geometry>
-                <box size="${length - 0.1} ${width} ${height/2}"/>
-            </geometry>
-        </collision>
-    </link>
+    <!-- Add car macro -->
+    <xacro:atlascar2 length="${length}" width="${width}" height="${height}" wheel_radius="${wheel_radius}"/>
 
-    <link name="top_collision">
-        <collision>
-            <origin xyz="${-length/7} 0 0"/>
-            <geometry>
-                <box size="${length/2} ${width} ${height/2}"/>
-            </geometry>
-        </collision>
-    </link>
+    <!--    Add sensors-->
 
-    <joint name="base_link_to_top_collision" type="fixed">
-        <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
-        <parent link="base_link"/>
-        <child link="top_collision"/>
-    </joint>
+    <!-- top-right-camera -->
+    <xacro:pointgrey_flea3_joints name="top_right_camera" frame="top_right_camera" parent="base_link" 
+                                  x="${length_offset}" y="-0.22" z="${1.35+height_offset}"
+                                  rol="0" pit="0.4" yaw="0"/>
 
-
-    <link name="base_footprint">
-        <collision>
-            <origin xyz="0 0 0"/>
-            <geometry>
-                <sphere radius="0.00000001"/>
-            </geometry>
-        </collision>
-    </link>
-    <joint name="base_footprint_joint" type="fixed">
-        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
-        <child link="base_link"/>
-        <parent link="base_footprint"/>
-    </joint>
-
-<!--    Add sensors-->
-<!-- top-right-camera -->
-    <xacro:pointgrey_flea3 name="top_right_camera" frame="top_right_camera"/>
-    <joint name="base_link_to_top_right_camera" type="fixed">
-      <origin xyz="${length_offset} -0.22 ${1.35+height_offset}" rpy="0 0.4 0"/>
-      <parent link="base_link"/>
-      <child link="top_right_camera"/>
-    </joint>
     <!-- top-left-camera -->
-    <xacro:pointgrey_flea3 name="top_left_camera" frame="top_left_camera"/>
-    <joint name="base_link_to_top_left_camera" type="fixed">
-      <origin xyz="${length_offset} 0.22 ${1.35+height_offset}" rpy="0 0.4 0"/>
-      <parent link="base_link"/>
-      <child link="top_left_camera"/>
-    </joint>
+    <xacro:pointgrey_flea3_joints name="top_left_camera" frame="top_left_camera" parent="base_link" 
+                                  x="${length_offset}" y="0.22" z="${1.35+height_offset}"
+                                  rol="0" pit="0.4" yaw="0"/>
+
     <!-- top velodyne lidar -->
-    <xacro:VLP-16 name="VLP_lidar" parent="base_link" topic="/lidar_1/velodyne_points">
+    <xacro:VLP-16 name="top_laser" parent="base_link" topic="top_laser/cloud">
       <origin xyz="0 0 ${1.35+height_offset}" rpy="0 0 0"/>
     </xacro:VLP-16>
+
     <!-- joints for ackermann_steering_controller -->
     <xacro:front_steer name="front" parent="base" radius="${wheel_radius}" thickness="${thickness}"
                        length="${length}" width="${width}" axel_offset="${axel_offset_x}" steer_height="${wheel_radius+steer_offset}">
@@ -103,6 +49,24 @@
     <xacro:rear_wheel name="rear" parent="base" radius="${wheel_radius}" thickness="${thickness}">
         <origin xyz="${-length/2+axel_offset_x} 0 0" rpy="${-90 * deg_to_rad} 0 ${-90 * deg_to_rad}"/>
     </xacro:rear_wheel>
+
+    <!-- laser sensor lms_ldmrs400001 -->
+    <!-- <xacro:sick_ldmrs name="frontal_laser"/> -->
+    <!-- <joint name="base_link_to_frontal_laser_mount_link" type="fixed"> -->
+      <!-- <origin xyz="${length/2 + length_offset} 0 ${height_offset}" rpy="0 0 0"/> -->
+      <!-- <parent link="base_link"/> -->
+      <!-- <child link="frontal_laser_mount_link"/> -->
+    <!-- </joint> -->
+
+    <!-- left lms151 laser -->
+    <xacro:sick_lms1xx_joints frame="left_laser" topic="/left_laser/scan" parent="base_link" 
+                                  x="${length/2 + length_offset - 0.08}" y="0.76" z="${0.27+height_offset}"
+                                  rol="0" pit="0" yaw="0.7854"/>
+
+    <!-- right lms151 laser -->
+    <xacro:sick_lms1xx_joints frame="right_laser" topic="/right_laser/scan" parent="base_link" 
+                                  x="${length/2 + length_offset - 0.08}" y="-0.76" z="${0.27+height_offset}"
+                                  rol="0" pit="0" yaw="-0.7854"/>
 
     <!-- Wheels -->
     <xacro:front_wheel_lr name="front_right" parent="base" radius="${wheel_radius}" thickness="${thickness}"
