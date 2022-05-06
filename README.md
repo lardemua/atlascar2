@@ -353,3 +353,18 @@ roslaunch atlascar2_bringup ackermann_bringup.launch
 To control the car, publish a twist message to the `/atlascar2/ackermann_steering_controller/cmd_vel` topic.
 
 A video example of the simulation can be seen [here](https://www.youtube.com/watch?v=UWo4ndSZ1XU).
+
+## Calibration
+In order to calibrate atlascar2 in the simulated environment, the user needs to run a separate gazebo world:
+
+```
+roslaunch atlascar2_gazebo gazebo_calibration.launch
+```
+
+And a separate bringup:
+
+```
+roslaunch atlascar2_bringup ackermann_bringup.launch yaw:=-1.57 x_pos:=0 y_pos:=2 z_pos:=0 calibration:=true
+```
+
+After that, follow the [instructions on the ATOM package](https://github.com/lardemua/atom#system-calibration---detailed-description).
