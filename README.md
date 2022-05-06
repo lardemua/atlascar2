@@ -25,34 +25,17 @@ Core packages for the LAR DEMUA Atlas Project
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
-- [Simulation](#simul# Atlas Core
-Core packages for the LAR DEMUA Atlas Project
+- [Simulating the Atlascar2](#simulation)
+  * [Installing](#installing)
+  * [Running](#running)
 
-# Table of Contents
+# Atlas Core
+Core packages for the LAR DEMUA Atlas Project:
+* [LIDAR, Sick LMS151](http://wiki.ros.org/LMS1xx)
+* [LIDAR, Sick LD MRS](https://github.com/SICKAG/sick_ldmrs_laser)
+* [Camera, Point Grey Flea2](http://wiki.ros.org/pointgrey_camera_driver)
+* [Novatel GPS + IMU](https://github.com/swri-robotics/novatel_gps_driver)
 
-- [Atlas Core](#atlascar2)
-- [Table of Contents](#table-of-contents)
-- [SETUP Montage](#setup-montage)
-- [Description of the Atlascar2](#description)
-- [SETUP Montage](#setup-montage)
-  * [1: Turning ON everything you need](#turning-on) 
-  * [2: Configuring the sensors](#configuring-sensors) 
-  * [3: Working in the Atlascar2](#working-atlascar2)
-
-- [Testing the sensors](#testing-the-sensors)
-  * [1: Sick LMS151 LIDAR](#2d-lidar)
-  * [2: Point Grey Flea2 camera](#top-cameras)
-  * [3: Sick LD MRS LIDAR](#3d-lidar)
-- [Launch the system](#Launch)
-
-(Part in need of a revision)
- - [ Working on ATLAS environment](#using-pr2-robot-instead-of-atlascar2)
-    * [Using ssh connection (to work on your own machine)](#using-pr2-robot-instead-of-atlascar2)
-    * [Using monitors of the car](#using-pr2-robot-instead-of-atlascar2)
-- [Compilation](#compilation)
-- [Known problems](#known-problems)
-  * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
-- [Simulation](#simulation)
 
 <a name="description"></a>
 # Description of the Atlascar2
@@ -72,13 +55,6 @@ front laser | LIDAR, Sick LD MRS | 200 | --- | 50 | Mounted on the front bumper,
 top left camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the left. | 169.254.0.5
 top right camera | Camera, Point Grey Flea2 | --- |  964x724 | 30 | Mounted on the rooftop, to the right. | 169.254.0.4
 gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back and right. | ---
-
-This project uses the following drivers:
-
-* [LIDAR, Sick LMS151](http://wiki.ros.org/LMS1xx)
-* [LIDAR, Sick LD MRS](https://github.com/SICKAG/sick_ldmrs_laser)
-* [Camera, Point Grey Flea2](http://wiki.ros.org/pointgrey_camera_driver)
-* [Novatel GPS + IMU](https://github.com/swri-robotics/novatel_gps_driver)
 
 <a name="setup-montage"></a>
 # SETUP Montage
@@ -343,22 +319,26 @@ Now you are inside the atlascar machine in your own computer!
 You can work with Visual Studio or CLion, as they are already installed.
 
 <a name="simulation"></a>
-# Simulation
+# Simulating the Atlascar2
+
+<a name="Installing"></a>
+## Installing
 In order to ease the remote work with this vehicle, a simulated environment was developed.
-This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller).
-
-![simulation.png](docs/simulation.png?raw=true "Simulation")
-
-To run AtlasCar2 in Gazebo the user needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection).
-
-With this step done, the user needs to install some dependencies with this command:
+This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller) that needs to be installed with the following command:
 
 ``` 
 sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs
 ```
 
-Also, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
+![simulation.png](docs/simulation.png?raw=true "Simulation")
 
+The user also needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection) in order to run AtlasCar2 in Gazebo.
+
+
+Lastly, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
+
+<a name="Running"></a>
+## Running
 Now, to start Gazebo the user writes:
 
 ``` 
