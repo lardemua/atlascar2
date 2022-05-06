@@ -50,7 +50,7 @@ Visualization Manager:
       Z: 0
     Plane: XY
     Plane Cell Count: 10
-    Reference Frame: base_link
+    Reference Frame: odom
     Value: true
   - Class: rviz/TF
     Enabled: true
@@ -88,7 +88,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /atlascar2/top_left_camera/image_raw/c0/labeled2d
+    Image Topic: /top_left_camera/image_raw/c0/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -100,14 +100,14 @@ Visualization Manager:
     Value: false
   - Class: rviz/MarkerArray
     Enabled: true
-    Marker Topic: /atlascar2/top_laser/cloud/labeled3d
+    Marker Topic: /top_laser/cloud/labeled3d
     Name: top_lidar-LabeledData
     Namespaces: {}
     Queue Size: 10
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /atlascar2/top_right_camera/image_raw/c0/labeled2d
+    Image Topic: /top_right_camera/image_raw/c0/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -121,7 +121,7 @@ Visualization Manager:
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:

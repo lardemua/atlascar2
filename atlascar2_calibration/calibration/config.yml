@@ -37,7 +37,7 @@ bag_file: "$ROS_BAGS/atlascar2/gazebo_move.bag"
 
 # You must define a frame of reference for the optimization process.
 # It must exist in the transformation chains of all the sensors which are being calibrated.
-world_link: "base_link"
+world_link: "odom"
 
 # ATOM will calibrate the extrinsic parameters of your sensors.
 # In this section you should discriminate the sensors that will be part of the calibrations.
@@ -76,7 +76,7 @@ sensors:
     link: "top_left_camera_optical"
     parent_link: "base_link"
     child_link: "top_left_camera"
-    topic_name: "/atlascar2/top_left_camera/image_raw"
+    topic_name: "/top_left_camera/image_raw"
     throttle: 10
     modality: rgb
 
@@ -84,7 +84,7 @@ sensors:
     link: "top_right_camera_optical"
     parent_link: "base_link"
     child_link: "top_right_camera"
-    topic_name: "/atlascar2/top_right_camera/image_raw"
+    topic_name: "/top_right_camera/image_raw"
     throttle: 10
     modality: rgb
 
@@ -92,7 +92,7 @@ sensors:
     link: "top_laser"
     parent_link: "base_link"
     child_link: "top_laser_base_link"
-    topic_name: "/atlascar2/top_laser/cloud"
+    topic_name: "/top_laser/cloud"
     modality: "lidar3d"
 
 # The calibration requires a detectable pattern.
@@ -105,11 +105,11 @@ calibration_pattern:
   # The parent frame id (or link) of the pattern.
   # For example, in hand-eye calibration the parent link
   # of the pattern can be the end-effector or the base of the arm
-  parent_link: "base_link"
+  parent_link: "odom"
 
   # Defines if the pattern link is the same in all collections (i.e. fixed=true),
   # or each collection will have its own estimate of the link transformation.
-  fixed: false
+  fixed: true
 
   # The type of pattern used for the calibration.
   # Supported pattern are:

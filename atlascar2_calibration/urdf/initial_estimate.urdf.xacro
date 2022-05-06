@@ -20,7 +20,6 @@
     <xacro:property name="axel_offset_x" value="0.5" /> <!-- Space btw top of beam and the each joint -->
     <xacro:property name="axel_offset_y" value="0" /> <!-- Space btw top of beam and the each joint -->
     <xacro:property name="steer_offset" value="0.02" /> <!-- Link 1 -->
-    <xacro:property name="vehicle_name" value="atlascar2"/> <!-- Name of vehicle-->
 
     <!-- Add car macro -->
     <xacro:atlascar2 length="${length}" width="${width}" height="${height}" wheel_radius="${wheel_radius}"/>

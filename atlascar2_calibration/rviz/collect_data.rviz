@@ -50,7 +50,7 @@ Visualization Manager:
       Z: 0
     Plane: XY
     Plane Cell Count: 10
-    Reference Frame: base_link
+    Reference Frame: odom
     Value: true
   - Class: rviz/TF
     Enabled: true
@@ -86,7 +86,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /atlascar2/top_left_camera/image_raw/labeled
+    Image Topic: /top_left_camera/image_raw/labeled
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -99,7 +99,7 @@ Visualization Manager:
   - Class: rviz/Camera
     Enabled: true
     Image Rendering: background and overlay
-    Image Topic: /atlascar2/top_left_camera/image_raw
+    Image Topic: /top_left_camera/image_raw
     Name: top_left_camera-Camera
     Overlay Alpha: 0.5
     Queue Size: 2
@@ -134,7 +134,7 @@ Visualization Manager:
     Size (Pixels): 3
     Size (m): 0.02
     Style: Spheres
-    Topic: /atlascar2/top_laser/cloud
+    Topic: /top_laser/cloud
     Unreliable: false
     Use Fixed Frame: true
     Use rainbow: true
@@ -164,7 +164,7 @@ Visualization Manager:
     Size (Pixels): 3
     Size (m): 0.2
     Style: Spheres
-    Topic: /atlascar2/top_laser/cloud/labeled
+    Topic: /top_laser/cloud/labeled
     Unreliable: false
     Use Fixed Frame: true
     Use rainbow: true
@@ -180,7 +180,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /atlascar2/top_right_camera/image_raw/labeled
+    Image Topic: /top_right_camera/image_raw/labeled
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -193,7 +193,7 @@ Visualization Manager:
   - Class: rviz/Camera
     Enabled: true
     Image Rendering: background and overlay
-    Image Topic: /atlascar2/top_right_camera/image_raw
+    Image Topic: /top_right_camera/image_raw
     Name: top_right_camera-Camera
     Overlay Alpha: 0.5
     Queue Size: 2
@@ -207,7 +207,7 @@ Visualization Manager:
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:

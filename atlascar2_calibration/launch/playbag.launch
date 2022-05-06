@@ -47,13 +47,13 @@
     
     
     <node pkg="topic_tools" type="throttle" name="throttler_top_left_camera"
-          args="messages /atlascar2/top_left_camera/image_raw/compressed_to_throttle 10 /atlascar2/top_left_camera/image_raw/compressed"/>
+          args="messages /top_left_camera/image_raw/compressed_to_throttle 10 /top_left_camera/image_raw/compressed"/>
     
     
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     
     <node pkg="topic_tools" type="throttle" name="throttler_top_right_camera"
-          args="messages /atlascar2/top_right_camera/image_raw/compressed_to_throttle 10 /atlascar2/top_right_camera/image_raw/compressed"/>
+          args="messages /top_right_camera/image_raw/compressed_to_throttle 10 /top_right_camera/image_raw/compressed"/>
     
     
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
@@ -78,11 +78,11 @@
 
     <group if="$(arg use_tfs)"> <!--Play bag file using tfs, ignore joint states -->
         <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /joint_states:=/joint_states_null /atlascar2/top_left_camera/image_raw/compressed:=/atlascar2/top_left_camera/image_raw/compressed_to_throttle /atlascar2/top_right_camera/image_raw/compressed:=/atlascar2/top_right_camera/image_raw/compressed_to_throttle"/>
+              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /joint_states:=/joint_states_null /top_left_camera/image_raw/compressed:=/top_left_camera/image_raw/compressed_to_throttle /top_right_camera/image_raw/compressed:=/top_right_camera/image_raw/compressed_to_throttle"/>
     </group>
     <group unless="$(arg use_tfs)"> <!--Play bag file ignoring tfs-->
         <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null /atlascar2/top_left_camera/image_raw/compressed:=/atlascar2/top_left_camera/image_raw/compressed_to_throttle /atlascar2/top_right_camera/image_raw/compressed:=/atlascar2/top_right_camera/image_raw/compressed_to_throttle"/>
+              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null /top_left_camera/image_raw/compressed:=/top_left_camera/image_raw/compressed_to_throttle /top_right_camera/image_raw/compressed:=/top_right_camera/image_raw/compressed_to_throttle"/>
     </group>
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
@@ -90,9 +90,9 @@
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     <!-- Image Topic Decompression -->
     <node pkg="image_transport" type="republish" name="decompressor_top_left_camera" output="screen"
-          args="compressed in:=/atlascar2/top_left_camera/image_raw raw out:=/atlascar2/top_left_camera/image_raw"/>
+          args="compressed in:=/top_left_camera/image_raw raw out:=/top_left_camera/image_raw"/>
     <node pkg="image_transport" type="republish" name="decompressor_top_right_camera" output="screen"
-          args="compressed in:=/atlascar2/top_right_camera/image_raw raw out:=/atlascar2/top_right_camera/image_raw"/>
+          args="compressed in:=/top_right_camera/image_raw raw out:=/top_right_camera/image_raw"/>
     
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     

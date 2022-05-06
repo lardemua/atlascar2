@@ -50,7 +50,7 @@ Visualization Manager:
       Z: 0
     Plane: XY
     Plane Cell Count: 10
-    Reference Frame: base_link
+    Reference Frame: odom
     Value: true
   - Class: rviz/TF
     Enabled: true
@@ -74,7 +74,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /atlascar2/top_left_camera/image_raw/labeled2d
+    Image Topic: /top_left_camera/image_raw/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -109,14 +109,14 @@ Visualization Manager:
     Size (Pixels): 3
     Size (m): 0.02
     Style: Spheres
-    Topic: /atlascar2/top_laser/cloud/labeled3d
+    Topic: /top_laser/cloud/labeled3d
     Unreliable: false
     Use Fixed Frame: true
     Use rainbow: true
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /atlascar2/top_right_camera/image_raw/labeled2d
+    Image Topic: /top_right_camera/image_raw/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -130,7 +130,7 @@ Visualization Manager:
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
