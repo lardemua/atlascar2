@@ -89,7 +89,7 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 <a name="configuring-sensors"></a>
-## 2: Cofiguring the sensors
+## 2: Cofiguring the IP addresses
 
 **Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.**
 
