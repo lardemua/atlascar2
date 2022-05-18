@@ -6,7 +6,7 @@
 - [Description of the Atlascar2](#description)
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#turning-on) 
-  * [2: Configuring the sensors](#configuring-sensors) 
+  * [2: Configuring the IP addresses](#configuring-sensors) 
   * [3: Working in the Atlascar2](#working-atlascar2)
 
 - [Testing the sensors](#testing-the-sensors)
