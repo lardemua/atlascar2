@@ -1,6 +1,6 @@
 #include <SPI.h>
 
-#define encoder0PinA  3
+#define encoder0PinA  5
 #define encoder0PinB  4
 #define PI 3.1415926535897932384626433832795
 #define CAN_2515
@@ -29,7 +29,7 @@ int maxPPR = 1000;
 // radius of the wheel
 float wheel_radius = 0.285;
 // gear ratio from the motor
-float gear_ratio = 7.065;
+float gear_ratio = 1;
 long frequency;
 long RPM;
 signed long veh_speed;
@@ -39,7 +39,7 @@ void setup() { //Setup runs once//
   
   pinMode(encoder0PinA, INPUT);
   pinMode(encoder0PinB, INPUT);
-  attachInterrupt(3, doEncoder, RISING); //Interrupt trigger mode: RISING
+  attachInterrupt(5, doEncoder, RISING); //Interrupt trigger mode: RISING
   // eliminate the motor part when using the atlascar2
 
   SERIAL_PORT_MONITOR.begin(9600);
@@ -84,14 +84,14 @@ void loop() { //Loop runs forever//
      Serial.print(stmp[6],HEX);
      Serial.print(" ");
      Serial.println(stmp[7],HEX);
-//     CAN.sendMsgBuf(0x550, 0, 8,stmp);
-//     SERIAL_PORT_MONITOR.println("CAN BUS sendMsgBuf ok!");
+     CAN.sendMsgBuf(0x500, 0, 8,stmp);
+     SERIAL_PORT_MONITOR.println("CAN BUS sendMsgBuf ok!");
     } 
 }
 
 void doEncoder()
 {
-  if (digitalRead(encoder0PinA) == digitalRead(encoder0PinB)) {
+  if (digitalRead(encoder0PinA) != digitalRead(encoder0PinB)) {
     encoder0Pos++;
   } else {
     encoder0Pos--;
