@@ -12,7 +12,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 
 def odom_callback(data):
     global last_time, current_time, x, y, th, vx, vy, vth, wheelbase, covariance_twist, covariance_pose
-    global odom_pub, odom_broadcaster
+    global odom_pub, odom_broadcaster, twist_pub
     current_time = rospy.Time.now()
 
     # compute odometry in a typical way given the velocities of the robot
@@ -60,13 +60,20 @@ def odom_callback(data):
     odom_pub.publish(odomMsg)
     last_time = current_time
 
+    twistMsg = Twist()
+    twistMsg.linear.x = data.drive.speed
+    twistMsg.angular.z = data.drive.steering_angle
+
+    twist_pub.publish(twistMsg)
+
 
 def main():
     global last_time, current_time, x, y, th, vx, vy, vth, wheelbase, covariance_twist, covariance_pose
-    global odom_pub, odom_broadcaster
+    global odom_pub, odom_broadcaster, twist_pub
 
     rospy.init_node('odometry_publisher')
     odom_pub = rospy.Publisher("atlascar2/odom_2", Odometry, queue_size=10)
+    twist_pub = rospy.Publisher("/atlascar2/ackermann_steering_controller/cmd_vel", Twist, queue_size=10)
     odom_broadcaster = tf.TransformBroadcaster()
     wheelbase = rospy.get_param('~wheelbase', 2.55)
     current_time = rospy.Time.now()
@@ -79,9 +86,9 @@ def main():
                        0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                        1000.0]
 
-    # rospy.Subscriber('atlascar2/ackermann_msgs', AckermannDriveStamped, odom_callback,
-    #                  queue_size=10)
-    rospy.Subscriber('atlascar2/ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, odom_callback, queue_size=10)
+    rospy.Subscriber('atlascar2/ackermann_msgs', AckermannDriveStamped, odom_callback,
+                     queue_size=10)
+    # rospy.Subscriber('atlascar2/ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, odom_callback, queue_size=10)
     x = 0.0
     y = 0.0
     th = 0.0
