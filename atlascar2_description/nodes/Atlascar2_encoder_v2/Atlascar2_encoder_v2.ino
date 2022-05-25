@@ -1,7 +1,7 @@
 #include <SPI.h>
 
 #define encoder0PinA  5
-#define encoder0PinB  4
+#define encoder0PinB  3
 #define PI 3.1415926535897932384626433832795
 #define CAN_2515
 // #define CAN_2518FD
@@ -39,12 +39,15 @@ void setup() { //Setup runs once//
   
   pinMode(encoder0PinA, INPUT);
   pinMode(encoder0PinB, INPUT);
-  attachInterrupt(5, doEncoder, RISING); //Interrupt trigger mode: RISING
+  digitalWrite(encoder0PinA, HIGH);
+  digitalWrite(encoder0PinB, HIGH);
+  attachInterrupt(encoder0PinA, doEncoderA, CHANGE); //Interrupt trigger mode: RISING
+  attachInterrupt(encoder0PinB, doEncoderB, CHANGE); //Interrupt trigger mode: RISING
   // eliminate the motor part when using the atlascar2
 
-  SERIAL_PORT_MONITOR.begin(9600);
+  SERIAL_PORT_MONITOR.begin(115200);
   while(!Serial){};
-
+//
   while (CAN_OK != CAN.begin(CAN_500KBPS)) {             // init can bus : baudrate = 500k
       SERIAL_PORT_MONITOR.println("CAN init fail, retry...");
       delay(100);
@@ -89,9 +92,18 @@ void loop() { //Loop runs forever//
     } 
 }
 
-void doEncoder()
+void doEncoderA()
 {
   if (digitalRead(encoder0PinA) != digitalRead(encoder0PinB)) {
+    encoder0Pos++;
+  } else {
+    encoder0Pos--;
+  }
+}
+
+void doEncoderB()
+{
+  if (digitalRead(encoder0PinA) == digitalRead(encoder0PinB)) {
     encoder0Pos++;
   } else {
     encoder0Pos--;
