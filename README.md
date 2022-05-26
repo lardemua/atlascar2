@@ -324,13 +324,14 @@ In order to ease the remote work with this vehicle, a simulated environment was 
 This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller) that needs to be installed with the following command:
 
 ``` 
-sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs
+sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs ros-noetic-navigation ros-noetic-pointgrey-camera-description ros-noetic-sick-scan ros-noetic-velodyne-description 
 ```
 
 ![simulation.png](docs/simulation.png?raw=true "Simulation")
 
 The user also needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection) in order to run AtlasCar2 in Gazebo.
 
+The [ATOM repository](https://github.com/lardemua/atom) is also needed.
 
 Lastly, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
 
@@ -347,7 +348,7 @@ And to spawn the car and start the controller the user writes:
 ``` 
 roslaunch atlascar2_bringup ackermann_bringup.launch
 ```
-To control the car, publish a twist message to the `/atlascar2/ackermann_steering_controller/cmd_vel` topic.
+To control the car, publish a twist message to the `/ackermann_steering_controller/cmd_vel` topic.
 
 A video example of the simulation can be seen [here](https://www.youtube.com/watch?v=UWo4ndSZ1XU).
 
