@@ -12,7 +12,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 
 def odom_callback(data):
     global last_time, current_time, x, y, th, vx, vy, vth, wheelbase, covariance_twist, covariance_pose
-    global odom_pub, odom_broadcaster, twist_pub
+    global odom_pub, odom_broadcaster  # , twist_pub
     current_time = rospy.Time.now()
 
     # compute odometry in a typical way given the velocities of the robot
@@ -28,7 +28,7 @@ def odom_callback(data):
     # method 3 from  https://answers.ros.org/question/296112/odometry-message-for-ackerman-car/
     vx = data.drive.speed
     vy = 0.0
-    vth = data.drive.steering_angle
+    vth = data.drive.steering_angle_velocity
 
     odomMsg = Odometry()
     odomMsg.header.stamp = rospy.Time.now()
@@ -37,8 +37,8 @@ def odom_callback(data):
     odomMsg.twist.twist.angular.z = vth
     odomMsg.twist.covariance = covariance_twist
 
-    odomMsg.header.frame_id = 'atlascar2/odom_2'
-    odomMsg.child_frame_id = 'atlascar2/base_footprint_2'
+    odomMsg.header.frame_id = 'atlascar2/odom'
+    odomMsg.child_frame_id = 'atlascar2/base_footprint'
 
     # since all odometry is 6DOF we'll need a quaternion created from yaw
     odom_quat = tf.transformations.quaternion_from_euler(0, 0, th)
@@ -48,8 +48,8 @@ def odom_callback(data):
         (x, y, 0.),
         odom_quat,
         current_time,
-        "atlascar2/base_footprint_2",
-        "atlascar2/odom_2"
+        "atlascar2/base_footprint",
+        "atlascar2/odom"
     )
 
     # set the position
@@ -60,11 +60,11 @@ def odom_callback(data):
     odom_pub.publish(odomMsg)
     last_time = current_time
 
-    twistMsg = Twist()
-    twistMsg.linear.x = data.drive.speed
-    twistMsg.angular.z = data.drive.steering_angle
-
-    twist_pub.publish(twistMsg)
+    # twistMsg = Twist()
+    # twistMsg.linear.x = data.drive.speed
+    # twistMsg.angular.z = data.drive.steering_angle
+    #
+    # twist_pub.publish(twistMsg)
 
 
 def main():
@@ -72,8 +72,8 @@ def main():
     global odom_pub, odom_broadcaster, twist_pub
 
     rospy.init_node('odometry_publisher')
-    odom_pub = rospy.Publisher("atlascar2/odom_2", Odometry, queue_size=10)
-    twist_pub = rospy.Publisher("/atlascar2/ackermann_steering_controller/cmd_vel", Twist, queue_size=10)
+    odom_pub = rospy.Publisher("atlascar2/odom", Odometry, queue_size=10)
+    # twist_pub = rospy.Publisher("/ackermann_steering_controller/cmd_vel", Twist, queue_size=10)
     odom_broadcaster = tf.TransformBroadcaster()
     wheelbase = rospy.get_param('~wheelbase', 2.55)
     current_time = rospy.Time.now()

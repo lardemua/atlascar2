@@ -7,10 +7,10 @@ Shows how the receive messages via polling.
 import rospy
 import can
 from can.bus import BusState
-from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
+from ackermann_msgs.msg import AckermannDriveStamped
 import math
 
-twist_pub = rospy.Publisher("/ackermann_steering_controller/cmd_vel", Twist, queue_size=10)
+ack_pub = rospy.Publisher("atlascar2/ackermann_msgs", AckermannDriveStamped, queue_size=10)
 
 
 def receive_all():
@@ -20,7 +20,7 @@ def receive_all():
     old_steering_angle = 0
     steer_velocity = 0
     speed = 0
-    twistMsg = Twist()
+    ackMsg = AckermannDriveStamped()
     rate = rospy.Rate(100)
     newposition = 0
     oldposition = 0
@@ -47,16 +47,17 @@ def receive_all():
                     frequency = (newposition - oldposition) / (newtime_pos.to_sec() - oldtime_pos.to_sec())
                     rps = frequency / maxPPR
                     speed = (rps * math.pi * 0.285 * 2)
-                    twistMsg.header.stamp = rospy.Time.now()
-                    twistMsg.header.frame_id = "atlascar2/velocity"
-                    twistMsg.linear.x = speed
-                    twistMsg.angular.z = steer_velocity
+                    ackMsg.header.stamp = rospy.Time.now()
+                    ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
+                    ackMsg.drive.speed = speed
+                    ackMsg.drive.steering_angle_velocity = steer_velocity
+                    ackMsg.drive.steering_angle = steering_angle
                     # print(f"newposition: {newposition} , oldposition: {oldposition}")
-                    print(speed, steer_velocity)
+                    print(speed, steer_velocity, steering_angle)
                     oldposition = newposition
                     oldtime_pos = newtime_pos
                     # print(frequency)
-                    ack_pub.publish(twistMsg)
+                    ack_pub.publish(ackMsg)
                     # rate.sleep()
 
                 if msg.arbitration_id == 0x236:
@@ -70,12 +71,13 @@ def receive_all():
                         continue
                     steer_velocity = (steering_angle - old_steering_angle) / (newtime_ang.to_sec() - oldtime_ang.to_sec())
                     old_steering_angle = steering_angle
-                    twistMsg.header.stamp = rospy.Time.now()
-                    twistMsg.header.frame_id = "atlascar2/velocity"
-                    twistMsg.linear.x = speed
-                    twistMsg.angular.z = steer_velocity
-                    print(speed, steer_velocity)
-                    ack_pub.publish(twistMsg)
+                    ackMsg.header.stamp = rospy.Time.now()
+                    ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
+                    ackMsg.drive.speed = speed
+                    ackMsg.drive.steering_angle_velocity = steer_velocity
+                    ackMsg.drive.steering_angle = steering_angle
+                    print(speed, steer_velocity, steering_angle)
+                    ack_pub.publish(ackMsg)
             # rate.sleep()
 
 
