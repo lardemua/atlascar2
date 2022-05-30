@@ -10,7 +10,7 @@ from can.bus import BusState
 from ackermann_msgs.msg import AckermannDriveStamped
 import math
 
-ack_pub = rospy.Publisher("atlascar2/ackermann_msgs", AckermannDriveStamped, queue_size=10)
+ack_pub = rospy.Publisher('ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, queue_size=10)
 
 
 def receive_all():
@@ -42,7 +42,7 @@ def receive_all():
                     # speed is in km/h
                     newposition = int.from_bytes(msg.data, "big", signed=True)
                     newtime_pos = rospy.Time.now()
-                    if newtime_pos.to_sec() - oldtime_pos.to_sec() < 0.1:
+                    if newtime_pos.to_sec() - oldtime_pos.to_sec() < 1:
                         continue
                     frequency = (newposition - oldposition) / (newtime_pos.to_sec() - oldtime_pos.to_sec())
                     rps = frequency / maxPPR
@@ -67,7 +67,7 @@ def receive_all():
                     # angulo do volante e não o das rodas. steering ratio : 16.06
                     steering_angle = ((msg.data[0] * 256 + msg.data[1]) - 4096) / (2 * 16.06)
                     steering_angle = (math.pi * steering_angle) / 180
-                    if newtime_ang.to_sec() - oldtime_ang.to_sec() < 0.1:
+                    if newtime_ang.to_sec() - oldtime_ang.to_sec() < 1:
                         continue
                     steer_velocity = (steering_angle - old_steering_angle) / (newtime_ang.to_sec() - oldtime_ang.to_sec())
                     old_steering_angle = steering_angle

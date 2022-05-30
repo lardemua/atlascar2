@@ -86,9 +86,9 @@ def main():
                        0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                        1000.0]
 
-    rospy.Subscriber('atlascar2/ackermann_msgs', AckermannDriveStamped, odom_callback,
-                     queue_size=10)
-    # rospy.Subscriber('atlascar2/ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, odom_callback, queue_size=10)
+    # rospy.Subscriber('atlascar2/ackermann_msgs', AckermannDriveStamped, odom_callback,
+    #                  queue_size=10)
+    rospy.Subscriber('ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, odom_callback, queue_size=10)
     x = 0.0
     y = 0.0
     th = 0.0
