@@ -17,18 +17,14 @@ def receive_all():
     """Receives all messages and prints them to the console until Ctrl+C is pressed."""
     global ack_pub
     steering_angle = 0
-    old_steering_angle = 0
     steer_velocity = 0
     speed = 0
     ackMsg = AckermannDriveStamped()
-    rate = rospy.Rate(100)
-    newposition = 0
     oldposition = 0
     maxPPR = 1000
-    newtime_pos = rospy.Time.now()
+    wheelbase = rospy.get_param('~wheelbase', 2.55)
+    wheel_radius = 0.285
     oldtime_pos = rospy.Time.now()
-    newtime_ang = rospy.Time.now()
-    oldtime_ang = rospy.Time.now()
 
     with can.interface.Bus(bustype="socketcan", channel="can0", bitrate=500000) as bus:
         bus.set_filters([{"can_id": 0x500, "can_mask": 0x530}, {"can_id": 0x236, "can_mask": 0x237}])
@@ -46,7 +42,7 @@ def receive_all():
                         continue
                     frequency = (newposition - oldposition) / (newtime_pos.to_sec() - oldtime_pos.to_sec())
                     rps = frequency / maxPPR
-                    speed = (rps * math.pi * 0.285 * 2)
+                    speed = (rps * math.pi * wheel_radius * 2)
                     ackMsg.header.stamp = rospy.Time.now()
                     ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
                     ackMsg.drive.speed = speed
@@ -63,14 +59,10 @@ def receive_all():
                 if msg.arbitration_id == 0x236:
                     # to get the steering angle its the following formula:
                     # ((B0*256 + B1) -4096)/2
-                    # sendo B1 o byte 1 do identificador 0x412 e B0 0 byte 0 do identificador 0x236
                     # angulo do volante e não o das rodas. steering ratio : 16.06
                     steering_angle = ((msg.data[0] * 256 + msg.data[1]) - 4096) / (2 * 16.06)
                     steering_angle = (math.pi * steering_angle) / 180
-                    if newtime_ang.to_sec() - oldtime_ang.to_sec() < 1:
-                        continue
-                    steer_velocity = (steering_angle - old_steering_angle) / (newtime_ang.to_sec() - oldtime_ang.to_sec())
-                    old_steering_angle = steering_angle
+                    steer_velocity = math.tan(steering_angle)*(speed/wheelbase)
                     ackMsg.header.stamp = rospy.Time.now()
                     ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
                     ackMsg.drive.speed = speed
