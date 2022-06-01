@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Creating a world in GAZEBO -->
+
+<!--    &lt;!&ndash; Including another launch file &ndash;&gt;-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+<!--        &lt;!&ndash;        World from https://github.com/chaolmu/gazebo_models_worlds_collection&ndash;&gt;-->
+        <arg name="world_name" value="city_osm_roundabout_combined.world "/>
+
+
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+
+    </include>
+
+</launch>

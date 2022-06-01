@@ -1,6 +1,3 @@
-# Atlas Core
-Core packages for the LAR DEMUA Atlas Project
-
 # Table of Contents
 
 - [Atlas Core](#atlascar2)
@@ -9,7 +6,7 @@ Core packages for the LAR DEMUA Atlas Project
 - [Description of the Atlascar2](#description)
 - [SETUP Montage](#setup-montage)
   * [1: Turning ON everything you need](#turning-on) 
-  * [2: Configuring the sensors](#configuring-sensors) 
+  * [2: Configuring the IP addresses](#configuring-sensors) 
   * [3: Working in the Atlascar2](#working-atlascar2)
 
 - [Testing the sensors](#testing-the-sensors)
@@ -25,6 +22,17 @@ Core packages for the LAR DEMUA Atlas Project
 - [Compilation](#compilation)
 - [Known problems](#known-problems)
   * [Monitors not showing image](#urdf-model-not-showing-on-rviz-or-urdf-model-showed-up-misplaced)
+- [Simulating the Atlascar2](#simulation)
+  * [Installing](#installing)
+  * [Running](#running)
+
+# Atlas Core
+Core packages for the LAR DEMUA Atlas Project:
+* [LIDAR, Sick LMS151](http://wiki.ros.org/LMS1xx)
+* [LIDAR, Sick LD MRS](https://github.com/SICKAG/sick_ldmrs_laser)
+* [Camera, Point Grey Flea2](http://wiki.ros.org/pointgrey_camera_driver)
+* [Novatel GPS + IMU](https://github.com/swri-robotics/novatel_gps_driver)
+
 
 <a name="description"></a>
 # Description of the Atlascar2
@@ -61,10 +69,10 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
    </p>
 
    -  __Step 3__: Turn on the atlas computer.
-   -  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port).
+   -  __Step 4__: Plug the ethernet cable (the cable is outside the atlascar2) to the atlas computer (on the figure port enp5s0f1).
 
  <p align="center">
-  <img width="30%" height="30%" src="https://user-images.githubusercontent.com/92535336/146978585-162eab4a-6cc2-49c0-9330-20996d7a88f6.jpg">
+  <img width="25%" height="25%" src="https://user-images.githubusercontent.com/92535336/161252671-b540bd35-3695-4a42-a245-36b14e1c8c24.png">
 </p>
 
 * __Case 2__: When going for a ride:
@@ -81,7 +89,7 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 Now, atlascar2, atlas machine and all sensors are turned on and working!
 
 <a name="configuring-sensors"></a>
-## 2: Cofiguring the sensors
+## 2: Cofiguring the IP addresses
 
 **Note: This part is only necessary if the atlascar is not configured or to check the ethernet IP addresses of the ethernet ports for the sensors.**
 
@@ -93,8 +101,8 @@ In the table above, it can be seen that both of these sensors need different IP 
 
 ### Front bumper switch
 
-The ethernet port on the pc must have the following ip address and mask:
-`IP: 198.162.0.3   Mask: 255.255.255.0`
+The ethernet port on the pc (ens6f1) must have the following ip address and mask:
+`IP: 192.168.0.3   Mask: 255.255.255.0`
 
  <p align="center">
   <img width="20%" height="20%" src="https://user-images.githubusercontent.com/92535336/159135428-f1176a52-998a-473c-bcb1-07aa87445026.png">
@@ -102,7 +110,7 @@ The ethernet port on the pc must have the following ip address and mask:
 
 ### Roof switch
 
-The ethernet port on the pc must have the following ip address and mask:
+The ethernet port on the pc (ens6f0) must have the following ip address and mask:
 `IP: 169.254.0.3   Mask: 255.255.255.0`
 
  <p align="center">
@@ -306,4 +314,55 @@ __Step 4:__ Get into the atlas environment by running, on a new terminal (the '-
 Now you are inside the atlascar machine in your own computer! 
 
 You can work with Visual Studio or CLion, as they are already installed.
-    
+
+<a name="simulation"></a>
+# Simulating the Atlascar2
+
+<a name="Installing"></a>
+## Installing
+In order to ease the remote work with this vehicle, a simulated environment was developed.
+This environment uses an [ackermann controller](http://wiki.ros.org/ackermann_steering_controller) that needs to be installed with the following command:
+
+``` 
+sudo apt-get install ros-noetic-ros-controllers ros-noetic-ackermann-msgs ros-noetic-navigation ros-noetic-pointgrey-camera-description ros-noetic-sick-scan ros-noetic-velodyne-description 
+```
+
+![simulation.png](docs/simulation.png?raw=true "Simulation")
+
+The user also needs to download and configure the repository [gazebo_models_worlds_collection](https://github.com/chaolmu/gazebo_models_worlds_collection) in order to run AtlasCar2 in Gazebo.
+
+The [ATOM repository](https://github.com/lardemua/atom) is also needed.
+
+Lastly, the [steer_drive_ros](https://github.com/CIR-KIT/steer_drive_ros) (on the `melodic-devel` branch) needs to be downloaded in the user's ROS workspace.
+
+<a name="Running"></a>
+## Running
+Now, to start Gazebo the user writes:
+
+``` 
+roslaunch atlascar2_gazebo gazebo.launch
+```
+
+And to spawn the car and start the controller the user writes:
+
+``` 
+roslaunch atlascar2_bringup ackermann_bringup.launch
+```
+To control the car, publish a twist message to the `/ackermann_steering_controller/cmd_vel` topic.
+
+A video example of the simulation can be seen [here](https://www.youtube.com/watch?v=UWo4ndSZ1XU).
+
+## Calibration
+In order to calibrate atlascar2 in the simulated environment, the user needs to run a separate gazebo world:
+
+```
+roslaunch atlascar2_gazebo gazebo_calibration.launch
+```
+
+And a separate bringup:
+
+```
+roslaunch atlascar2_bringup ackermann_bringup.launch yaw:=-1.57 x_pos:=0 y_pos:=2 z_pos:=0 calibration:=true
+```
+
+After that, follow the [instructions on the ATOM package](https://github.com/lardemua/atom#system-calibration---detailed-description).

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Creating a world in GAZEBO -->
+
+<!--    &lt;!&ndash; Including another launch file &ndash;&gt;-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+<!--        &lt;!&ndash;        World from https://github.com/chaolmu/gazebo_models_worlds_collection&ndash;&gt;-->
+<!--        TODO replace this world for another world but you have to add the interative pattern in the .world file -->
+        <arg name="world_name" value="$(find atlascar2_gazebo)/worlds/larcc.world"/>
+
+
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+
+    </include>
+
+    <!-- Include charuco pattern -->
+    <node name="interactive_pattern" pkg="atlascar2_gazebo" type="interactive_pattern" output="screen"/>
+
+</launch>
