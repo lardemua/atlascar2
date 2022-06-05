@@ -24,15 +24,6 @@ volatile long newposition;
 volatile long oldposition = 0;
 long newtime;
 long oldtime = 0;
-// max PPR of this motor
-int maxPPR = 1000;
-// radius of the wheel
-float wheel_radius = 0.285;
-// gear ratio from the motor
-float gear_ratio = 1;
-long frequency;
-long RPM;
-signed long veh_speed;
 
 
 void setup() { //Setup runs once//
@@ -41,10 +32,11 @@ void setup() { //Setup runs once//
   pinMode(encoder0PinB, INPUT);
   digitalWrite(encoder0PinA, HIGH);
   digitalWrite(encoder0PinB, HIGH);
+  // checking the four pulses from the encoder
   attachInterrupt(encoder0PinA, doEncoderA, CHANGE); //Interrupt trigger mode: RISING
   attachInterrupt(encoder0PinB, doEncoderB, CHANGE); //Interrupt trigger mode: RISING
-  // eliminate the motor part when using the atlascar2
 
+// connection to the CAN bus
   SERIAL_PORT_MONITOR.begin(115200);
   while(!Serial){};
 //
@@ -58,18 +50,17 @@ void setup() { //Setup runs once//
 
 byte signed stmp[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 void loop() { //Loop runs forever//
-   // I will only know if this is right after checking with the wheel encoder
+
    newposition = encoder0Pos;
    newtime = millis();
    if (newtime - oldtime >= 10) {
-     // pulses per second
-     
+     // encoder ticks
      SERIAL_PORT_MONITOR.print ("position = ");
      SERIAL_PORT_MONITOR.println (newposition);
      oldposition = newposition;
      oldtime = newtime;
 
-     // Send velocity to the CAN Bus 
+     // Encoder ticks to bytes 
      stmp[0] = (newposition >> 56);
      stmp[1] = (newposition >> 48);
      stmp[2] = (newposition >> 40);
@@ -78,6 +69,8 @@ void loop() { //Loop runs forever//
      stmp[5] = (newposition >> 16);
      stmp[6] = (newposition >> 8);
      stmp[7] = newposition;
+     
+     // prints values 
      long newLong = (stmp[4] << 24) | (stmp[5] << 16) | (stmp[6] << 8) | (stmp[7]);
      Serial.println(newLong);
      Serial.print(stmp[4],HEX);
@@ -87,6 +80,7 @@ void loop() { //Loop runs forever//
      Serial.print(stmp[6],HEX);
      Serial.print(" ");
      Serial.println(stmp[7],HEX);
+     // sends value to the CAN bus
      CAN.sendMsgBuf(0x500, 0, 8,stmp);
      SERIAL_PORT_MONITOR.println("CAN BUS sendMsgBuf ok!");
     } 
