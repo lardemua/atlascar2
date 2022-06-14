@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <launch>
 <!-- args to specify what sensor to launch -->
-    <arg name="2DLidar_left_bringup" default="true"/>
-    <arg name="2DLidar_right_bringup" default="true"/>
-    <arg name="3DLidar_bringup" default="true"/>
+    <arg name="lidar2d_left_bringup" default="true"/>
+    <arg name="lidar2d_right_bringup" default="true"/>
+    <arg name="lidar3d_bringup" default="true" />
     <arg name="top_camera_right_bringup" default="true"/>
     <arg name="top_camera_left_bringup" default="true"/>
     <arg name="front_camera_bringup" default="false"/>
@@ -11,21 +11,21 @@
     <arg name="novatel_bringup" default="false"/>
 
 <!--    left 2D laser -->
-   <group if="$(arg 2DLidar_left_bringup)">
+   <group if="$(arg lidar2d_left_bringup)">
         <include file="$(find atlascar2_bringup)/launch/include/laser2d_bringup.launch">
             <arg name="name" value="left" />
         </include>
    </group>
 
 <!--    right 2D laser -->
-   <group if="$(arg 2DLidar_right_bringup)">
+   <group if="$(arg lidar2d_right_bringup)">
         <include file="$(find atlascar2_bringup)/launch/include/laser2d_bringup.launch">
             <arg name="name" value="right" />
         </include>
    </group>
 
 <!--    front 3D laser-->
-   <group if="$(arg 3DLidar_bringup)">
+   <group if="$(arg lidar3d_bringup)">
         <group ns="frontal_laser">
             <include file="$(find atlascar2_bringup)/launch/include/sick_ldmrs_node.launch">
             </include>
