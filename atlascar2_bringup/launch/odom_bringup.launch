@@ -1,38 +1,35 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="visualize" default="true" />
-    <arg name="2DLidar_left_bringup" default="true"/>
-    <arg name="2DLidar_right_bringup" default="true"/>
-    <arg name="3DLidar_bringup" default="true"/>
-    <arg name="top_camera_right_bringup" default="true"/>
+    <arg name="lidar2d_left_bringup" default="true"/>
+    <arg name="lidar2d_right_bringup" default="true"/>
+    <arg name="lidar3d_bringup" default="true"/>
+    <arg name="top_camera_right_bringup" default="false"/>
     <arg name="top_camera_left_bringup" default="true"/>
     <arg name="front_camera_bringup" default="false"/>
     <arg name="RGBD_camera_bringup" default="false"/>
     <arg name="novatel_bringup" default="false"/>
     <arg name="vehicle_name" default="atlascar2"/>
 
-    <group ns="$(arg vehicle_name)">
-        <param name="tf_prefix" value="$(arg vehicle_name)"/>
 
-        <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
-            <arg name="2DLidar_left_bringup" value="$(arg 2DLidar_left_bringup)"/>
-            <arg name="2DLidar_right_bringup" value="$(arg 2DLidar_right_bringup)"/>
-            <arg name="3DLidar_bringup" value="$(arg 2DLidar_left_bringup)"/>
-            <arg name="top_camera_right_bringup" value="$(arg top_camera_right_bringup)"/>
-            <arg name="top_camera_left_bringup" value="$(arg top_camera_left_bringup)"/>
-            <arg name="front_camera_bringup" value="$(arg front_camera_bringup)"/>
-            <arg name="RGBD_camera_bringup" value="$(arg RGBD_camera_bringup)"/>
-            <arg name="novatel_bringup" value="$(arg novatel_bringup)"/>
-        </include>
+    <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
+        <arg name="lidar2d_left_bringup" value="$(arg lidar2d_left_bringup)"/>
+        <arg name="lidar2d_right_bringup" value="$(arg lidar2d_right_bringup)"/>
+        <arg name="lidar3d_bringup" value="$(arg lidar3d_bringup)"/>
+        <arg name="top_camera_right_bringup" value="$(arg top_camera_right_bringup)"/>
+        <arg name="top_camera_left_bringup" value="$(arg top_camera_left_bringup)"/>
+        <arg name="front_camera_bringup" value="$(arg front_camera_bringup)"/>
+        <arg name="RGBD_camera_bringup" value="$(arg RGBD_camera_bringup)"/>
+        <arg name="novatel_bringup" value="$(arg novatel_bringup)"/>
+    </include>
 
-        <include file="$(find atlascar2_bringup)/launch/model.launch" />
+    <include file="$(find atlascar2_bringup)/launch/model.launch" />
 
-        <node name="atlascar2_description" pkg="CANmsgs_to_ackermann_v2.py" type="CANmsgs_to_ackermann_v2.py" output="screen"/>
-        <node name="atlascar2_description" pkg="ackermann_to_odom.py" type="ackermann_to_odom.py" output="screen"/>
+    <node name="atlascar2_description" pkg="CANmsgs_to_ackermann_v2.py" type="CANmsgs_to_ackermann_v2.py" output="screen"/>
+    <node name="atlascar2_description" pkg="ackermann_to_odom.py" type="ackermann_to_odom.py" output="screen"/>
 
-        <group if="$(arg visualize)">
-            <include file="$(find atlascar2_bringup)/launch/visualize.launch"/>
-        </group>
+    <group if="$(arg visualize)">
+        <include file="$(find atlascar2_bringup)/launch/visualize.launch"/>
     </group>
 
 </launch>
