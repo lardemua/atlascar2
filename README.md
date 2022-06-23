@@ -173,9 +173,9 @@ Launch the file:
 Which has the following arguments:
 
 * visualize -> see rviz or not
-* 2DLidar_left_bringup -> launch the left 2D lidar
-* 2DLidar_right_bringup -> launch the right 2D lidar
-* 3DLidar_bringup -> launch the 3D lidar
+* lidar2d_left_bringup -> launch the left 2D lidar
+* lidar2d_right_bringup -> launch the right 2D lidar
+* lidar3d_bringup -> launch the 3D lidar
 * top_camera_right_bringup -> launch the right top camera
 * top_camera_left_bringup -> launch the left top camera
 * front_camera_bringup -> launch the front camera
