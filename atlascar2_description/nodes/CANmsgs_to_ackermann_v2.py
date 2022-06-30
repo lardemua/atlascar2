@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 import can
@@ -6,7 +6,7 @@ from can.bus import BusState
 from ackermann_msgs.msg import AckermannDriveStamped
 import math
 
-ack_pub = rospy.Publisher('ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, queue_size=10)
+ack_pub = rospy.Publisher('ackermann_steering_controller/ackermann_drive_bad', AckermannDriveStamped, queue_size=10)
 
 
 def receive_all():
@@ -38,7 +38,7 @@ def receive_all():
                         continue
                     # calculates the speed in m/s
                     frequency = (newposition - oldposition) / (newtime_pos.to_sec() - oldtime_pos.to_sec())
-                    rps = frequency / maxPPR
+                    rps = frequency / (4 * maxPPR)
                     speed = (rps * math.pi * wheel_radius * 2)
                     ackMsg.header.stamp = rospy.Time.now()
                     ackMsg.header.frame_id = "atlascar2/ackermann_msgs"
@@ -69,7 +69,7 @@ def receive_all():
 
 
 def main():
-    rospy.init_node('ackermann_publisher')
+    rospy.init_node('ackermann_publisher_bad')
     receive_all()
     rospy.spin()
 
