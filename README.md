@@ -169,7 +169,7 @@ Then, open rviz.
 Launch the file:
 
     roslaunch atlascar2_bringup bringup.launch
-    
+
 Which has the following arguments:
 
 * visualize -> see rviz or not
@@ -183,6 +183,12 @@ Which has the following arguments:
 * novatel_bringup -> launch the GPS
 
 Note: The front and RGBD camera aren't in the car right now, so these arguments should be false
+
+And to initialize the can bus, use this command:
+
+```
+roslaunch atlascar2_bringup can_bringup.launch
+```
 
 # Known problems
 ## Monitors of the car not showing image
