@@ -181,10 +181,11 @@ Which has the following arguments:
 * front_camera_bringup -> launch the front camera
 * RGBD_camera_bringup -> launch the RGBD camera
 * novatel_bringup -> launch the GPS
+* odom_bringup -> launch the odometry node
 
 Note: The front and RGBD camera aren't in the car right now, so these arguments should be false
 
-And to initialize the can bus, use this command:
+Before launching the odometry node, it is necessary to initialize the can bus. Use this command:
 
 ```
 roslaunch atlascar2_bringup can_bringup.launch

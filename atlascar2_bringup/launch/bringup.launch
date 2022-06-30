@@ -9,7 +9,7 @@
     <arg name="front_camera_bringup" default="false"/>
     <arg name="RGBD_camera_bringup" default="false"/>
     <arg name="novatel_bringup" default="false"/>
-    <arg name="vehicle_name" default="atlascar2"/>
+    <arg name="odom_bringup" default="false"/>
 
 
     <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
@@ -24,6 +24,14 @@
     </include>
 
     <include file="$(find atlascar2_bringup)/launch/model.launch" />
+
+    <group if="$(arg odom_bringup)">
+        <!--Can configuration-->
+        <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node"/>
+
+        <node pkg="atlascar2_description" type="can_ros_msgs_to_ackermann.py" name="can_ros_msgs_to_ackermann" output="screen"/>
+        <node pkg="atlascar2_description" type="ackermann_to_odom.py" name="ackermann_to_odom" output="screen"/>
+    </group>
 
     <group if="$(arg visualize)">
         <include file="$(find atlascar2_bringup)/launch/visualize.launch"/>
