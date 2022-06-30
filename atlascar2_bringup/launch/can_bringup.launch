@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="atlascar2_bringup" type="can_setup.sh" name="can_setup"/>
+</launch>

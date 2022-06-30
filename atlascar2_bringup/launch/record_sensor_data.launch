@@ -28,6 +28,7 @@
             /top_center_rgbd_camera/rgb/camera_info
             /top_center_rgbd_camera/depth/image/compressedDepth
             /top_center_rgbd_camera/depth/camera_info
+            /received_messages
             -o /tmp/bag_file.bag">
         </node>
 
