@@ -14,7 +14,7 @@
     <arg name="yaw" default="0.0"/>
 
     <group if="$(arg calibration)">
-        <node name="model_states_to_tf" pkg="atlascar2_description" type="model_states_to_odomtf.py"/>
+        <node name="model_states_to_tf" pkg="atlascar2_odom" type="model_states_to_odomtf.py"/>
 
         <node name="controller_spawner" pkg="controller_manager" type="spawner"
             args="$(find atlascar2_description)/config/atlascar2_steering_params.yaml">

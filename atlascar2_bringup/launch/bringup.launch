@@ -25,12 +25,14 @@
 
     <include file="$(find atlascar2_bringup)/launch/model.launch" />
 
-    <group if="$(arg odom_bringup)">
-        <!--Can configuration-->
-        <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node"/>
+    <!--Can configuration-->
+    <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node">
+        <remap from="/received_messages" to="/can_messages"/> 
+    </node>
 
-        <node pkg="atlascar2_description" type="can_ros_msgs_to_ackermann.py" name="can_ros_msgs_to_ackermann" output="screen"/>
-        <node pkg="atlascar2_description" type="ackermann_to_odom.py" name="ackermann_to_odom" output="screen"/>
+    <group if="$(arg odom_bringup)">
+        <node pkg="atlascar2_odom" type="can_ros_msgs_to_ackermann.py" name="can_ros_msgs_to_ackermann" output="screen"/>
+        <node pkg="atlascar2_odom" type="ackermann_to_odom.py" name="ackermann_to_odom" output="screen"/>
     </group>
 
     <group if="$(arg visualize)">
