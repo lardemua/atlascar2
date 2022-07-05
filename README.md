@@ -62,10 +62,14 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 * __Step 1__: Turn on the car.
 
 * __Case 1__: When the car is stopped:
-  - __Step 2__: Connect the atlas machine to an outlet near the car.
+  - __Step 2__: Connect the atlas machine to an outlet near the car **OR** connect the UPS to an outlet (for cases where the PC is already connected to the UPS).
 
    <p align="center">
      <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978669-fa6c1f84-eb44-4678-9a43-30730298b5a7.png">
+   </p>
+   
+   <p align="center">
+     <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/UPS_outlet.png">
    </p>
 
    -  __Step 3__: Turn on the atlas computer.
@@ -76,13 +80,18 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
 </p>
 
 * __Case 2__: When going for a ride:
-   - __Step 2__: Connect the atlas machine to the UPS.
+   - __Step 2__: Connect the atlas machine to the UPS or using the UPS extension.
 
    <p align="center">
      <img width="40%" height="40%" src="https://user-images.githubusercontent.com/92535336/146978719-a64f6bfe-4e12-4d9f-a1d8-5589bfa9d279.png ">
    </p>
 
-   - __Step 3__: Turn on the atlas computer and the UPS.
+   - __Step 3__: Turn on the UPS to the power inverter and turn on both.
+   
+   <p align="center">
+     <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/UPS_inverter.png">
+   </p>
+
    - __Step 4__: This step isn’t needed in this case because the ethernet cable is only used to experiment on the car.
 * __Step 5__: Turn on the sensors' circuit switch.
 
