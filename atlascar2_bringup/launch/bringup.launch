@@ -31,8 +31,7 @@
     </node>
 
     <group if="$(arg odom_bringup)">
-        <node pkg="atlascar2_odom" type="can_ros_msgs_to_ackermann.py" name="can_ros_msgs_to_ackermann" output="screen"/>
-        <node pkg="atlascar2_odom" type="ackermann_to_odom.py" name="ackermann_to_odom" output="screen"/>
+        <include file="$(find atlascar2_odom)/launch/odom_bringup.launch"/>
     </group>
 
     <group if="$(arg visualize)">

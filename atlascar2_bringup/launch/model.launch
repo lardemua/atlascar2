@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="robot_description" default="robot_description"/>
-    <param name="$(arg robot_description)" command="$(find xacro)/xacro '$(find atlascar2_description)/urdf/atlascar2.urdf.xacro'" />
+    <param name="$(arg robot_description)" command="$(find xacro)/xacro '$(find atlascar2_description)/urdf/atlascar2_ackermann_VLP.urdf.xacro'" />
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"></node>
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
 </launch>

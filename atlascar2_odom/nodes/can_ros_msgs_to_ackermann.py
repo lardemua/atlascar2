@@ -7,7 +7,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 import math
 
 
-def can_msgs_callback(msg, can_msgs):
+def canMsgsCallback(msg, can_msgs):
     if msg.id == 566:
         can_msgs['previous_angle'] = can_msgs['angle']
         can_msgs['angle'] = msg.data
@@ -17,24 +17,24 @@ def can_msgs_callback(msg, can_msgs):
         can_msgs['pulse_time'] = rospy.Time.now()
         can_msgs['new_pulse'] = True
 
-def receive_all(ack_pub):
+def processCANMessages(ack_pub):
     """Receives the steering angle and encoder tick messages"""
     steering_angle = 0
     steer_velocity = 0
     speed = 0
     ackMsg = AckermannDriveStamped()
     maxPPR = 1000
-    wheelbase = rospy.get_param('~wheelbase', 2.55)
+    wheelbase = rospy.get_param('~wheelbase', 2.55/1.115)
     wheel_radius = 0.285
     can_msgs = {'previous_angle': None, 'previous_angle_time': rospy.Time.now(), 'angle': None, 'angle_time': rospy.Time.now(), 'new_angle': False, 
      'previous_pulse': None, 'previous_pulse_time': rospy.Time.now(), 'pulse': None, 'pulse_time': rospy.Time.now(), 'new_pulse': False}
-    can_msgs_callback_partial = partial(can_msgs_callback, can_msgs=can_msgs)
-    rospy.Subscriber('/received_messages', Frame, can_msgs_callback_partial)
+    can_msgs_callback_partial = partial(canMsgsCallback, can_msgs=can_msgs)
+    rospy.Subscriber('/can_messages', Frame, can_msgs_callback_partial)
 
     while not rospy.is_shutdown():
         # print(can_msgs)
         if can_msgs['new_pulse']:
-            if can_msgs['pulse_time'].to_sec() - can_msgs['previous_pulse_time'].to_sec() < 1:
+            if can_msgs['pulse_time'].to_sec() - can_msgs['previous_pulse_time'].to_sec() < 0.01:
                 continue
             # calculates the speed in m/s
             if can_msgs['previous_pulse'] != None:
@@ -74,8 +74,7 @@ def receive_all(ack_pub):
 def main():
     rospy.init_node('ackermann_publisher')
     ack_pub = rospy.Publisher('ackermann_steering_controller/ackermann_drive', AckermannDriveStamped, queue_size=10)
-    receive_all(ack_pub)
-    # rospy.spin()
+    processCANMessages(ack_pub)
 
 
 if __name__ == '__main__':

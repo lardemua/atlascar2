@@ -70,8 +70,6 @@ def ICPTransformations(source_point_cloud, target_point_cloud, threshold, T_init
         o3d.pipelines.registration.TransformationEstimationPointToPoint(),
         o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=200000))
     print(reg_p2p)
-    print("Transformation is:")
-    print(reg_p2p.transformation)
 
     if show_images:
         drawRegistrationResults(source_point_cloud, target_point_cloud, reg_p2p.transformation, T_init)
@@ -103,6 +101,7 @@ def main():
                     required=True)
     ap.add_argument("-s", "--sensor", help="Sensor used.", type=str, required=True)
     ap.add_argument("-si", "--show_images", help="If true the script shows images.", action='store_true', default=False)
+    ap.add_argument("-2d", "--2_dimensions", help="If true the script assumes only variation in 2D, that is, in x, y and yaw.", action='store_true', default=False)
 
     # Save args
     args = vars(ap.parse_args())
@@ -114,7 +113,7 @@ def main():
     dataset = json.load(f)
 
     # Define variables
-    threshold = 0.1
+    threshold = 0.2
     od = OrderedDict(sorted(dataset['collections'].items(), key=lambda t: int(t[0])))
     pointclouds = {}
     transforms = {}
@@ -143,20 +142,19 @@ def main():
             print('The sensor ' + args['sensor'] +  ' does not have a pointcloud to retrieve, so ICP would not work.\nShutting down...')
             exit(0)
 
-    print('Source collection is ' + list(od.keys())[0])    
-
-    od = {'001': None, '002': None, '003': None}
+    print('\nSource collection is ' + list(od.keys())[0])    
 
     # Defining source points
     source_point_cloud = pointclouds[list(od.keys())[0]]
     while True:
-            source_picked_points = pickPoints(source_point_cloud)
-            # Conditions of alignment
-            if not (len(source_picked_points) >= 3):
-                print('\nYou have chosen less than 3 points in the pointcloud, please redo it.')
-                continue            
-            else:
-                break    
+        source_picked_points = pickPoints(source_point_cloud)
+        # Conditions of alignment
+        if not (len(source_picked_points) >= 3):
+            print('\nYou have chosen less than 3 points in the pointcloud, please redo it.')
+            continue            
+        else:
+            break    
+
 
     for collection_key, collection in od.items():
         target_point_cloud = pointclouds[collection_key]
@@ -185,12 +183,26 @@ def main():
         p2p = o3d.pipelines.registration.TransformationEstimationPointToPoint()
         T_target_to_source = p2p.compute_transformation(source_point_cloud, target_point_cloud,
                                                 o3d.utility.Vector2iVector(corr))
-        
+
+
+        if args['2_dimensions']:
+            T_target_to_source[2, 0:3] = np.array([0, 0, 1]) 
+            T_target_to_source[0:3, 2] = np.array([0, 0, 1]) 
+            T_target_to_source[2, 3] = 0 
+            
+
         # Aligning using ICP
         print('T_target_to_source = \n' + str(T_target_to_source))
         reg_p2p = ICPTransformations(source_point_cloud, target_point_cloud, threshold, T_target_to_source, show_images)
-        transforms[collection_key] = reg_p2p.transformation
-        print(reg_p2p.transformation)
+        transform = np.linalg.inv(reg_p2p.transformation)
+        if args['2_dimensions']:
+            transform[2, 0:3] = np.array([0, 0, 1]) 
+            transform[0:3, 2] = np.array([0, 0, 1]) 
+            transform[2, 3] = 0 
+        print("Transformation is:")
+        print(transform)
+        transforms[collection_key] = transform
+         
 
     # Saving the dataset
     print(Fore.YELLOW + '\nSaving odometry transformations'  + Style.RESET_ALL)

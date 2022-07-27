@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- If running using a bag file, the /use_sim_time param needs to be true-->
+    <arg name="remote_running" default="false"/>
+    <param name="/use_sim_time" value="$(arg remote_running)"/>
+
+    <node pkg="atlascar2_odom" type="can_ros_msgs_to_ackermann.py" name="can_ros_msgs_to_ackermann" output="screen"/>
+    <node pkg="atlascar2_odom" type="ackermann_to_odom.py" name="ackermann_to_odom" output="screen"/>
+</launch>
