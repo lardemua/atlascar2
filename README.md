@@ -92,7 +92,33 @@ gps | Novatel GPS + IMU | --- |  --- | --- | Mounted on the rooftop, to the back
      <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/UPS_inverter.png">
    </p>
 
-   - __Step 4__: This step isn’t needed in this case because the ethernet cable is only used to experiment on the car.
+   - __Step 4__: To use the encoder, follow the next steps:
+      - __Step 4.1__: Connect the encoder power plug to the electrical panel. The plug is seen below.
+      <p align="center">
+        <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/encoder_plug.jpeg">
+      </p>
+
+      - __Step 4.2__: Connect the arduino/step up plug to the electrical panel. The plug is seen below.
+      <p align="center">
+        <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/power_stepup.jpeg">
+      </p>
+
+      - __Step 4.3__: Connect the arduino purple and white wires to the encoder brown and white connectors, respectively, as seen in step 4.1. The arduino wires are seen below.
+      <p align="center">
+        <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/wires_arduino.jpeg">
+      </p>
+
+      - __Step 4.4__: Connect a VGA cable to the CAN cable located below the front passenger seat, as seen bellow:
+      <p align="center">
+        <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/can_plug.jpeg">
+      </p>
+
+      - __Step 4.5__: Connect the same VGA cable to the CAN plug of the arduino, as seen bellow:
+      <p align="center">
+        <img width="40%" height="40%" src="https://github.com/lardemua/atlascar2/blob/master/docs/can_arduino.jpeg">
+      </p>
+
+
 * __Step 5__: Turn on the sensors' circuit switch.
 
 Now, atlascar2, atlas machine and all sensors are turned on and working!
@@ -292,7 +318,7 @@ New way to read and display the bag files
 
 
 # Using ssh connection (to work on your own machine)
-(IS THIS REALLY USEFULL??)
+<!-- (IS THIS REALLY USEFULL??) -->
 
 If you want to work on your own machine, use the router SMC to create a ssh connection to the 
     atlas computer.
