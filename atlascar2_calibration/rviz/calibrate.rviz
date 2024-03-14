@@ -88,7 +88,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /top_left_camera/image_raw/c0/labeled2d
+    Image Topic: /top_left_camera/image_raw/c000/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -107,7 +107,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /top_right_camera/image_raw/c0/labeled2d
+    Image Topic: /top_right_camera/image_raw/c000/labeled2d
     Max Value: 1
     Median window: 5
     Min Value: 0

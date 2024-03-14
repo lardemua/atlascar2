@@ -109,13 +109,6 @@ Visualization Manager:
     Visibility:
       Value: true
     Zoom Factor: 1
-  - Class: rviz/MarkerArray
-    Enabled: true
-    Marker Topic: top_left_camera/frustum
-    Name: top_left_camera-Frustum
-    Namespaces: {}
-    Queue Size: 10
-    Value: true
   - Alpha: 1
     Autocompute Intensity Bounds: true
     Autocompute Value Bounds:
@@ -171,13 +164,6 @@ Visualization Manager:
     Visibility:
       Value: true
     Zoom Factor: 1
-  - Class: rviz/MarkerArray
-    Enabled: true
-    Marker Topic: top_right_camera/frustum
-    Name: top_right_camera-Frustum
-    Namespaces: {}
-    Queue Size: 10
-    Value: true
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255

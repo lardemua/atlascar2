@@ -6,6 +6,7 @@
     <xacro:include filename="$(find atlascar2_description)/urdf/atlascar2_wheel.urdf.xacro"/>
     <xacro:include filename="$(find atlascar2_description)/urdf/atlascar2_ackermann.macro.urdf.xacro"/>
     <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+
     <!-- <xacro:include filename="$(find sick_ldmrs_description)/urdf/sick_ldmrs_macros.urdf.xacro"/> -->
     <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
     <!-- Constants for robot dimensions -->
@@ -25,7 +26,12 @@
     <xacro:atlascar2 length="${length}" width="${width}" height="${height}" wheel_radius="${wheel_radius}"/>
 
     <!--    Add sensors-->
-
+    <!-- <link name="world" />
+    <joint name="world_to_base_footprint" type="fixed">
+        <parent link="world" />
+        <child link="base_footprint" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint> -->
     <!-- top-right-camera -->
     <xacro:pointgrey_flea3_joints name="top_right_camera" frame="top_right_camera" parent="base_link" 
                                   x="${length_offset}" y="-0.22" z="${1.35+height_offset}"

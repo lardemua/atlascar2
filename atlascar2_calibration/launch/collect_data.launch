@@ -56,6 +56,7 @@
         <arg name="bag_file" value="$(arg bag_file)"/>
         <arg name="bag_start" value="$(arg bag_start)"/>
         <arg name="bag_rate" value="$(arg bag_rate)"/>
+        <arg name="description_file" default="$(arg description_file)"/>
     </include>
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
@@ -72,6 +73,33 @@
               args="-s $(arg marker_size) -o $(arg output_folder) -c $(arg config_file) -ssl '$(arg ssl)'" required="true"
               output="screen"/>
     </group>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Labeler nodes -->
+    
+    <!-- Sensor top_left_camera rgb_labeler -->
+    <node name="top_left_camera_labeler" pkg="atom_calibration" type="rgb_labeler"
+        args="-cfg $(arg config_file) -sn top_left_camera"
+        required="true"
+        output="screen"/>
+    
+    <!-- Sensor top_right_camera rgb_labeler -->
+    <node name="top_right_camera_labeler" pkg="atom_calibration" type="rgb_labeler"
+        args="-cfg $(arg config_file) -sn top_right_camera"
+        required="true"
+        output="screen"/>
+    
+    <!-- Sensor top_lidar lidar3d_labeler -->
+    <node name="top_lidar_labeler" pkg="atom_calibration" type="lidar3d_labeler"
+        args="-cfg $(arg config_file) -sn top_lidar"
+        required="true"
+        output="screen"/>
+    
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Start automatic data collector node -->
+    <node name="automatic_data_collector" pkg="atom_calibration" type="automatic_data_collector" output="screen"
+                args="-c $(arg config_file)"/>
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
 </launch>

@@ -33,7 +33,7 @@
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     <!-- Parameters-->
     <arg name="config_file" default="$(find atlascar2_calibration)/calibration/config.yml"/>
-    <arg name="output_file" default="$(find atlascar2_calibration)/urdf/initial_estimate.urdf.xacro"/>
+    <arg name="output_file" default="$(find atlascar2_calibration)/urdf/set_initial_estimate.urdf.xacro"/>
     <arg name="rviz_file" default="$(find atlascar2_calibration)/rviz/set_initial_estimate.rviz"/>
     <!-- arguments to be passed onto playbag.launch  -->
     <arg name="bag_file" default="$(env ROS_BAGS)/atlascar2/gazebo_move.bag"/>

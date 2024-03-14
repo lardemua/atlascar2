@@ -9,11 +9,9 @@
     <param name="/use_sim_time" value="$(arg simulation)"/>
 
     <!--To record only raw data-->
-    <group if="$(arg only_raw_data)">
+    <!-- <group if="$(arg only_raw_data)">
         <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
-            /frontal_laser/cloud
-            /left_laser/laserscan
-            /right_laser/laserscan
+           
             /top_left_camera/camera_info
             /top_left_camera/image_raw/compressed
             /top_right_camera/camera_info
@@ -24,10 +22,25 @@
             /joint_states
             /ackermann_steering_controller/cmd_vel
             /ackermann_steering_controller/odom
-            /top_center_rgbd_camera/rgb/image_raw/compressed
-            /top_center_rgbd_camera/rgb/camera_info
-            /top_center_rgbd_camera/depth/image/compressedDepth
-            /top_center_rgbd_camera/depth/camera_info
+            /received_messages
+            -o /tmp/bag_file.bag">
+        </node>
+
+
+    </group> -->
+    <group if="$(arg only_raw_data)">
+        <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
+           
+            /top_left_camera/image_raw
+            /top_right_camera/image_raw
+            /top_laser/cloud
+            /panorama_img        
+            /ackermann_steering_controller/odom
+            /fused_detection
+            /obstacle_detector/jsk_bboxes
+            /tf
+            /tf_static      
+            /ackermann_steering_controller/odom
             /received_messages
             -o /tmp/bag_file.bag">
         </node>
@@ -35,3 +48,7 @@
 <!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->
     </group>
 </launch>
+<!-- /top_center_rgbd_camera/rgb/image_raw/compressed
+            /top_center_rgbd_camera/rgb/camera_info
+            /top_center_rgbd_camera/depth/image/compressedDepth
+            /top_center_rgbd_camera/depth/camera_info -->

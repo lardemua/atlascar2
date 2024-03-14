@@ -25,12 +25,12 @@ ackermann_steering_controller:
   publish_ackermann_drive: true
 
   # get odometry values
-  enable_odom_tf: true
+  enable_odom_tf: false
   # Base frame_id
-  base_frame_id: atlascar2/base_footprint #default: base_link
+  base_frame_id: base_footprint #default: base_link
 
   # Odom frame_id
-  odom_frame_id: atlascar2/odom
+  odom_frame_id: odom
 
   # Velocity and acceleration limits
   # Whenever a min_* is unspecified, default to -max_*

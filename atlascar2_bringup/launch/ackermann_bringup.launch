@@ -6,12 +6,12 @@
     <arg name="visualize" default="true"/>
     <arg name="model_name" default="_ackermann_VLP"/>
     <arg name="calibration" default="false"/>
-    <arg name="x_pos" default="-45.0"/>
-    <arg name="y_pos" default="-72.0"/>
-    <arg name="z_pos" default="0.3"/>
-    <arg name="roll" default="0.0"/>
-    <arg name="pitch" default="0.0"/>
-    <arg name="yaw" default="0.0"/>
+    <arg name="x_pos" default="-54"/>
+    <arg name="y_pos" default="-71.56"/>
+    <arg name="z_pos" default="0"/>
+    <arg name="roll" default="0"/>
+    <arg name="pitch" default="0"/>
+    <arg name="yaw" default="-0.066"/>
 
     <group if="$(arg calibration)">
         <node name="model_states_to_tf" pkg="atlascar2_odom" type="model_states_to_odomtf.py"/>
@@ -28,14 +28,20 @@
     </group>
 
     <!-- Load ackermann_steering_bot model -->
+    <!-- <param name="robot_description"
+     
+           command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2$(arg model_name).urdf.xacro"/> -->
+          
     <param name="robot_description"
-            command="$(find xacro)/xacro $(find atlascar2_description)/urdf/atlascar2$(arg model_name).urdf.xacro"/>
+        command="$(find xacro)/xacro $(find atlascar2_calibration)/urdf/optimized.urdf.xacro"/>
 
     <!-- Read joint positions from joint_states, then publish the vehicle's
     state to tf. -->
+   
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
         <param name="publish_frequency" value="30.0"/>
     </node>
+    
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
     <!--      &lt;!&ndash; Load controller config &ndash;&gt;-->
@@ -60,5 +66,5 @@
             <arg name="model_name" value="$(arg model_name)"/>
         </include>
     </group>
-
+    
 </launch>

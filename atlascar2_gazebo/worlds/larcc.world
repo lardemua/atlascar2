@@ -66,21 +66,57 @@
         <falloff>0</falloff>
       </spot>
     </light>
-    <model name='charuco_800x600'>
+    <light name='user_directional_light_2' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>-0.005777 -0.298019 1 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_directional_light_0' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>-0.022594 -0.278033 1 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='charuco_800x600_5x5_100'>
       <static>1</static>
       <link name='charuco'>
         <pose>0 0 0 0 0 0</pose>
-        <visual name='charuco_800x600'>
+        <visual name='charuco_800x600_5x5_100'>
           <geometry>
             <mesh>
-              <uri>model://charuco_800x600/charuco_800x600.dae</uri>
+              <uri>model://charuco_800x600_5x5_100/charuco_800x600_5x5_100.dae</uri>
             </mesh>
           </geometry>
         </visual>
-        <collision name='charuco_800x600_collision'>
+        <collision name='charuco_800x600_5x5_100_collision'>
           <geometry>
             <mesh>
-              <uri>model://charuco_800x600/charuco_800x600.dae</uri>
+              <uri>model://charuco_800x600_5x5_100/charuco_800x600_5x5_100.dae</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -136,11 +172,11 @@
       <real_time>214 175274448</real_time>
       <wall_time>1651740140 988331282</wall_time>
       <iterations>190110</iterations>
-      <model name='charuco_800x600'>
-        <pose>0.434112 -1.25078 1.07721 1.54282 -0.008664 3.10867</pose>
+      <model name='charuco_800x600_5x5_100'>
+        <pose>-0.000652 -0.005290 1.732205 -1.613916 0.953567 3.100523</pose>
         <scale>1 1 1</scale>
         <link name='charuco'>
-          <pose>0.434112 -1.25078 1.07721 1.54282 -0.008664 3.10867</pose>
+          <pose>-0.000652 -0.005290 1.732205 -1.613916 0.953567 3.100523</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -159,6 +195,12 @@
       <light name='sun'>
         <pose>0 0 10 0 -0 0</pose>
       </light>
+      <light name='user_directional_light_2'>
+        <pose>-0.005777 -0.298019 1 0 -0 0</pose>
+      </light>
+      <light name='user_directional_light_0'>
+        <pose>-0.022594 -0.278033 1 0 -0 0</pose>
+      </light>
       <light name='user_point_light_2'>
         <pose>-1.07079 1.08955 1 0 -0 0</pose>
       </light>
@@ -170,6 +212,12 @@
       </light>
       <light name='user_point_light_9'>
         <pose>0.07472 3.93797 1 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_0'>
+        <pose>-0.090696 -0.249117 1.355007 0 0 0</pose>
+      </light>
+      <light name='user_point_light_1'>
+        <pose>0.308654 0.487152 1 0 0 0</pose>
       </light>
     </state>
     <light name='user_point_light_2' type='point'>
@@ -228,6 +276,42 @@
     </light>
     <light name='user_point_light_9' type='point'>
       <pose>0.07472 3.93797 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_point_light_0' type='point'>
+      <pose>-0.090696 -0.249117 1.355007 0 0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <light name='user_point_light_1' type='point'>
+      <pose>0.308654 0.487152 1 0 0 0</pose>
       <diffuse>0.5 0.5 0.5 1</diffuse>
       <specular>0.1 0.1 0.1 1</specular>
       <attenuation>

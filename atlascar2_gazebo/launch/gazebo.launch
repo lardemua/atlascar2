@@ -6,7 +6,7 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
 
 <!--        &lt;!&ndash;        World from https://github.com/chaolmu/gazebo_models_worlds_collection&ndash;&gt;-->
-        <arg name="world_name" value="city_osm_roundabout_combined.world "/>
+        <arg name="world_name" value="/home/rafael/catkin_ws/src/atlascar2/atlascar2_gazebo/worlds/city_osm_roundabout_combined.world"/>
 
 
         <arg name="paused" value="false"/>
@@ -14,7 +14,8 @@
         <arg name="gui" value="true"/>
         <arg name="headless" value="false"/>
         <arg name="debug" value="false"/>
-
+        
     </include>
-
+    <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find gazebo_cars)/models"/>
+    <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find gazebo_cars)/models"/>
 </launch>

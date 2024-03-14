@@ -17,21 +17,17 @@
 <!-- WARNING WARNING WARNING WARNING auto-generated file!! -->
 <!-- Only modify this file if you know what you are doing! -->
 
-<!--
-@file dataset_playback.launch Plays back the bag file.
-    Sets up image decompressors if needed, reads the urdf robot description.
-
-@arg bag_file  Absolute path to the playing bag.
-    default: $(env ROS_BAGS)/atlascar2/gazebo_move.bag
-@arg bag_start Playback starting time (in seconds). default: 0.0
-@arg bag_rate  Playback rate. default: 1.0
-@arg use_tfs  Use tfs in the bag file or generate new ones using the urdf, joint state messages and the robot state publisher. default: False
--->
-
 <launch>
 
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Parameters-->
     <arg name="rviz_file" default="$(find atlascar2_calibration)/rviz/dataset_playback.rviz"/>
-<!--    TODO check if this rviz configuration is ok-->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!-- Reading from the dataset, i.e., no rosbag play to publish clock. Cannot use sim time. -->
+    <param name="/use_sim_time" value="false"/>
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     <!-- Visualization -->

@@ -7,6 +7,8 @@ import argparse
 # 3rd-party
 import rospkg
 import rospy
+import os
+import tf2_ros
 
 from colorama import Fore, Style
 from std_msgs.msg import Header, ColorRGBA
@@ -16,10 +18,14 @@ from geometry_msgs.msg import Point, Pose, Vector3, Quaternion
 from interactive_markers.interactive_marker_server import *
 from interactive_markers.menu_handler import *
 from visualization_msgs.msg import *
-from atom_core.ros_utils import filterLaunchArguments
-
+from geometry_msgs.msg import TransformStamped
 from gazebo_msgs.srv import SetModelState, GetModelState, GetModelStateRequest, SetModelStateRequest
 from tf2_ros import TransformBroadcaster
+
+
+from atom_core.ros_utils import filterLaunchArguments
+
+
 br = TransformBroadcaster()
 current_pose = Pose()
 current_pose.orientation.w = 1
@@ -55,6 +61,23 @@ def makeBoxControl( msg, pose ):
 
 
 def make6DofMarker(fixed, interaction_mode, pose, show_6dof=False):
+
+    
+    # br = tf2_ros.TransformBroadcaster()
+    # t = TransformStamped()
+    # t.header.stamp = rospy.Time.now()
+    # t.header.frame_id = 'odom'
+    # t.child_frame_id = 'base_link'
+    # states = {'pose': [], 'transform': t, 'broadcaster': br}
+    # states['pose'] = pose
+    # print(states['pose'])
+
+    # states['transform'].header.stamp = rospy.Time.now()
+    # states['transform'].transform.translation = states['pose'].position
+    # states['transform'].transform.rotation = states['pose'].orientation
+    # states['broadcaster'].sendTransform(states['transform'])
+        
+    # print(states['pose'])
     int_marker = InteractiveMarker()
     int_marker.header.frame_id = "world"
     int_marker.pose = pose
@@ -272,6 +295,7 @@ if __name__ == "__main__":
     rospy.wait_for_service('/gazebo/get_model_state')
     get_model_state_service = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
     pose_gazebo = get_model_state_service(model_name, 'world')
+    # print(pose_gazebo)
 
     # pose = Pose(position=Point(x=2, y=2, z=1), orientation=Quaternion(x=0, y=0, z=0, w=1))
     import copy

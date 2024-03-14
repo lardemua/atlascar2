@@ -45,6 +45,12 @@
     <parent link="base_footprint"/>
     <child link="base_link"/>
   </joint>
+  <link name="world"/>
+  <joint name="world_to_base_footprint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="base_footprint"/>
+  </joint>
   <link name="top_right_camera">
     <inertial>
       <mass value="0.085"/>
@@ -109,7 +115,7 @@
     </sensor>
   </gazebo>
   <joint name="{parent}_to_top_right_camera" type="fixed">
-    <origin xyz="0.20428410540814848 -0.22388230247232627 1.447061150205553" rpy="-0.00042622049778580357 0.3988143668006885 -0.3"/>
+    <origin xyz="-2.506966815113514 -0.3112282304999219 1.6544852784893538" rpy="0.7446243395800726 0.390989048771717 0.12294531445427181"/>
     <parent link="base_link"/>
     <child link="top_right_camera"/>
   </joint>
@@ -177,12 +183,12 @@
     </sensor>
   </gazebo>
   <joint name="{parent}_to_top_left_camera" type="fixed">
-    <origin xyz="0.20000000000000043 0.22000000000000017 1.4500000000000002" rpy="-1.5554606490236454e-16 0.4 0.3"/>
+    <origin xyz="-2.609787616289452 0.2802627642559952 1.8279500114804843" rpy="0.69396180745709 0.3040098754709762 0.1324511238181686"/>
     <parent link="base_link"/>
     <child link="top_left_camera"/>
   </joint>
   <joint name="top_laser_base_mount_joint" type="fixed">
-    <origin xyz="0.016363087328487538 0.01008967362563249 1.4746227815305066" rpy="-0.0022630437000740813 0.010005007720179624 -0.0029087196307811913"/>
+    <origin xyz="0.0 0.0 1.4500000000000002" rpy="0.0 -0.0 0.0"/>
     <parent link="base_link"/>
     <child link="top_laser_base_link"/>
   </joint>
@@ -233,7 +239,7 @@
     </collision>
   </link>
   <gazebo reference="top_laser">
-    <sensor name="top_laser-VLP16" type="gpu_ray">
+    <sensor name="top_laser-VLP16" type="ray">
       <pose>0 0 0 0 0 0</pose>
       <visualize>false</visualize>
       <update_rate>10</update_rate>
@@ -263,7 +269,7 @@
           <stddev>0.0</stddev>
         </noise>
       </ray>
-      <plugin filename="libgazebo_ros_velodyne_gpu_laser.so" name="gazebo_ros_laser_controller">
+      <plugin filename="libgazebo_ros_velodyne_laser.so" name="gazebo_ros_laser_controller">
         <topicName>top_laser/cloud</topicName>
         <frameName>top_laser</frameName>
         <organize_cloud>False</organize_cloud>
@@ -641,4 +647,18 @@
   <gazebo reference="base_footprint">
     <material>Gazebo/Purple</material>
   </gazebo>
+  <link name="pattern_link">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <visual name="pattern_1_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://atlascar2_gazebo/models/charuco_800x600/charuco_800x600.dae"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="world-pattern_link" type="fixed">
+    <origin xyz="2.1196767724022947 0.11115631356790558 1.7810701835098057" rpy="-1.6196809177686766 0.9538883423404817 -1.6106085746501164"/>
+    <parent link="world"/>
+    <child link="pattern_link"/>
+  </joint>
 </robot>

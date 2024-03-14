@@ -5,6 +5,7 @@ import rospy
 import tf2_ros
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import TransformStamped
+from sensor_msgs.msg import JointState
 
 def modelStatesCallback(message, states):
 
@@ -31,6 +32,7 @@ def main():
     modelStatesPartialCallback = partial(modelStatesCallback, states=states)
     
     rospy.Subscriber('/gazebo/model_states', ModelStates, modelStatesPartialCallback)
+    
 
     rate = rospy.Rate(10)
 
@@ -39,7 +41,8 @@ def main():
             states['transform'].header.stamp = rospy.Time.now()
             states['transform'].transform.translation = states['pose'].position
             states['transform'].transform.rotation = states['pose'].orientation
-            states['broadcaster'].sendTransform(states['transform'])
+            states['broadcaster'].sendTransform(states['transform'])          
+            
         rate.sleep()
 
 
