@@ -68,7 +68,6 @@ def move_model(model_name):
 
     atlascar_msg = Twist()
     atlascar_msg.linear.x = 2
-    # Set the movement parameters
     speed = -0.1  # Adjust as needed
     rate = rospy.Rate(10)  # 10 Hz
     while not rospy.is_shutdown():
