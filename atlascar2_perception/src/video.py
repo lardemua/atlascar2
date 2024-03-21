@@ -15,10 +15,14 @@ class VideoStitcher:
         self.video_out_width = video_out_width
         self.display = display
 
+        self.saved_homo_matrix = np.array([[ 6.19742530e-01, -6.64826906e-02,  7.57627449e+02],
+ [-4.12016621e-03,  9.02840678e-01,  2.01152250e+00],
+ [-3.47141283e-04, -1.36157913e-05,  1.00000000e+00]])
+
         # Initialize the saved homography matrix
-        self.saved_homo_matrix = np.array([[ 5.40304579e-01, -2.66912257e-01,  8.46703839e+02],
-                                            [-9.64704842e-04,  8.91943912e-01,  1.34286931e+00],
-                                            [-3.58766786e-04, -3.54147781e-05,  1.00000000e+00]])
+        # self.saved_homo_matrix = np.array([[ 5.40304579e-01, -2.66912257e-01,  8.46703839e+02],
+        #                                     [-9.64704842e-04,  8.91943912e-01,  1.34286931e+00],
+        #                                     [-3.58766786e-04, -3.54147781e-05,  1.00000000e+00]])
 
     def stitch(self, images, ratio=0.75, reproj_thresh=4.0):
         # Unpack the images
@@ -26,7 +30,7 @@ class VideoStitcher:
 
         # If the saved homography matrix is None, then we need to apply keypoint matching to construct it
         if self.saved_homo_matrix is None:
-            print('yes')
+          
             # Detect keypoints and extract
             (keypoints_a, features_a) = self.detect_and_extract(image_a)
             (keypoints_b, features_b) = self.detect_and_extract(image_b)
@@ -119,7 +123,7 @@ class VideoStitcher:
         if not(left_video is None and right_video is None):
               
             stitched_frame = self.stitch([left_video, right_video])       
-            # stitched_frame = imutils.resize(stitched_frame, width=self.video_out_width)
+            stitched_frame = imutils.resize(stitched_frame, width=self.video_out_width)
 
             return stitched_frame
         

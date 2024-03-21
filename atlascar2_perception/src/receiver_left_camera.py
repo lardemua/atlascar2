@@ -18,6 +18,7 @@ import tf2_ros
 import geometry_msgs.msg
 from tf2_geometry_msgs import PointStamped, do_transform_point
 from visualization_msgs.msg import MarkerArray, Marker
+from math import atan2
 
 fps = 0.001
 max_time = rospy.Duration.from_sec(1/fps)
@@ -94,7 +95,8 @@ class BasicReceiver:
         self.subscriber_detection2d = rospy.Subscriber(topic_detection2d, detect2d, self.detection2dCallback)
         self.subscriber_pc = rospy.Subscriber(topic_pc, PointCloud2, self.pcCallback)
         self.susbcriber_jsk = rospy.Subscriber(topic_jsk_sub, BoundingBoxArray, self.jskCallback)
-        self.publisher_jsk = rospy.Publisher(topic_jsk_pub, MarkerArray, queue_size=10)
+        self.publisher_jsk = rospy.Publisher(topic_jsk_pub, MarkerArray, queue_size=1)
+        rospy.on_shutdown(self.shutdown_callback)
         
     def inputCallback(self, msg):
         self.original_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
@@ -108,22 +110,33 @@ class BasicReceiver:
         self.pc_points = point_cloud2.read_points_list(msg, field_names=("x", "y", "z"), skip_nans=True)
 
     def jskCallback(self, msg):
-        self.lidar_boxes = msg.boxes              
+        self.lidar_boxes = msg.boxes    
+
     
+    def shutdown_callback(self):
+        # Code to delete marker
+        # For example, if marker_pub is your publisher for the marker:
+        new_box = Marker()
+        new_box.action = Marker.DELETE
+        self.publisher_jsk.publish(new_box)          
+        
 
 
 if __name__ == '__main__':
     rospy.init_node('image_plotter', anonymous=True)
+    
     teste = BasicReceiver()
     params = sensor_params()
     
     tf_buffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tf_buffer)
-    rospy.sleep(1.0)
+   
     namespace = rospy.get_namespace()
     new_boxes = MarkerArray()
-    
-    
+    boxes_class = {}
+    pose_odom_prev_x = 0
+    pose_odom_prev_y = 0
+    rate = rospy.Rate(2.5)
     window_name = "Left Camera"
     while not rospy.is_shutdown():
         time_a = time.time()
@@ -151,7 +164,7 @@ if __name__ == '__main__':
                     centroid = ((bbox.Px1+bbox.Px2)/2, (bbox.Py1+bbox.Py2)/2)
                     text = bbox_classes[idx].data
                     class_yolo.append(text)
-                    print(objDect_cls)
+               
                     color = objDect_cls[text]
                     image = cv2.rectangle(image, c1, c2, color = color, thickness=2, lineType=cv2.LINE_AA)
                     top_center = [int((c1[0]+c2[0])/2), c1[1]]
@@ -175,21 +188,49 @@ if __name__ == '__main__':
                         
                 # image = cv2.circle(image, (int(pixels[0]), int(pixels[1])),radius=1,color=(0,255,0) , thickness=-1)
             new_boxes.markers = []
-            for box in teste.lidar_boxes:
+            for idx, box in enumerate(teste.lidar_boxes):
                 
+                # if not any(box.label == marker.id for marker in new_boxes.markers):
+                
+                pose_1 = PointStamped()
+                pose_1.point.x = box.pose.position.x
+                pose_1.point.y = box.pose.position.y 
+
+                try:                    
+                    pose_2 = do_transform_point(pose_1, tf_buffer.lookup_transform('odom', 'base_footprint', rospy.Time(0)))
+                except (tf2_ros.TransformException, rospy.ROSException) as e:
+                    rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
+
+                direction = np.array([pose_2.point.x, pose_2.point.y]) - np.array([pose_odom_prev_x, pose_odom_prev_y])
+                yaw = atan2(direction[1], direction[0])
+			
                 new_box = Marker()
                 new_box.header = box.header
-                new_box.pose = box.pose
-                new_box.scale = box.dimensions
-                new_box.id = box.label
-                new_box.type = 1
-                new_box.action = 0
-                new_box.lifetime = rospy.Duration.from_sec(0.01)
                 new_box.color.a = 0.8
+                new_box.id = box.label
+                new_box.type = Marker.TEXT_VIEW_FACING
+                new_box.action = Marker.ADD
                 new_box.color.r = 0
                 new_box.color.g = 0
-                new_box.color.b = 1
-                new_box.ns = ""
+                new_box.color.b = 0
+                new_box.pose.position.x = box.pose.position.x
+                new_box.pose.position.y = box.pose.position.y
+                new_box.pose.position.z = box.dimensions.z + 1
+                new_box.pose.orientation.w = 1
+                new_box.pose.orientation.z = yaw
+                new_box.scale = box.dimensions    
+                if len(boxes_class) == 0:        
+                    new_box.text = "unknown"
+                 
+            
+                # else:
+                #     new_boxes.markers[idx].header = box.header
+                #     new_boxes.markers[idx].pose = box.pose
+                #     new_boxes.markers[idx].scale = box.dimensions
+                  
+                pose_odom_prev_x = pose_2.point.x
+                pose_odom_prev_y = pose_2.point.y
+                
 
                 corners = get_bounding_box_corners((box.pose.position.x,box.pose.position.y,box.pose.position.z),(box.dimensions.x,box.dimensions.y,box.dimensions.z))  
                 
@@ -202,18 +243,15 @@ if __name__ == '__main__':
             
 
                     try:                    
-                        pose_camera = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_left_camera_optical', 'odom', rospy.Time(0)))
+                        pose_camera = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_left_camera_optical', 'base_footprint', rospy.Time(0)))
                     except (tf2_ros.TransformException, rospy.ROSException) as e:
                         rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
 
-                    # intrinsic_parameters = params.P_camera_left[:, :3]
-                    # homography_extended = np.vstack((params.homography, [0, 0, 0]))
-                    # transformation_matrix = np.dot(intrinsic_parameters, homography_extended.T)
-
-
-                    pose_pixels = np.dot(params.P_camera_left, np.array([[pose_camera.point.x], [pose_camera.point.y], [pose_camera.point.z], [1]]))
-                    # pose_pixels = np.dot(params.homography, pose_pixels)
+                   
+                    pose_pixels = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pose_camera.point.x], [pose_camera.point.y], [pose_camera.point.z], [1]]))
                     pose_pixels = pose_pixels[:2] / pose_pixels[2]
+             
+            
                     pose_pixels_list.append(pose_pixels)
                     image = cv2.circle(image, (int(pose_pixels[0]), int(pose_pixels[1])),radius=5,color=(255,0,0) , thickness=-1)
               
@@ -249,13 +287,25 @@ if __name__ == '__main__':
                     IoU = inter_area/reunion_area                  
                     
                     
-                    if IoU > 0.3:
+                    if IoU > 0.4:
                         IoU_l = IoU
-                        
-                        new_box.ns = class_yolo[i]                        
-                        new_boxes.markers.append(copy.deepcopy(new_box))    
+                        if not any(class_yolo[i] == key for key, value in boxes_class.items()) and not any(idx == value for key, value in boxes_class.items()):
+                            
+                            boxes_class.update({class_yolo[i]: idx})
+                         
+                            # boxes_class.append(class_yolo[i])
+                            # boxes_class_idx.append(idx)
 
-                                          
+
+            
+                for key, value in boxes_class.items():
+                    if value == idx:
+                        new_box.text = key
+                  
+             
+
+                     
+                new_boxes.markers.append(new_box)  
                 fontFace=cv2.FONT_HERSHEY_COMPLEX                       
                 org = (u_min,v_min-5)
     
@@ -264,12 +314,14 @@ if __name__ == '__main__':
             
        
         
-            teste.publisher_jsk.publish(new_boxes)
+            
 
             cv2.imshow(window_name, image)
 
-            counter += 1
+            # counter += 1
             cv2.waitKey(1)
+            teste.publisher_jsk.publish(new_boxes)
+            rate.sleep()
         # time_b = time.time()
         # print(f"Tempo de receção: {time_b-time_a}")
     cv2.destroyAllWindows()

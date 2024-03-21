@@ -46,7 +46,7 @@ class InferenceNode:
             self.inference_ready = True
             
         elif self.inference_ready:
-            print("A fazer algo!")
+            # print("A fazer algo!")
             time_a = time.time()
             time_source = msg.header.stamp
             now = rospy.get_rostime()
@@ -69,7 +69,7 @@ class InferenceNode:
                     detect2d_msg = detect2d()
                     coords = []
                     strings = []
-                    print(det2d_list)
+                
                     for k, i in enumerate(det2d_list):
                         string = String()
                         string.data = det2d_class_list[k]
@@ -93,7 +93,7 @@ class InferenceNode:
                       
                       
             time_b = time.time()
-            print(f"Tempo geral: {time_b-time_a}")
+            # print(f"Tempo geral: {time_b-time_a}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(

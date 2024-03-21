@@ -38,7 +38,7 @@ class Inference:
         time_a = time.time()
         self.transformed_image, self.original_img_size, self.model_img_size = self.output_function.transforms(image, self.cuda, self.device, self.half)
         time_b = time.time()
-        print(f"Carregamento da imagem: {time_b-time_a}")
+        # print(f"Carregamento da imagem: {time_b-time_a}")
 
 
     def infer_torch(self):
@@ -48,6 +48,6 @@ class Inference:
         torch.cuda.synchronize()
         time_b = time.time()
         organized_outputs = self.output_function.output_organizer(outputs, self.original_img_size, self.model_img_size)
-        print(f"Tempo de inferência: {time_b-time_a}")
+        # print(f"Tempo de inferência: {time_b-time_a}")
         return organized_outputs
     

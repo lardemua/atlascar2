@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from panorama import Panaroma
+
 import imutils
 import cv2
 import rospy
@@ -13,7 +13,7 @@ import numpy as np
 import time
 from queue import Queue
 import threading
-from panorama import Panaroma
+
 
 
 class ImageReceiver:
@@ -41,12 +41,14 @@ class ImageReceiver:
     def img_callback(self, left_msg, right_msg):      
         
     
-        self.left_image = self.bridge.imgmsg_to_cv2(left_msg, desired_encoding='passthrough')  
+        self.left_image = self.bridge.imgmsg_to_cv2(left_msg, desired_encoding='passthrough')
+        
         self.stamp = left_msg.header.stamp
      
 
         
         self.right_image = self.bridge.imgmsg_to_cv2(right_msg, desired_encoding='passthrough')
+        
     
 class ImageProcessingThread(threading.Thread):
     def __init__(self, receiver):
@@ -54,20 +56,33 @@ class ImageProcessingThread(threading.Thread):
         self.receiver = receiver
 
     def run(self):
+        # rate = rospy.Rate(50)
         while not rospy.is_shutdown():
             if self.receiver.left_image is not None and self.receiver.right_image is not None:
+                # result = panorama.stitch([receiver.left_image, receiver.right_image])
                 panorama = VideoStitcher(left_video_in_path=self.receiver.left_image, right_video_in_path=self.receiver.right_image)
                 result = panorama.run()
-                result_msg = self.receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
+                print(result.shape)
+                result_msg = self.receiver.bridge.cv2_to_imgmsg(result, encoding="rgb8")
                 result_msg.header.stamp = self.receiver.stamp
                 self.receiver.pub.publish(result_msg)
+                # rate.sleep()
                 
+                # cv2.imshow("panorama", result)
+                # cv2.waitKey(1) 
+                
+                # rospy.sleep(3)
+                # if cv2.waitKey(1) & 0xFF == ord("q"):
+
+                #     break
+
+        # cv2.destroyAllWindows()      
 
 if __name__ == '__main__':
     rospy.init_node('panorama', anonymous=True)
     
     # panorama = Stitcher()
-    # panorama = Panaroma()
+  
     receiver = ImageReceiver()
     processing_thread = ImageProcessingThread(receiver)
     processing_thread.start()

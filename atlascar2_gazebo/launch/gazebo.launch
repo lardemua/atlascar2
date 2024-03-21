@@ -11,9 +11,11 @@
 
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="true"/>
-        <arg name="headless" value="false"/>
+        <arg name="gui" value="false"/>
+        <arg name="headless" value="true"/>
         <arg name="debug" value="false"/>
+    
+
         
     </include>
     <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find gazebo_cars)/models"/>

@@ -65,6 +65,12 @@ class sensor_params:
         self.K_camera_left = np.array([[1101.581198742484, 0.0, 636.5],
                                 [0.0, 1101.581198742484, 508.5],
                                 [0.0, 0.0, 1.0]])
+        
+        scale_x = 400 / (636.5*2)
+        scale_y = 319 / (508.5*2)
+        self.K_camera_left_resized = np.array([[1101.581198742484*scale_x, 0.0, 636.5*scale_x],
+                                [0.0, 1101.581198742484*scale_y, 508.5*scale_y],
+                                [0.0, 0.0, 1.0]])
 
         # Intrinsics right camera
         self.K_camera_right = np.array([[1101.581198742484, 0.0, 636.5],
@@ -82,10 +88,10 @@ class sensor_params:
  [-3.58766786e-04, -3.54147781e-05,  1.00000000e+00]])
 
         # Projection matrix of the left camera
-        self.P_camera_right = np.dot(self.K_camera_right, self.M_camera_right[:3, :4])
+        self.P_camera_left_resized = np.dot(self.K_camera_left_resized, self.M_camera_left[:3, :4])
 
-params = sensor_params()
-# print(params.P_camera_left)
+# params = sensor_params()
+# print(params.P_camera_left_resized)
 
 
 # print(params.M_lidar_camera[:3,3])
