@@ -66,15 +66,19 @@ class sensor_params:
                                 [0.0, 1101.581198742484, 508.5],
                                 [0.0, 0.0, 1.0]])
         
-        scale_x = 400 / (636.5*2)
-        scale_y = 319 / (508.5*2)
-        self.K_camera_left_resized = np.array([[1101.581198742484*scale_x, 0.0, 636.5*scale_x],
-                                [0.0, 1101.581198742484*scale_y, 508.5*scale_y],
+        self.scale_x = 400 / (636.5*2)
+        self.scale_y = 319 / (508.5*2)
+        self.K_camera_left_resized = np.array([[1101.581198742484*self.scale_x, 0.0, 636.5*self.scale_x],
+                                [0.0, 1101.581198742484*self.scale_y, 508.5*self.scale_y],
                                 [0.0, 0.0, 1.0]])
 
         # Intrinsics right camera
         self.K_camera_right = np.array([[1101.581198742484, 0.0, 636.5],
                                 [0.0, 1101.581198742484, 508.5],
+                                [0.0, 0.0, 1.0]])
+        
+        self.K_camera_right_resized = np.array([[1101.581198742484*self.scale_x, 0.0, 636.5*self.scale_x],
+                                [0.0, 1101.581198742484*self.scale_y, 508.5*self.scale_y],
                                 [0.0, 0.0, 1.0]])
 
         # Projection matrix of the left camera

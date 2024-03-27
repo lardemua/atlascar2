@@ -3,7 +3,7 @@ import cv2
 import rospy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from atlascar2_perception.msg import detect2d
+from camera_perception.msg import detect2d
 import copy
 import numpy as np
 import yaml
@@ -55,8 +55,8 @@ for name in data['object detection']:
 
 class BasicReceiver:
     def __init__(self):
-        topic_input = '/top_right_camera/image_raw'
-        topic_detection2d = 'detection2d_right'
+        topic_input = '/top_left_camera/image_raw'
+        topic_detection2d = 'detection2d_left'
         self.bridge = CvBridge()
         self.original_image = None
         self.BBoxes = None

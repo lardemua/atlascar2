@@ -14,23 +14,28 @@ class VideoStitcher:
         # self.video_out_path = video_out_path
         self.video_out_width = video_out_width
         self.display = display
+        # self.saved_homo_matrix = None
+        
 
-        self.saved_homo_matrix = np.array([[ 6.19742530e-01, -6.64826906e-02,  7.57627449e+02],
- [-4.12016621e-03,  9.02840678e-01,  2.01152250e+00],
- [-3.47141283e-04, -1.36157913e-05,  1.00000000e+00]])
+        # self.saved_homo_matrix = np.array([[ 4.48590236e-01, -1.37643857e-01,  8.47104211e+02],
+        #                                     [-6.89298447e-02, 9.09414937e-01,  1.60873693e+01],
+        #                                     [-4.29944417e-04,  4.20886946e-05,  1.00000000e+00]])
 
         # Initialize the saved homography matrix
-        # self.saved_homo_matrix = np.array([[ 5.40304579e-01, -2.66912257e-01,  8.46703839e+02],
-        #                                     [-9.64704842e-04,  8.91943912e-01,  1.34286931e+00],
-        #                                     [-3.58766786e-04, -3.54147781e-05,  1.00000000e+00]])
+        self.saved_homo_matrix = np.array([[ 6.54919231e-01, -6.69753943e-02,  2.48957192e+02],
+                                            [-2.78402893e-02,  9.83161219e-01, -1.47572196e+00],
+                                            [-1.05676793e-03,  3.13490230e-04,  1.00000000e+00]])
 
     def stitch(self, images, ratio=0.75, reproj_thresh=4.0):
         # Unpack the images
         (image_b, image_a) = images
-
+        image_b = imutils.resize(image_b, width=400)
+        image_a = imutils.resize(image_a, width=400)
+        
+        
         # If the saved homography matrix is None, then we need to apply keypoint matching to construct it
         if self.saved_homo_matrix is None:
-          
+   
             # Detect keypoints and extract
             (keypoints_a, features_a) = self.detect_and_extract(image_a)
             (keypoints_b, features_b) = self.detect_and_extract(image_b)
@@ -44,11 +49,15 @@ class VideoStitcher:
 
             # Save the homography matrix
             self.saved_homo_matrix = matched_keypoints[1]
-            # print(self.saved_homo_matrix)
+            print(self.saved_homo_matrix)
         # Apply a perspective transform to stitch the images together using the saved homography matrix
         output_shape = (image_a.shape[1] + image_b.shape[1], image_a.shape[0])
+     
         result = cv2.warpPerspective(image_a, self.saved_homo_matrix, output_shape)
+        # translation_matrix = np.float32([[1, 0, 0], [0, 1, 10]])
+        # result = cv2.warpAffine(result, translation_matrix, output_shape)
         result[0:image_b.shape[0], 0:image_b.shape[1]] = image_b
+        
         # self.saved_homo_matrix = None
         
         # Return the stitched image
@@ -123,7 +132,8 @@ class VideoStitcher:
         if not(left_video is None and right_video is None):
               
             stitched_frame = self.stitch([left_video, right_video])       
-            stitched_frame = imutils.resize(stitched_frame, width=self.video_out_width)
+            # stitched_frame = imutils.resize(stitched_frame, height=508*2)
+            # stitched_frame = imutils.resize(stitched_frame, height=636*2)
 
             return stitched_frame
         

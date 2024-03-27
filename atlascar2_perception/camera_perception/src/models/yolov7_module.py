@@ -76,7 +76,7 @@ def output_organizer(original_output, original_img_size, model_img_size):
             w = abs(det2d_list[e][1][0] - det2d_list[e][0][0])
             h = abs(det2d_list[e][1][1] - det2d_list[e][0][1])
   
-            if h < 1.6*w:
+            if h < 1.5*w:
                 indices_to_delete.append(e)    
     
     for index in sorted(indices_to_delete, reverse=True):

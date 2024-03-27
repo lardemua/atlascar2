@@ -6,7 +6,7 @@
     <arg name="visualize" default="true"/>
     <arg name="model_name" default="_ackermann_VLP"/>
     <arg name="calibration" default="false"/>
-    <arg name="x_pos" default="-65"/>
+    <arg name="x_pos" default="-55"/>
     <arg name="y_pos" default="-71"/>
     <arg name="z_pos" default="0"/>
     <arg name="roll" default="0"/>

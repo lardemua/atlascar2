@@ -69,7 +69,7 @@ def callback_sub(marker_data):
 	for i in range(count):
 		if count != 0:
 			car_count += 1
-			ttype = 3.0
+			ttype = 4
 			print(len(marker_data.markers))
 			if marker_data.markers[i].text == "car": ttype = 1.0
 			if marker_data.markers[i].text == "rider": ttype = 2.0
@@ -107,12 +107,12 @@ def callback_sub(marker_data):
 			objectList[i][3] = x_
 			objectList[i][4] = y_
 			objectList[i][5] = yaw
-			objectList[i][6] = 4
+			objectList[i][6] = ttype
 			objectList[i][7] = omega
 			objectList[i][8] = vx 
 			objectList[i][9] = vy
-			objectList[i][10] = marker_data.markers[i].scale.x #w
-			objectList[i][11] = marker_data.markers[i].scale.y #h
+			objectList[i][10] = marker_data.markers[i].scale.y #w
+			objectList[i][11] = marker_data.markers[i].scale.x #h
 			# pose_odom_prev_x = pose_odom.point.x
 			# pose_odom_prev_y = pose_odom.point.y 
 			print('x:', x_)

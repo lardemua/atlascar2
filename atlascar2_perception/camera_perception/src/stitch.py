@@ -14,6 +14,8 @@ import time
 from queue import Queue
 import threading
 
+from PIL import Image as PILImage
+
 
 
 class ImageReceiver:
@@ -42,12 +44,16 @@ class ImageReceiver:
         
     
         self.left_image = self.bridge.imgmsg_to_cv2(left_msg, desired_encoding='passthrough')
+
+        
         
         self.stamp = left_msg.header.stamp
      
 
         
         self.right_image = self.bridge.imgmsg_to_cv2(right_msg, desired_encoding='passthrough')
+      
+        
         
     
 class ImageProcessingThread(threading.Thread):
@@ -56,25 +62,26 @@ class ImageProcessingThread(threading.Thread):
         self.receiver = receiver
 
     def run(self):
-        # rate = rospy.Rate(50)
+        # rate = rospy.Rate(100)
         while not rospy.is_shutdown():
             if self.receiver.left_image is not None and self.receiver.right_image is not None:
                 # result = panorama.stitch([receiver.left_image, receiver.right_image])
                 panorama = VideoStitcher(left_video_in_path=self.receiver.left_image, right_video_in_path=self.receiver.right_image)
                 result = panorama.run()
-                print(result.shape)
-                result_msg = self.receiver.bridge.cv2_to_imgmsg(result, encoding="rgb8")
+                
+                # print(result.shape)
+                result_msg = self.receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
                 result_msg.header.stamp = self.receiver.stamp
                 self.receiver.pub.publish(result_msg)
                 # rate.sleep()
                 
-                # cv2.imshow("panorama", result)
-                # cv2.waitKey(1) 
+        #         cv2.imshow("panorama", result)
+        #         cv2.waitKey(1) 
                 
-                # rospy.sleep(3)
-                # if cv2.waitKey(1) & 0xFF == ord("q"):
+        #         rospy.sleep(3)
+        #         if cv2.waitKey(1) & 0xFF == ord("q"):
 
-                #     break
+        #             break
 
         # cv2.destroyAllWindows()      
 

@@ -2,18 +2,18 @@
 <launch>
 
     <arg name="module_name" default="yolov7_module"/>
-    <arg name="model_path" default="$(find atlascar2_perception)/src/models/yolov7.torchscript"/>
+    <arg name="model_path" default="$(find camera_perception)/src/models/yolov7.torchscript"/>
     <arg name="source_1" default="/panorama_img"/>
-    <arg name="source_2" default="/top_right_camera/image_raw"/>
+    <arg name="source_2" default="/top_left_camera/image_raw"/>
     <arg name="loader_name" default="torchscript_cuda"/>
        
 
-    <node name="receiver_left_camera" pkg="atlascar2_perception" type="receiver_left_camera.py" output="screen"/>
-    <!-- <node name="receiver_right_camera" pkg="atlascar2_perception" type="receiver_right_camera.py" output="screen"/> -->
-    <node name="inference_node" pkg="atlascar2_perception" type="inference_node.py" output="screen"
+    <node name="receiver_left_camera" pkg="camera_perception" type="receiver_left_camera.py" output="screen"/>
+    <!-- <node name="receiver_right_camera" pkg="camera_perception" type="receiver_right_camera.py" output="screen"/> -->
+    <node name="inference_node" pkg="camera_perception" type="inference_node.py" output="screen"
         args="-fn $(arg module_name) -mp $(arg model_path) -ml $(arg loader_name) -sr $(arg source_1)">
     </node>
-    <!-- <node name="inference_node_1" pkg="atlascar2_perception" type="inference_node.py" output="screen"
+    <!-- <node name="inference_node_1" pkg="camera_perception" type="inference_node.py" output="screen"
         args="-fn $(arg module_name) -mp $(arg model_path) -ml $(arg loader_name) -sr $(arg source_2)">
     </node> -->
 

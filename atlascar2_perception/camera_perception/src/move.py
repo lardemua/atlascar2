@@ -35,10 +35,7 @@ def spawn_model(name, x, y, path):
 
 def move_model(model_name):
     pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=1)
-    pub_atlascar = rospy.Publisher('/ackermann_steering_controller/cmd_vel', Twist, queue_size=1)
-
-
-    
+    pub_atlascar = rospy.Publisher('/ackermann_steering_controller/cmd_vel', Twist, queue_size=1)   
 
     
     # Set the initial pose
@@ -80,7 +77,8 @@ def move_model(model_name):
 if __name__ == '__main__':
     try:
         model_name = spawn_model('car_beetle', -45, -60, '/home/rafael/catkin_ws/src/gazebo_cars/models/car_beetle/model.sdf')
-        # person = spawn_model('person_standing', -55, -73, '/home/rafael/catkin_ws/src/models/person_standing/model.sdf')
+        # person = spawn_model('person_standing', -48, -73, '/home/rafael/catkin_ws/src/models/person_standing/model.sdf')
+        # suv = spawn_model('suv', -50, -72, '/home/rafael/catkin_ws/src/models/suv/model.sdf')
         move_model(model_name)
     except rospy.ROSInterruptException:
         pass
