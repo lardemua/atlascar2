@@ -55,7 +55,7 @@ for name in data['object detection']:
 
 class BasicReceiver:
     def __init__(self):
-        topic_input = '/top_left_camera/image_raw'
+        topic_input = '/panorama_img'
         topic_detection2d = 'detection2d_left'
         self.bridge = CvBridge()
         self.original_image = None

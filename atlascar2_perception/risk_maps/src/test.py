@@ -14,52 +14,43 @@ from grid_map_msgs.msg import GridMap
 from nav_msgs.msg import OccupancyGrid
 from std_msgs.msg import Float32MultiArray, MultiArrayLayout, MultiArrayDimension
 from nav_msgs.msg import Odometry
-from probability_machine import prob_machine_gridgen
+from probability_machine_1 import prob_machine_gridgen, prob_machine_riskgen, prob_machine_cplotter
 
 ########################################################################### section 2 defaults and global vars
 marker_array_ = MarkerArray()
 
 selfid = 1
 Sequence = True;
-objectList =  np.zeros((12,12), dtype=np.float64)
+objectList =  np.zeros((12,16), dtype=np.float64)
 marker_list = np.zeros((3, 5), dtype=np.float64)
-t = 2  #time horizon
+t = 3  #time horizon
 resolution = 0.1
 n = int(1/resolution)
-w = 80*n + 1
-h = 80*n + 1
+w = 40*n + 1
+h = 40*n + 1
 originX = 0
 originY = 0
 vxmy, vymy, wmy = 1.0 , 1.0, 0.0
+previous_time = None
 
 #################################################################################### section 4 helper functions
+class OrientationSmoothingFilter:
+    def __init__(self, window_size):
+        self.window_size = window_size
+        self.orientation_history = []
+
+    def update(self, yaw):
+        self.orientation_history.append(yaw)
+        if len(self.orientation_history) > self.window_size:
+            self.orientation_history = self.orientation_history[-self.window_size:]
+        return sum(self.orientation_history) / len(self.orientation_history)
+	
+
 def gridMap_generator(rspaceData):
 	global resolution, n, w, h, originX, originY
+	
 	rspaceData = np.asarray(rspaceData, dtype=np.float64).reshape(h,w)
 
-	# occupancy_data = []
-	# for row in rspaceData:
-	# 	occupancy_row = []
-	# 	for cell in row:
-	# 		# Define your threshold for occupied cells
-	# 		if cell > 0:  # Adjust threshold as needed
-	# 			occupancy_row.append(100)  # Occupied cell
-	# 		else:
-	# 			occupancy_row.append(0)    # Free cell
-	# 	occupancy_data.append(occupancy_row)
-
-	# # Create occupancy grid message
-	# occupancy_grid_msg = OccupancyGrid()
-	# occupancy_grid_msg.header.frame_id = "base_footprint"
-	# occupancy_grid_msg.info.resolution = 0.1
-	# occupancy_grid_msg.info.width = w
-	# occupancy_grid_msg.info.height = h
-	# occupancy_grid_msg.info.origin.position.x = originY 
-	# occupancy_grid_msg.info.origin.position.y = originX - 40
-	# occupancy_grid_msg.data = np.array(occupancy_data).flatten().tolist()
-
-	# # Publish occupancy grid message
-	# grid_ocupancy.publish(occupancy_grid_msg)
 
 	rspaceData = np.rot90(rspaceData, 2)
 
@@ -78,9 +69,9 @@ def gridMap_generator(rspaceData):
 	multi_array.data = rspaceData.flatten().tolist()
 	gridmap.layers.append("elevation")
 	gridmap.data.append(multi_array)
-	gridmap.info.length_x = 80
-	gridmap.info.length_y = 80
-	gridmap.info.pose.position.x = originY + 40
+	gridmap.info.length_x = 40
+	gridmap.info.length_y = 40
+	gridmap.info.pose.position.x = originY + 20
 	gridmap.info.pose.position.y = originX 
 	gridmap.info.header.frame_id = "base_footprint"
 	gridmap.info.resolution = 0.1
@@ -90,77 +81,93 @@ def gridMap_generator(rspaceData):
 ############################################################################################# section 5 callbacks	
 
 def callback_sub(marker_data):
-	global Sequence, marker_list, objectList
+	global Sequence, marker_list, objectList, previous_time
 	global vxmy, vymy, wmy, selfid
 	count = len(marker_data.markers)
 	car_count = 0.0
-
+	
 	for i in range(count):
 		if count != 0:
 			car_count += 1
 			ttype = 4
-			# print(len(marker_data.markers))
+			
 			if marker_data.markers[i].text == "car": ttype = 1.0
 			if marker_data.markers[i].text == "rider": ttype = 2.0
 			if marker_data.markers[i].text == "pedestrian": ttype = 4.0
-				
-		
-			# DelT = marker_data.markers[i].header.stamp.to_sec() - marker_list[i][0]
-			DelT = 1/10
-			x_ = marker_data.markers[i].pose.position.x
-			y_ = marker_data.markers[i].pose.position.y
-			# print(DelT)
-			# print(marker_data.markers[i].header.stamp.to_sec())
-			# print('Y:', y_, objectList[i][4])
-		
-			vx = x_/ (DelT)
-			vy = y_/ (DelT)
-			# distance = np.linalg.norm(np.array([x_, y_]) - np.array([objectList[i][3], objectList[i][4]]))
-			# if distance < 0.15:
-		
-			vx += vxmy
-			vy += vymy
-			# vx = 0
-			# vy = vy * 2
-			print('vx:', vx)
-			print('vy:', vy)
-			# rot = []
-			# rot = [0, 0, marker_data.markers[i].pose.orientation.z, marker_data.markers[i].pose.orientation.w]
-			# (roll, pitch, yaw) = euler_from_quaternion(rot)
-			# direction = np.array([pose_odom.point.x, pose_odom.point.y]) - np.array([pose_odom_prev_x, pose_odom_prev_y])
-			# yaw = atan2(direction[1], direction[0])
-			yaw =  marker_data.markers[i].pose.orientation.z
+			current_time = marker_data.markers[i].header.stamp.to_sec()
 			
-			# print('yaw:', yaw)
-			omega = (yaw - objectList[i][5])/DelT
 	
-			# print('omega:', omega)
-			#relative omega
-			omega = (wmy + omega)
-			objectList[i][0] = marker_data.markers[i].id
-			objectList[i][1] = (vx - objectList[i][8])/ DelT #ax
-			objectList[i][2] = (vy - objectList[i][9])/ DelT #ay
-			print('ax:', (vx - objectList[i][8])/ DelT)
-			print('ay:', (vy - objectList[i][9])/ DelT)
-			objectList[i][3] = x_
-			objectList[i][4] = y_
-			objectList[i][5] = yaw
-			objectList[i][6] = ttype
-			objectList[i][7] = omega
-			objectList[i][8] = vx 
-			objectList[i][9] = vy
-			objectList[i][10] = marker_data.markers[i].scale.y #w
-			objectList[i][11] = marker_data.markers[i].scale.x #h
-			# pose_odom_prev_x = pose_odom.point.x
-			# pose_odom_prev_y = pose_odom.point.y 
+			if objectList[i][12] != 0:  
+				elapsed_time = current_time - objectList[i][12]
+				if (abs(marker_data.markers[i].pose.position.y - objectList[i][4])) > 0:
+					if elapsed_time > 0:
+						DelT = elapsed_time
+						x_ = marker_data.markers[i].pose.position.x
+						y_ = marker_data.markers[i].pose.position.y
+
+						# print('time:', DelT)
+						# print('y:', y_)
+						vx = ( x_ - objectList[i][3])/ (DelT)
+						vy = ( y_ - objectList[i][4])/ (DelT)
+				
+						# print('vx:', vx)
+						omega = (marker_data.markers[i].pose.orientation.z - objectList[i][5])/DelT
+						omega = (wmy + omega)
+	
+						vx += vxmy
+						vy += vymy	
+									
+						# vy = -3
+						# vx = 0
+					
+						# print('Vy:', vy)
+						ax = (vx - objectList[i][8])/ DelT 
+						ay = (vy - objectList[i][9])/ DelT
+						# ay = -2
+						# ax = 0
+						objectList[i][12] = current_time
+				else:
+					vx = objectList[i][8]
+					vy = objectList[i][9]
+					ax = objectList[i][1]
+					ay = objectList[i][2]
+					x_ = objectList[i][3] 
+					y_ = objectList[i][4]
+					omega = objectList[i][7] 
+				
+				objectList[i][0] = marker_data.markers[i].id
+				objectList[i][1] = ax
+				objectList[i][2] = ay 
+				objectList[i][3] = x_
+				objectList[i][4] = y_
+				objectList[i][5] = marker_data.markers[i].pose.orientation.z
+				objectList[i][6] = ttype
+				objectList[i][7] = omega			
+				objectList[i][8] = vx
+				objectList[i][9] = vy		
+				objectList[i][10] = marker_data.markers[i].scale.y #w
+				objectList[i][11] = marker_data.markers[i].scale.x #h
 			
-		#print(vxmy, vymy, wmy, vx, vy, omega, marker_data.markers[i].id)
-	rsp_1 = prob_machine_gridgen(car_count,originX, originY -40, objectList, vxmy, vymy, 2)
-	# rsp_2 = prob_machine_gridgen(car_count,originX, originY -40, objectList, vxmy, vymy, 2)
-	# print(rsp_1)
-	# rsp_3 = rsp_1 + rsp_2
+		
+			else:
+				objectList[i][12] = current_time
+			
+			# print('Vx:', vx)
+			
+		
+			# objectList[i][12] = previous_time
+			
+
+	rsp_1 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, t)
+	# rsp_2 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1.5)
+	# rsp_3 = prob_machine_gridgen(car_count,originX, originY -40, objectList, vxmy, vymy, 1.75)
+	# rsp_4 = prob_machine_gridgen(car_count,originX, originY -40, objectList, vxmy, vymy, 1.25)
+	# rsp = rsp_1 * rsp_2 
 	gridMap_generator(rsp_1)
-	# gridMap_generator(rsp_2)
+	risk = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, t)
+	print('risk:', risk)
+	
+
 
 def vel_sub(vel):
 	global vxmy, vymy, wmy
@@ -179,6 +186,7 @@ if __name__ == '__main__':
 		rospy.Subscriber("/ackermann_steering_controller/odom", Odometry, vel_sub)
 		grid_pub = rospy.Publisher("/rspaceGrid2", GridMap, queue_size=1 )
 		grid_ocupancy = rospy.Publisher("/ocupancy_grid", OccupancyGrid, queue_size=1 )
+
 		rospy.spin()
 	except rospy.ROSInterruptException:
 		pass

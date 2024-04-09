@@ -9,7 +9,26 @@ import argparse
 import sys
 import cv2
 import time
-# max_time = 
+
+def bbox_iou(bbox1, bbox2):
+    # Compute intersection coordinates
+    intersection_x1 = max(bbox1.Px1, bbox2.Px1)
+    intersection_y1 = max(bbox1.Py1, bbox2.Py1)
+    intersection_x2 = min(bbox1.Px2, bbox2.Px2)
+    intersection_y2 = min(bbox1.Py2, bbox2.Py2)
+
+    # Compute intersection area
+    intersection_area = max(0, intersection_x2 - intersection_x1) * max(0, intersection_y2 - intersection_y1)
+
+    # Compute union area
+    bbox1_area = (bbox1.Px2 - bbox1.Px1) * (bbox1.Py2 - bbox1.Py1)
+    bbox2_area = (bbox2.Px2 - bbox2.Px1) * (bbox2.Py2 - bbox2.Py1)
+    union_area = bbox1_area + bbox2_area - intersection_area
+
+    # Compute IoU
+    iou = intersection_area / union_area if union_area > 0 else 0
+
+    return iou
 
 class InferenceNode:
     def __init__(self, infer_function_name:str, model_path:str, model_loader:str, source:str):
@@ -59,40 +78,68 @@ class InferenceNode:
                 image_stamp = msg.header.stamp
                 image_frameId = msg.header.frame_id
                 
-                self.inference.load_image(image)
-                start_time = rospy.get_rostime()
-                detections_2d, seg = self.inference.infer()
-                end_time = rospy.get_rostime()
-         
-                if not(detections_2d is None):
-                    (det2d_class_list, det2d_list) = detections_2d
-                    detect2d_msg = detect2d()
-                    coords = []
-                    strings = []
+                roi1 = image[:, 0:1001, :]
+                roi2 = image[:, 500:image.shape[1], :]
+
+                coords = []
+                strings = []
                 
-                    for k, i in enumerate(det2d_list):
-                        string = String()
-                        string.data = det2d_class_list[k]
-                        coord = BBox()
-                        coord.Px1 = i[0][0]
-                        coord.Py1 = i[0][1]
-                        coord.Px2 = i[1][0]
-                        coord.Py2 = i[1][1]
-                        coords.append(coord)
-                        strings.append(string) 
-                    detect2d_msg.BBoxList = coords
-                    detect2d_msg.ClassList = strings
-                    detect2d_msg.stamp = image_stamp
-                    detect2d_msg.frame_id = image_frameId
-                    detect2d_msg.start_stamp = start_time
-                    detect2d_msg.end_stamp = end_time
-                    if self.source == '/top_right_camera/image_raw':
-                        self.detection2d_pub_right.publish(detect2d_msg)
-                    else:
-                        self.detection2d_pub_left.publish(detect2d_msg)  
+                for idx, image_roi in enumerate([roi1, roi2]):
+                    self.inference.load_image(image_roi)
+                    start_time = rospy.get_rostime()
+                    detections_2d, seg = self.inference.infer()
+                    end_time = rospy.get_rostime()
+            
+                    if not(detections_2d is None):
+                        (det2d_class_list, det2d_list) = detections_2d
+                        detect2d_msg = detect2d()                        
+
+                        bbox_roi2 = []
+                        string_roi2 = []
+                        for k, i in enumerate(det2d_list):
+                            string = String()
+                            string.data = det2d_class_list[k]
+                            coord = BBox()
+                            if idx == 1:
+                                if i[0][0] > 0:
+                                    coord.Px1 = i[0][0] + 500
+                                    coord.Px2 = i[1][0] + 500
+                                    coord.Py1 = i[0][1]                           
+                                    coord.Py2 = i[1][1]
+                                    bbox_roi2.append(coord) 
+                                    string_roi2.append(string)                                   
+                            else:
+                                if i[1][0] < 1000:
+                                    coord.Px1 = i[0][0]
+                                    coord.Px2 = i[1][0]
+                                    coord.Py1 = i[0][1]                           
+                                    coord.Py2 = i[1][1]
+                                    
+                                    coords.append(coord)
+                                    strings.append(string)
+                                                     
+                        for s, box in enumerate(bbox_roi2):
+                            if all(abs(cord.Px1 - box.Px1) > 5 and abs(cord.Px2 - box.Px2) > 5 for cord in coords):
+                                coords.append(box)
+                                strings.append(string_roi2[s])
+                      
+                       
+
+
+
+                detect2d_msg.BBoxList = coords
+                detect2d_msg.ClassList = strings
+                detect2d_msg.stamp = image_stamp
+                detect2d_msg.frame_id = image_frameId
+                detect2d_msg.start_stamp = start_time
+                detect2d_msg.end_stamp = end_time
+                # if self.source == '/top_right_camera/image_raw':
+                #     self.detection2d_pub_right.publish(detect2d_msg)
+                # else:
+                self.detection2d_pub_left.publish(detect2d_msg)  
                       
                       
-            time_b = time.time()
+            # time_b = time.time()
             # print(f"Tempo geral: {time_b-time_a}")
 
 if __name__ == '__main__':

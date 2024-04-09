@@ -17,20 +17,22 @@ class VideoStitcher:
         # self.saved_homo_matrix = None
         
 
-        # self.saved_homo_matrix = np.array([[ 4.48590236e-01, -1.37643857e-01,  8.47104211e+02],
-        #                                     [-6.89298447e-02, 9.09414937e-01,  1.60873693e+01],
-        #                                     [-4.29944417e-04,  4.20886946e-05,  1.00000000e+00]])
+#         self.saved_homo_matrix = np.array([[ 4.54308372e-01, -2.92107553e-01,  1.70504113e+03],
+#  [-3.61272608e-02,  9.02828060e-01,  1.79270285e+01],
+#  [-2.17152961e-04,  3.06054126e-05,  1.00000000e+00]])
 
-        # Initialize the saved homography matrix
-        self.saved_homo_matrix = np.array([[ 6.54919231e-01, -6.69753943e-02,  2.48957192e+02],
-                                            [-2.78402893e-02,  9.83161219e-01, -1.47572196e+00],
-                                            [-1.05676793e-03,  3.13490230e-04,  1.00000000e+00]])
+
+        # esta é boa
+        self.saved_homo_matrix = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
+                                        [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
+                                        [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
 
     def stitch(self, images, ratio=0.75, reproj_thresh=4.0):
         # Unpack the images
         (image_b, image_a) = images
-        image_b = imutils.resize(image_b, width=400)
-        image_a = imutils.resize(image_a, width=400)
+        # image_b = cv2.resize(image_b, (2546, 1017))
+        # image_a = cv2.resize(image_a, (2546, 1017))
+                        
         
         
         # If the saved homography matrix is None, then we need to apply keypoint matching to construct it
@@ -132,8 +134,10 @@ class VideoStitcher:
         if not(left_video is None and right_video is None):
               
             stitched_frame = self.stitch([left_video, right_video])       
-            # stitched_frame = imutils.resize(stitched_frame, height=508*2)
-            # stitched_frame = imutils.resize(stitched_frame, height=636*2)
+            stitched_frame = imutils.resize(stitched_frame, height=600)
+            # stitched_frame_1 = cv2.resize(stitched_frame, (640, 640))
+            # stitched_frame_2 = cv2.resize(stitched_frame[:,0:1000,:], (640, 640))
+        
 
             return stitched_frame
         

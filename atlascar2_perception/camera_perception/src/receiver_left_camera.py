@@ -116,7 +116,7 @@ class BasicReceiver:
         self.subscriber_pc = rospy.Subscriber(topic_pc, PointCloud2, self.pcCallback)
         self.susbcriber_jsk = rospy.Subscriber(topic_jsk_sub, BoundingBoxArray, self.jskCallback)
         self.publisher_jsk = rospy.Publisher(topic_jsk_pub, MarkerArray, queue_size=1)
-        rospy.on_shutdown(self.shutdown_callback)
+    
         
     def inputCallback(self, msg):
         self.original_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
@@ -145,20 +145,18 @@ if __name__ == '__main__':
     
     tf_buffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tf_buffer)
-   
+    width = 751
     namespace = rospy.get_namespace()
     new_boxes = MarkerArray()
     boxes_class = {}
     boxes_orientation = {}
     pose_odom_prev_x = 0
     pose_odom_prev_y = 0
-    Homography = np.array([[ 6.54919231e-01, -6.69753943e-02,  2.48957192e+02],
-                                            [-2.78402893e-02,  9.83161219e-01, -1.47572196e+00],
-                                            [-1.05676793e-03,  3.13490230e-04,  1.00000000e+00]])
-    # Homography = np.array([[ 4.48590236e-01, -1.37643857e-01,  8.47104211e+02],
-    #                                         [-6.89298447e-02, 9.09414937e-01,  1.60873693e+01],
-    #                                         [-4.29944417e-04,  4.20886946e-05,  1.00000000e+00]])
-    rate = rospy.Rate(2.5)
+    Homography = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
+                                        [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
+                                        [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
+ 
+    rate = rospy.Rate(10)
     window_name = "Left Camera"
     while not rospy.is_shutdown():
         time_a = time.time()
@@ -216,7 +214,7 @@ if __name__ == '__main__':
 
                 pixels_left = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pixels_left.point.x], [pixels_left.point.y], [pixels_left.point.z], [1]]))
                 pixels_left = pixels_left[:2] / pixels_left[2] 
-                pixels_right = np.dot(np.hstack((params.K_camera_right_resized,np.array([[0],[0],[0]]))), np.array([[pixels_right.point.x], [pixels_right.point.y], [pixels_right.point.z], [1]]))
+                pixels_right = np.dot(np.hstack((params.K_camera_right,np.array([[0],[0],[0]]))), np.array([[pixels_right.point.x], [pixels_right.point.y], [pixels_right.point.z], [1]]))
                 pixels_right = pixels_right[:2] / pixels_right[2]
       
                     
@@ -224,17 +222,17 @@ if __name__ == '__main__':
                 pixels_right_homography = np.dot(Homography, np.vstack((pixels_right, 1)))
          
                 pixels_right_homography = pixels_right_homography[:2] / pixels_right_homography[2]
-                # pixels_right_homography[0] = pixels_right_homography[0] * params.scale_x
-                # pixels_right_homography[1] = pixels_right_homography[1] * params.scale_y
-                if pixels_left[0] <= 400:
+                pixels_right_homography[0] = pixels_right_homography[0] * params.scale_x
+                pixels_right_homography[1] = pixels_right_homography[1] * params.scale_y
+                if pixels_left[0] <= width:
                     cluster_pixels.append(pixels_left)
-                if pixels_right_homography[0] > 400:
+                if pixels_right_homography[0] > width:
                     cluster_pixels.append(pixels_right_homography)
 
                        
                         
-                image = cv2.circle(image, (int(pixels_left[0]), int(pixels_left[1])),radius=1,color=(0,255,0) , thickness=-1)
-                image = cv2.circle(image, (int(pixels_right_homography[0]), int(pixels_right_homography[1])),radius=1,color=(0,0,255) , thickness=-1)
+                image = cv2.circle(image, (int(pixels_left[0]), int(pixels_left[1])),radius=2,color=(0,255,0) , thickness=-1)
+                image = cv2.circle(image, (int(pixels_right_homography[0]), int(pixels_right_homography[1])),radius=2,color=(0,0,255) , thickness=-1)
 
             new_boxes.markers = []
             for box in teste.lidar_boxes:
@@ -252,27 +250,35 @@ if __name__ == '__main__':
 
 
                 if box.label not in boxes_orientation:
-                    boxes_orientation[box.label] = {'x': pose_2.point.x, 'y': pose_2.point.y, 'moved_flag': False, 'previous_smoothed_yaw': None} 
+                    boxes_orientation[box.label] = {'x': pose_2.point.x, 'y': pose_2.point.y, 'moved_flag': False, 'previous_smoothed_yaw': 0} 
      
 
                 direction = np.array([pose_2.point.x, pose_2.point.y]) - np.array([boxes_orientation[box.label]['x'], boxes_orientation[box.label]['y']])
                 distance = np.linalg.norm(np.array([pose_2.point.x, pose_2.point.y]) - np.array([boxes_orientation[box.label]['x'], boxes_orientation[box.label]['y']]))
-                # print(distance)
-                if distance > 0.15:     
+                print('distance:', distance)
+                if distance > 0.1:     
                     yaw = atan2(direction[1], direction[0])
                     smoothed_yaw = orientation_smoother.update(yaw)
-                    boxes_orientation[box.label]['moved_flag'] = True
-             
+                    boxes_orientation[box.label]['previous_smoothed_yaw'] = smoothed_yaw
+                    print('yaw:', smoothed_yaw)
                 else:
-                    if boxes_orientation[box.label]['moved_flag']:
-                        smoothed_yaw = boxes_orientation[box.label]['previous_smoothed_yaw']                      
-                    else:
-                        yaw = atan2(direction[1], direction[0])
-                        smoothed_yaw = yaw
+                    smoothed_yaw = boxes_orientation[box.label]['previous_smoothed_yaw']
+                    # boxes_orientation[box.label]['moved_flag'] = True
+
+                # else:
+                #     if boxes_orientation[box.label]['moved_flag'] and distance > 0.001:
+                #         smoothed_yaw = boxes_orientation[box.label]['previous_smoothed_yaw']
+                #         print('yes')
+                                                              
+                # else:
+                #         yaw = atan2(direction[1], direction[0])
+                #         smoothed_yaw = orientation_smoother.update(yaw)
+                        
+                 
                 #     if not moved_flag:
                 #         smoothed_yaw = -1
           
-                boxes_orientation[box.label]['previous_smoothed_yaw'] = smoothed_yaw  
+                # boxes_orientation[box.label]['previous_smoothed_yaw'] = smoothed_yaw  
                 # print("distance:", distance)        
                 # print("flag:", moved_flag)
                 # print("smoothed_yaw:", smoothed_yaw)
@@ -293,12 +299,14 @@ if __name__ == '__main__':
                 new_box.pose.position.z = box.dimensions.z + 1
                 new_box.pose.orientation.w = 1
                 new_box.pose.orientation.z = smoothed_yaw
-                new_box.scale = box.dimensions 
+                new_box.scale = box.dimensions
+         
+                 
                    
                 if len(boxes_class) == 0:        
                     new_box.text = "unknown"
                 
-                # print(boxes_orientation)
+                
                 # else:
                 #     new_boxes.markers[idx].header = box.header
                 #     new_boxes.markers[idx].pose = box.pose
@@ -327,15 +335,17 @@ if __name__ == '__main__':
                    
                     pose_pixels_left = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pose_camera_left.point.x], [pose_camera_left.point.y], [pose_camera_left.point.z], [1]]))
                     pose_pixels_left = pose_pixels_left[:2] / pose_pixels_left[2]
-                    pose_pixels_right = np.dot(np.hstack((params.K_camera_right_resized,np.array([[0],[0],[0]]))), np.array([[pose_camera_right.point.x], [pose_camera_right.point.y], [pose_camera_right.point.z], [1]]))
+                    pose_pixels_right = np.dot(np.hstack((params.K_camera_right,np.array([[0],[0],[0]]))), np.array([[pose_camera_right.point.x], [pose_camera_right.point.y], [pose_camera_right.point.z], [1]]))
                     pose_pixels_right = pose_pixels_right[:2] / pose_pixels_right[2]
                     pose_pixels_right_homography = np.dot(Homography, np.vstack((pose_pixels_right, 1)))
          
                     pose_pixels_right_homography = pose_pixels_right_homography[:2] / pose_pixels_right_homography[2]
+                    pose_pixels_right_homography[0] = pose_pixels_right_homography[0] * params.scale_x
+                    pose_pixels_right_homography[1] = pose_pixels_right_homography[1] * params.scale_y
              
-                    if pose_pixels_left[0] <= 400:
+                    if pose_pixels_left[0] <= width:
                         pose_pixels_list.append(pose_pixels_left)
-                    if pose_pixels_right_homography[0] > 400:
+                    if pose_pixels_right_homography[0] > width:
                         pose_pixels_list.append(pose_pixels_right_homography)
        
                     # image = cv2.circle(image, (int(pose_pixels_left[0]), int(pose_pixels_left[1])),radius=5,color=(255,0,0) , thickness=-1)
@@ -410,8 +420,8 @@ if __name__ == '__main__':
                 if box.label in boxes_class:
                     freq_dict = boxes_class[box.label]
                     new_box.text = most_frequent_yolo_class(freq_dict)
-                    if new_box.text == "other":
-                        new_box.text = "pedestrian"
+                    # if new_box.text == "other":
+                    #     new_box.text = "pedestrian"
                     
 
                   
@@ -431,7 +441,7 @@ if __name__ == '__main__':
 
             cv2.imshow(window_name, image)
 
-            # counter += 1
+            # # counter += 1
             cv2.waitKey(1)
             teste.publisher_jsk.publish(new_boxes)
             rate.sleep()

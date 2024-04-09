@@ -14,7 +14,7 @@
         args="-fn $(arg module_name) -mp $(arg model_path) -ml $(arg loader_name) -sr $(arg source_1)">
     </node>
     <!-- <node name="inference_node_1" pkg="camera_perception" type="inference_node.py" output="screen"
-        args="-fn $(arg module_name) -mp $(arg model_path) -ml $(arg loader_name) -sr $(arg source_2)">
+        args="-fn $(arg module_name) -mp $(arg model_path) -ml $(arg loader_name) -sr $(arg source_1)">
     </node> -->
 
  

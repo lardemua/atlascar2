@@ -69,21 +69,23 @@ class ImageProcessingThread(threading.Thread):
                 panorama = VideoStitcher(left_video_in_path=self.receiver.left_image, right_video_in_path=self.receiver.right_image)
                 result = panorama.run()
                 
-                # print(result.shape)
+                print(result.shape)
                 result_msg = self.receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
                 result_msg.header.stamp = self.receiver.stamp
                 self.receiver.pub.publish(result_msg)
                 # rate.sleep()
                 
-        #         cv2.imshow("panorama", result)
-        #         cv2.waitKey(1) 
+                cv2.imshow("panorama", result)
+                l = cv2.resize(receiver.left_image, (640, 640))
+                cv2.imshow("left_camera", l)
+                cv2.waitKey(1) 
                 
-        #         rospy.sleep(3)
-        #         if cv2.waitKey(1) & 0xFF == ord("q"):
+                # rospy.sleep(3)
+                # if cv2.waitKey(1) & 0xFF == ord("q"):
 
-        #             break
+                #     break
 
-        # cv2.destroyAllWindows()      
+        cv2.destroyAllWindows()      
 
 if __name__ == '__main__':
     rospy.init_node('panorama', anonymous=True)

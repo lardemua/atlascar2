@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="model_name" default=""/>
-
-    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/rviz$(arg model_name).rviz"/>
+<!-- 
+    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/rviz$(arg model_name).rviz"/> -->
+    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find risk_maps)/rviz/risk_maps.rviz"/>
 </launch>

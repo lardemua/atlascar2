@@ -62,23 +62,26 @@ def move_model(model_name):
     model_state_msg = ModelState()
     model_state_msg.model_name = model_name
     model_state_msg.pose = pose
+    # model_state_msg.reference_frame = 'base_footprint'
 
     atlascar_msg = Twist()
-    atlascar_msg.linear.x = 2
-    speed = -0.1  # Adjust as needed
+    atlascar_msg.linear.x = 1
+    speed = -0.2  # Adjust as needed
     rate = rospy.Rate(10)  # 10 Hz
     while not rospy.is_shutdown():
         pose.position.y += speed
+        print(pose.position.y)
+        # pose.position.x += 0.1
         model_state_msg.pose = pose
         pub.publish(model_state_msg)
-        # pub_atlascar.publish(atlascar_msg)
+        pub_atlascar.publish(atlascar_msg)
         rate.sleep()
 
 if __name__ == '__main__':
     try:
-        model_name = spawn_model('car_beetle', -45, -60, '/home/rafael/catkin_ws/src/gazebo_cars/models/car_beetle/model.sdf')
+        beetle = spawn_model('car_beetle', -45, -60, '/home/rafael/catkin_ws/src/gazebo_cars/models/car_beetle/model.sdf')
         # person = spawn_model('person_standing', -48, -73, '/home/rafael/catkin_ws/src/models/person_standing/model.sdf')
-        # suv = spawn_model('suv', -50, -72, '/home/rafael/catkin_ws/src/models/suv/model.sdf')
-        move_model(model_name)
+        # suv = spawn_model('suv', -45, -60, '/home/rafael/catkin_ws/src/models/suv/model.sdf')
+        move_model(beetle)
     except rospy.ROSInterruptException:
         pass
