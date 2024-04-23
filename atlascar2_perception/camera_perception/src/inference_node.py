@@ -78,8 +78,8 @@ class InferenceNode:
                 image_stamp = msg.header.stamp
                 image_frameId = msg.header.frame_id
                 
-                roi1 = image[:, 0:1001, :]
-                roi2 = image[:, 500:image.shape[1], :]
+                roi1 = image[:, 0:601, :]
+                roi2 = image[:, 400:image.shape[1], :]
 
                 coords = []
                 strings = []
@@ -102,14 +102,14 @@ class InferenceNode:
                             coord = BBox()
                             if idx == 1:
                                 if i[0][0] > 0:
-                                    coord.Px1 = i[0][0] + 500
-                                    coord.Px2 = i[1][0] + 500
+                                    coord.Px1 = i[0][0] + 400
+                                    coord.Px2 = i[1][0] + 400
                                     coord.Py1 = i[0][1]                           
                                     coord.Py2 = i[1][1]
                                     bbox_roi2.append(coord) 
                                     string_roi2.append(string)                                   
                             else:
-                                if i[1][0] < 1000:
+                                if i[1][0] < 600:
                                     coord.Px1 = i[0][0]
                                     coord.Px2 = i[1][0]
                                     coord.Py1 = i[0][1]                           

@@ -146,8 +146,8 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 					
 			if v < 1: #static object
 		
-				cosi = np.cos(theta_given)
-				sine = np.sin(theta_given)
+				cosi = np.cos(theta_given)  #0
+				sine = np.sin(theta_given)  #1
 				arx = np.array([(sx  * cosi) - (sy * sine), (sx  * cosi) + (sy * sine), -(sx  * cosi) - (sy * sine), -(sx  * cosi) + (sy * sine)])
 				ary = np.array([(sx  * sine) + (sy * cosi), -(sx  * sine) + (sy * cosi), -(sx  * sine) - (sy * cosi), (sx  * sine) - (sy * cosi)])
 				Rxmax, Rxmin = np.max(arx), np.min(arx)
@@ -273,7 +273,7 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 			xma, xmi, ymi, yma = int(x + Rxmax), int(x + Rxmin), int(y + Rymin), int(y+ Rymax)
 			for xl in range(xmi, xma, 1):
 				for yi in range(ymi, yma, 1):
-					if (800 > xl > 0) and (800 > yi > 0): 
+					if (400 > xl > 0) and (400 > yi > 0): 
 						if (0 < xl < dx):
 							yrange = 200 + (xl*xl*vsy / (26*vsx + 0.01))
 							if (yrange - 10 < yi < yrange+10):
@@ -281,94 +281,47 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 	if point_count > 0: point_intr = point_intr / point_count
 	return point_intr
 
-@njit(f64(int8,int8,int8, f64[:], f64, f64, f64), nogil=True, fastmath=True, cache=True)
-def prob_machine_cplotter(f, originX, originY, objectList, vsx, vsy, t):
-	MaxD = 10*n*t
+@njit(f64(int8, int8,int8,f64[:,:], f64, f64, f64), nogil=True, fastmath=True, cache=True)
+def prob_machine_pedc(f,originX, originY, objectList, vsx, vsy, t):
 	rspaceData = np.zeros((w*h), dtype=np.float64)
-	vself = np.hypot(vsx, vsy)
-	dx = vself*n*t + 1
-	x = (objectList[3] - 0.5- originX)* n 
-	y = (objectList[4] - originY)* n
-	vx = objectList[8]
-	vy = objectList[9]
-	v = np.hypot(vx, vy)
-	theta_given = objectList[5]
-	sx = 0.5*n*objectList[10]
-	sy = 0.5*n*objectList[11] #h
-	point_count = 1.0
+	dx = vsx*n*t + 5
 	point_intr = 0.0
-	if v > 1:
-		ax = objectList[1]
-		ay = objectList[2]
-		a = np.hypot(ax, ay)
-		Vf = v + a*t 
-		Dx = vx*t + 0.5*ax*t*t
-		Dy = vy*t + 0.5*ay*t*t
-		D = (np.hypot(Dx, Dy))
-		if D > MaxD: D = MaxD
+	for i in range(f):
+		x = (objectList[i][3] - 0.5 - originX)* n 
+		y = (objectList[i][4] - originY)* n
+		vx = objectList[i][8]
+		vy = objectList[i][9]
+		v = np.hypot(vx, vy)
+		theta_given = objectList[i][5]
+		point_count = 0.0
 		ymin = int(y - k) if (y - k) > 0 else 0
 		ymax = int(y + k) if (y + k) < w else w
 		xmin = int(x - k) if (x - k) > 0 else 0
 		xmax = int(x + k) if (x + k) < h else h
 		yg = np.arange(ymin, ymax) - y
-		if a > 0 :
-			factor = v*t*((v-1)/(v+1)) + 0.5*a*t*t*abs((a-1)/(a+1))
-			rspLocal = np.zeros((w*h), dtype=np.float64)
-			for xg in range(xmin, xmax, 1):
-				d1 = np.hypot(yg, xg-x) - D
-				delth = np.arctan2(yg, xg-x) - theta_given
-				for j in range(len(d1)):
-					y_ = int(yg[j] + y)
-					deltha, d = delth[j], d1[j]
-					if abs(theta_given) > 2.57: 
-						if deltha > 6:
-							deltha = deltha - 6.28
-						elif deltha < -6:
-							deltha = deltha + 6.28
-					Pa = 1 - (deltha*deltha*Vf*angcons/ (t *t))
-					Pl = 1 - (d*d / (lincons*factor + 0.0001))
-					if Pa < 0: Pa = 0
-					if Pa > 1: Pa = 1
-					if Pl < 0: Pl = 0
-					p = Pa*Pl
-					if 1 > p > 0:
-						orient = 2*np.arctan((y_-y) / (xg-x)) - theta_given
-						point_count += p
-						cosi = np.cos(orient)
-						sine = np.sin(orient)
-						TRx = xg + (sx * cosi) - (sy * sine)
-						TRy = y_ + (sx * sine) + (sy * cosi)
-						TLx = xg - (sx * cosi) - (sy * sine)
-						TLy = y_ - (sx * sine) + (sy * cosi)
-						BLx = xg - (sx * cosi) + (sy * sine)
-						BLy = y_ - (sx * sine) - (sy * cosi)
-						BRx = xg + (sx * cosi) + (sy * sine)
-						BRy = y_ + (sx * sine) - (sy * cosi)
-						arx = np.array([ TRx, TLx, BLx, BRx])
-						ary = np.array([ TRy, TLy, BLy, BRy])
-						xma, xmi, yma, ymi = np.max(arx), np.min(arx), np.max(ary), np.min(ary)
-						DT = (TRx - BRx) * (y_ - BRy) - (xg - BRx) * (TRy - BRy)
-						DL = (TLx - BLx) * (y_ - BLy) - (xg - BLx) * (TLy - BLy)
-						DR = (TLx - TRx) * (y_ - TRy) - (xg - TRx) * (TLy - TRy)
-						DB = (BRx - BLx) * (y_ - BLy) - (xg - BLx) * (BRy - BLy)
-						for xl in range(xmi, xma, 1):
-							for yi in range(ymi, yma, 1):
-								if (w > xl > 0) and (h > yi > 0):
-									DTl = (TRx - BRx) * (yi - BRy) - (xl - BRx) * (TRy - BRy)
-									if (DTl*DT) > 0:
-										DLl = (TLx - BLx) * (yi - BLy) - (xl - BLx) * (TLy - BLy)
-										if (DLl*DL > 0):
-											DRl = (TLx - TRx) * (yi - TRy) - (xl - TRx) * (TLy - TRy)
-											if (DRl*DR) > 0:
-												DBl = (BRx - BLx) * (yi - BLy) - (xl - BLx) * (BRy - BLy)
-												if (DBl*DB) > 0:
-													rspLocal[h*yi + xl] += p
-													if (0 < xg < dx):
-														yrange = 400 + (xg*xg*vsy / (26*vsx + 0.01))
-														if (yrange - 10 < y_ < yrange+10):
-															if rspLocal[h*yi + xl]  > point_intr: point_intr = rspLocal[h*yi + xl] 	
-															#if point_count > 0: point_intr /= point_count
-			if point_count > 0: point_intr = point_intr / point_count #gives normalized dist of COM
-	
-	if point_intr > 1: point_intr = 1
+		rspLocal = np.zeros((w*h), dtype=np.float64)
+		D_ped = v*t
+		pedmax = 3*t #maximum range of pedestrian
+		if D_ped > pedmax: D_ped = pedmax
+		for xg in range(xmin, xmax, 1):
+			d1 = resolution*np.hypot(yg, xg-x) - D_ped
+			delth = np.arctan2(yg, xg-x) - theta_given
+			for j in range(len(d1)):
+				y_ = int(yg[j] + y)
+				deltha, d = delth[j], d1[j]
+				Pa = 1 - abs(1.2*np.sin(deltha/2))
+				Pl = 1 - (d*d /pedmax)
+				if Pa < 0: Pa = 0
+				if Pa > 1: Pa = 1
+				if Pl < 0: Pl = 0
+				p = Pl*Pa
+				if 1 > p > 0:
+					point_count += p
+					rspLocal[h*y_ + xg] += p
+					if (0 < xg < dx):
+						yrange = 200 + (xg*xg*vsy / (26*vsx + 0.01))
+						if (yrange - 10 < y_ < yrange+10):
+							if rspLocal[h*y_ + xg]  > point_intr: 
+								point_intr = rspLocal[h*y_ + xg]
+							
 	return point_intr

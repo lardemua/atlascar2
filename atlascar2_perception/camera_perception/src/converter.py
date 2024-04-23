@@ -66,8 +66,8 @@ class sensor_params:
                                 [0.0, 1101.581198742484, 508.5],
                                 [0.0, 0.0, 1.0]])
         
-        self.scale_x = 751 / (636.5*2)
-        self.scale_y = 600 / (508.5*2)
+        self.scale_x = 500.5 / (636.5*2)
+        self.scale_y = 400 / (508.5*2)
         self.K_camera_left_resized = np.array([[1101.581198742484*self.scale_x, 0.0, 636.5*self.scale_x],
                                 [0.0, 1101.581198742484*self.scale_y, 508.5*self.scale_y],
                                 [0.0, 0.0, 1.0]])

@@ -30,19 +30,16 @@
     </group> -->
     <group if="$(arg only_raw_data)">
         <node name="rosbag_record" pkg="rosbag" type="record" output="screen" args="
-           
-            /top_left_camera/image_raw
-            /top_right_camera/image_raw
-            /top_laser/cloud
-            /panorama_img        
-            /ackermann_steering_controller/odom
-            /fused_detection
-            /obstacle_detector/jsk_bboxes
             /tf
-            /tf_static      
+            /tf_static
+            /top_laser/cloud
+            /panorama_img
+            /obstacle_detector/jsk_bboxes
+            /fused_detection      
             /ackermann_steering_controller/odom
-            /received_messages
-            -o /tmp/bag_file.bag">
+                  
+     
+            -o /home/rafael/bagfiles/atlascar2/bag_file.bag">
         </node>
 
 <!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->

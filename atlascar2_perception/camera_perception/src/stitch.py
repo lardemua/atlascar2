@@ -1,22 +1,12 @@
 #!/usr/bin/python3
 
-
-import imutils
-import cv2
 import rospy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from message_filters import TimeSynchronizer, Subscriber
-from stitching import Stitcher, AffineStitcher
 from video import VideoStitcher
 import numpy as np
-import time
-from queue import Queue
-import threading
-
-from PIL import Image as PILImage
-
-
+import multiprocessing
 
 class ImageReceiver:
     def __init__(self):
@@ -25,10 +15,6 @@ class ImageReceiver:
         self.bridge = CvBridge()
         self.left_image = None
         self.right_image = None
-        self.left_image_2 = None
-        self.right_image_2 = None
-        self.left_image_ready = False
-        self.right_image_ready = False
         self.stamp = None
 
         # Subscribe to image topics
@@ -40,84 +26,27 @@ class ImageReceiver:
         self.sync = TimeSynchronizer([self.img_left_sub, self.img_right_sub], 1)
         self.sync.registerCallback(self.img_callback)
 
-    def img_callback(self, left_msg, right_msg):      
-        
-    
+    def img_callback(self, left_msg, right_msg):
         self.left_image = self.bridge.imgmsg_to_cv2(left_msg, desired_encoding='passthrough')
-
-        
-        
-        self.stamp = left_msg.header.stamp
-     
-
-        
         self.right_image = self.bridge.imgmsg_to_cv2(right_msg, desired_encoding='passthrough')
-      
+        self.stamp = left_msg.header.stamp
+
         
-        
-    
-class ImageProcessingThread(threading.Thread):
-    def __init__(self, receiver):
-        threading.Thread.__init__(self)
-        self.receiver = receiver
-
-    def run(self):
-        # rate = rospy.Rate(100)
-        while not rospy.is_shutdown():
-            if self.receiver.left_image is not None and self.receiver.right_image is not None:
-                # result = panorama.stitch([receiver.left_image, receiver.right_image])
-                panorama = VideoStitcher(left_video_in_path=self.receiver.left_image, right_video_in_path=self.receiver.right_image)
-                result = panorama.run()
-                
-                print(result.shape)
-                result_msg = self.receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
-                result_msg.header.stamp = self.receiver.stamp
-                self.receiver.pub.publish(result_msg)
-                # rate.sleep()
-                
-                cv2.imshow("panorama", result)
-                l = cv2.resize(receiver.left_image, (640, 640))
-                cv2.imshow("left_camera", l)
-                cv2.waitKey(1) 
-                
-                # rospy.sleep(3)
-                # if cv2.waitKey(1) & 0xFF == ord("q"):
-
-                #     break
-
-        cv2.destroyAllWindows()      
 
 if __name__ == '__main__':
     rospy.init_node('panorama', anonymous=True)
-    
-    # panorama = Stitcher()
-  
     receiver = ImageReceiver()
-    processing_thread = ImageProcessingThread(receiver)
-    processing_thread.start()
-    rospy.spin()
-    # while not rospy.is_shutdown():
-        
-    #     if receiver.left_image is not None and receiver.right_image is not None:
-        
-    #         panorama = VideoStitcher(left_video_in_path=receiver.left_image, right_video_in_path=receiver.right_image)
-    #         # result = panorama.stitch([receiver.left_image, receiver.right_image])
-    #         result = panorama.run()
-    #         # (result, _) = panorama.image_stitch([receiver.left_image, receiver.right_image], match_status=True)
-            
 
-    #         # cv2.imshow("panorama", result)
-    #         # cv2.waitKey(1) 
-    #         result_msg = receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
-    #         result_msg.header.stamp = receiver.stamp
-    #         receiver.pub.publish(result_msg)
- 
-            # rospy.sleep(3)
-            # if cv2.waitKey(1) & 0xFF == ord("q"):
+    # Multiprocessing
+    # multiprocessing.Process(target=receiver.run).start()
 
-            #     break
-            # receiver.left_image_ready = False
-            # receiver.right_image_ready = False
-
-
-    # cv2.destroyAllWindows()
+    rate = rospy.Rate(10)  # Adjust the publishing rate as needed
+    while not rospy.is_shutdown():
+        if receiver.left_image is not None and receiver.right_image is not None:
+            panorama = VideoStitcher(left_video_in_path=receiver.left_image, right_video_in_path=receiver.right_image)
+            result = panorama.run()
+            print(result.shape)
+            result_msg = receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
+            result_msg.header.stamp = receiver.stamp
+            receiver.pub.publish(result_msg)
+        rate.sleep()
