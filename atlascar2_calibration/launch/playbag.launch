@@ -22,7 +22,7 @@
     Sets up image decompressors if needed, reads the urdf robot description.
 
 @arg bag_file  Absolute path to the playing bag.
-    default: $(env ROS_BAGS)/atlascar2/gazebo_move.bag
+    default: $(env ROS_BAGS)/bag_file.bag
 @arg bag_start Playback starting time (in seconds). default: 0.0
 @arg bag_rate  Playback rate. default: 1.0
 @arg use_tfs  Use tfs in the bag file or generate new ones using the urdf, joint state messages and the robot state publisher. default: False
@@ -30,7 +30,7 @@
 
 <launch>
 
-    <arg name="bag_file" default="$(env ROS_BAGS)/atlascar2/gazebo_move.bag"/>
+    <arg name="bag_file" default="$(env ROS_BAGS)/bag_file.bag"/>
     <arg name="bag_start" default="0"/>
     <arg name="bag_rate" default="1"/>
     <arg name="optimized" default="false"/>
@@ -43,10 +43,10 @@
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     <!-- Throttle topics -->
     <node pkg="topic_tools" type="throttle" name="throttler_top_left_camera"
-          args="messages /top_left_camera/image_raw/compressed_to_throttle 10 /top_left_camera/image_raw/compressed"/>
+          args="messages /top_left_camera/image_color_to_throttle 10 /top_left_camera/image_color"/>
     
     <node pkg="topic_tools" type="throttle" name="throttler_top_right_camera"
-          args="messages /top_right_camera/image_raw/compressed_to_throttle 10 /top_right_camera/image_raw/compressed"/>
+          args="messages /top_right_camera/image_raw_to_throttle 10 /top_right_camera/image_raw"/>
     
     <node pkg="topic_tools" type="throttle" name="throttler_top_lidar"
           args="messages /top_laser/cloud_to_throttle 10 /top_laser/cloud"/>
@@ -61,18 +61,11 @@
     <!-- Playback the bag file -->
     <param name="/use_sim_time" value="true"/>
 
-    <!-- Play bag file using tfs, ignore joint states, do not collect ground truth  -->
+    <!-- Generate transformatiosn from the xacro and joint state msgs, ignore tfs -->
     <node pkg="rosbag" type="play" name="rosbag_play" output="screen"
-              args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /joint_states:=/joint_states_null /top_left_camera/image_raw/compressed:=/top_left_camera/image_raw/compressed_to_throttle /top_right_camera/image_raw/compressed:=/top_right_camera/image_raw/compressed_to_throttle /top_laser/cloud:=/top_laser/cloud_to_throttle"/>
+        args=" $(arg bag_file) --clock -r $(arg bag_rate) -l -s $(arg bag_start) -d 2 /tf:=/tf_dev_null /tf_static:=/tf_static_dev_null /top_left_camera/image_color:=/top_left_camera/image_color_to_throttle /top_right_camera/image_raw:=/top_right_camera/image_raw_to_throttle /top_laser/cloud:=/top_laser/cloud_to_throttle"/>
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
-    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-    <!-- Image Topic Decompression -->
-    <node pkg="image_transport" type="republish" name="decompressor_top_left_camera" output="screen"
-          args="compressed in:=/top_left_camera/image_raw raw out:=/top_left_camera/image_raw"/>
-    <node pkg="image_transport" type="republish" name="decompressor_top_right_camera" output="screen"
-          args="compressed in:=/top_right_camera/image_raw raw out:=/top_right_camera/image_raw"/>
-    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
     <!-- Visualization -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_file)" required="true"/>

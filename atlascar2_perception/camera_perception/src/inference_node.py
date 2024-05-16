@@ -68,9 +68,10 @@ class InferenceNode:
             # print("A fazer algo!")
             time_a = time.time()
             time_source = msg.header.stamp
+            
             now = rospy.get_rostime()
             time_late = (now-time_source).to_sec()
-            
+            # print(time_source, now, time_late)
             # if time_late < 0.005: #In the same machine
             if time_late < 0.5:# multiple machines
             # if time_late < 0.15:# multiple machines multiple models
@@ -117,13 +118,13 @@ class InferenceNode:
                                     
                                     coords.append(coord)
                                     strings.append(string)
-                                                     
+                                                        
                         for s, box in enumerate(bbox_roi2):
                             if all(abs(cord.Px1 - box.Px1) > 5 and abs(cord.Px2 - box.Px2) > 5 for cord in coords):
                                 coords.append(box)
                                 strings.append(string_roi2[s])
-                      
-                       
+                        
+                        
 
 
 
@@ -137,10 +138,10 @@ class InferenceNode:
                 #     self.detection2d_pub_right.publish(detect2d_msg)
                 # else:
                 self.detection2d_pub_left.publish(detect2d_msg)  
-                      
-                      
-            # time_b = time.time()
-            # print(f"Tempo geral: {time_b-time_a}")
+                        
+                        
+                # time_b = time.time()
+                # print(f"Tempo geral: {time_b-time_a}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(

@@ -33,13 +33,14 @@
             /tf
             /tf_static
             /top_laser/cloud
-            /panorama_img
-            /obstacle_detector/jsk_bboxes
-            /fused_detection      
-            /ackermann_steering_controller/odom
+            /top_left_camera/camera_info
+            /top_left_camera/image_color
+            /top_right_camera/camera_info
+            /top_right_camera/image_raw
+            /joint_states          
                   
      
-            -o /home/rafael/bagfiles/atlascar2/bag_file.bag">
+            -o /home/rafael/bagfiles/calibration/bag_file.bag">
         </node>
 
 <!--        http://wiki.ros.org/openni_launch/Tutorials/BagRecordingPlayback-->
@@ -48,4 +49,11 @@
 <!-- /top_center_rgbd_camera/rgb/image_raw/compressed
             /top_center_rgbd_camera/rgb/camera_info
             /top_center_rgbd_camera/depth/image/compressedDepth
+
+            /obstacle_detector/jsk_bboxes
+            /fused_detection 
+            /panorama_img 
+
+            /ackermann_steering_controller/odom
+
             /top_center_rgbd_camera/depth/camera_info -->

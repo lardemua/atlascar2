@@ -32,14 +32,14 @@
 #   - ROS Package Reference
 #       Example: package://your_package/urdf/description.urdf.xacro
 #
-description_file: "package://atlascar2_description/urdf/atlascar2_ackermann_VLP.urdf.xacro"
+description_file: "package://atlascar2_description/urdf/atlascar2_ackermann_VLP_real.urdf.xacro"
 
 # The calibration framework requires a bagfile to extract the necessary data for the calibration.
-bag_file: "$ROS_BAGS/atlascar2/gazebo_move.bag"
+bag_file: "$ROS_BAGS/bag_file.bag"
 
 # You must define a frame of reference for the optimization process.
 # It must exist in the transformation chains of all the sensors which are being calibrated.
-world_link: "odom"
+world_link: "base_footprint"
 
 # ATOM will calibrate the extrinsic parameters of your sensors.
 # In this section you should discriminate the sensors that will be part of the calibrations.
@@ -73,7 +73,7 @@ sensors:
     link: "top_left_camera_optical"
     parent_link: "base_link"
     child_link: "top_left_camera"
-    topic_name: "/top_left_camera/image_raw"
+    topic_name: "/top_left_camera/image_color"
     throttle: 10
     modality: "rgb"
   
@@ -133,7 +133,7 @@ joints:
 calibration_patterns:
   pattern_1:
     link: "pattern_link"
-    parent_link: "odom"
+    parent_link: "base_footprint"
     fixed: False
     pattern_type: "charuco"
     dictionary: "DICT_5X5_100"

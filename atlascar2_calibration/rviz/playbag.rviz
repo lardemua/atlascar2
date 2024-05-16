@@ -50,7 +50,7 @@ Visualization Manager:
       Z: 0
     Plane: XY
     Plane Cell Count: 10
-    Reference Frame: odom
+    Reference Frame: base_footprint
     Value: true
   - Class: rviz/TF
     Enabled: true
@@ -86,7 +86,7 @@ Visualization Manager:
     Value: true
   - Class: rviz/Image
     Enabled: true
-    Image Topic: /top_left_camera/image_raw
+    Image Topic: /top_left_camera/image_color
     Max Value: 1
     Median window: 5
     Min Value: 0
@@ -99,7 +99,7 @@ Visualization Manager:
   - Class: rviz/Camera
     Enabled: true
     Image Rendering: background and overlay
-    Image Topic: /top_left_camera/image_raw
+    Image Topic: /top_left_camera/image_color
     Name: top_left_camera-Camera
     Overlay Alpha: 0.5
     Queue Size: 2
@@ -168,7 +168,7 @@ Visualization Manager:
   Global Options:
     Background Color: 255; 255; 255
     Default Light: true
-    Fixed Frame: odom
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:

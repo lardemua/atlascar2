@@ -112,7 +112,9 @@ class BasicReceiver:
         self.origin_stamp = msg.header.stamp
     def detection2dCallback(self, msg):
         if self.origin_stamp - msg.stamp < max_time:
+        # print(msg)
             self.BBoxes = msg
+            # print(self.origin_stamp)
         else:
             self.BBoxes = None
     def pcCallback(self, msg):        
@@ -126,7 +128,7 @@ class BasicReceiver:
 
 
 if __name__ == '__main__':
-    rospy.init_node('image_plotter', anonymous=True)
+    rospy.init_node('Data_combiner', anonymous=False)
     
     teste = BasicReceiver()
     params = sensor_params()
@@ -135,7 +137,7 @@ if __name__ == '__main__':
     tf_buffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tf_buffer)
  
-
+    time.sleep(5)
     width = 500.5
 
     new_boxes = MarkerArray()
@@ -145,7 +147,7 @@ if __name__ == '__main__':
     Homography = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
                                         [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
                                         [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
- 
+
     rate = rospy.Rate(10)
     window_name = "Left Camera"
     while not rospy.is_shutdown():
@@ -195,11 +197,11 @@ if __name__ == '__main__':
                 pose_lidar_cluster.point.y = point[1]
                 pose_lidar_cluster.point.z = point[2]
 
-                try:                    
-                    pixels_left = do_transform_point(pose_lidar_cluster, tf_buffer.lookup_transform('top_left_camera_optical', 'top_laser', rospy.Time(0)))
-                    pixels_right = do_transform_point(pose_lidar_cluster, tf_buffer.lookup_transform('top_right_camera_optical', 'top_laser', rospy.Time(0)))
-                except (tf2_ros.TransformException, rospy.ROSException) as e:
-                    rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
+                # try:                    
+                pixels_left = do_transform_point(pose_lidar_cluster, tf_buffer.lookup_transform('top_left_camera_optical', 'top_laser', rospy.Time(0)))
+                pixels_right = do_transform_point(pose_lidar_cluster, tf_buffer.lookup_transform('top_right_camera_optical', 'top_laser', rospy.Time(0)))
+                # except (tf2_ros.TransformException, rospy.ROSException) as e:
+                #     rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
 
                 pixels_left = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pixels_left.point.x], [pixels_left.point.y], [pixels_left.point.z], [1]]))
                 pixels_left = pixels_left[:2] / pixels_left[2] 
@@ -321,11 +323,11 @@ if __name__ == '__main__':
                         pose_lidar.point.z = corner[2]
                 
 
-                        try:                    
-                            pose_camera_left = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_left_camera_optical', 'base_footprint', rospy.Time(0)))
-                            pose_camera_right = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_right_camera_optical', 'base_footprint', rospy.Time(0)))
-                        except (tf2_ros.TransformException, rospy.ROSException) as e:
-                            rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
+                        # try:                    
+                        pose_camera_left = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_left_camera_optical', 'base_footprint', rospy.Time(0)))
+                        pose_camera_right = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_right_camera_optical', 'base_footprint', rospy.Time(0)))
+                        # except (tf2_ros.TransformException, rospy.ROSException) as e:
+                        #     rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
 
                     
                         pose_pixels_left = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pose_camera_left.point.x], [pose_camera_left.point.y], [pose_camera_left.point.z], [1]]))
@@ -382,37 +384,38 @@ if __name__ == '__main__':
 
 
                         # image = cv2.rectangle(image, (u_min, v_min), (u_max, v_max), color=(0,100,255), thickness=2)
-                        image = cv2.rectangle(image, (u_min_1, v_min_1), (u_max_1, v_max_1), color=(0,255,0), thickness=2)
+                        if len(u_list) > 0:
+                            image = cv2.rectangle(image, (u_min_1, v_min_1), (u_max_1, v_max_1), color=(0,255,0), thickness=2)
                         
                         
-                        for i,yolo in enumerate(c1_yolo):
+                            for i,yolo in enumerate(c1_yolo):
+                                
+                    
+                                A_inter = max(yolo[0], u_min_1)            
+                                B_inter = max(yolo[1], v_min_1)
+                                C_inter = min(c2_yolo[i][0], u_max_1)
+                                D_inter = min(c2_yolo[i][1], v_max_1)
                             
-                
-                            A_inter = max(yolo[0], u_min_1)            
-                            B_inter = max(yolo[1], v_min_1)
-                            C_inter = min(c2_yolo[i][0], u_max_1)
-                            D_inter = min(c2_yolo[i][1], v_max_1)
-                        
-                            if C_inter < A_inter or D_inter <  B_inter:
-                                inter_area = 0
-                            else:
-                                inter_area = ((C_inter-A_inter) * (D_inter-B_inter))
-                            
-                            reunion_1 = ((c2_yolo[i][0]-yolo[0]) * (c2_yolo[i][1]-yolo[1]))
-                            reunion_2 = ((u_max_1-u_min_1) * (v_max_1-v_min_1))
-                            reunion_area = reunion_1 + reunion_2 - inter_area
-                            IoU = inter_area/reunion_area                  
-                            
-                            
-                            if IoU > 0.30:
-                                IoU_l = IoU
-                            
-                                if box.label not in boxes_class:
-                                    boxes_class[box.label] = {'unknown': 0}
-                                if class_yolo[i] not in boxes_class[box.label]:
-                                    boxes_class[box.label][class_yolo[i]] = 1
+                                if C_inter < A_inter or D_inter <  B_inter:
+                                    inter_area = 0
                                 else:
-                                    boxes_class[box.label][class_yolo[i]] += 1
+                                    inter_area = ((C_inter-A_inter) * (D_inter-B_inter))
+                                
+                                reunion_1 = ((c2_yolo[i][0]-yolo[0]) * (c2_yolo[i][1]-yolo[1]))
+                                reunion_2 = ((u_max_1-u_min_1) * (v_max_1-v_min_1))
+                                reunion_area = reunion_1 + reunion_2 - inter_area
+                                IoU = inter_area/reunion_area                  
+                                
+                                
+                                if IoU > 0.35:
+                                    IoU_l = IoU
+                                
+                                    if box.label not in boxes_class:
+                                        boxes_class[box.label] = {'unknown': 0}
+                                    if class_yolo[i] not in boxes_class[box.label]:
+                                        boxes_class[box.label][class_yolo[i]] = 1
+                                    else:
+                                        boxes_class[box.label][class_yolo[i]] += 1
 
 
         

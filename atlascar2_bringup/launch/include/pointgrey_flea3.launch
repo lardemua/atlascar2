@@ -3,7 +3,7 @@
     <arg name="camera_name" default="camera" />
     <arg name="camera_serial" default="14352340" />
     <arg name="frame_id" default="camera" />
-    <arg name="calibrated" default="0" />
+    <arg name="calibrated" default="true" />
 <!--    <arg name="packet_resend" value="false" />-->
     <include file="$(find pointgrey_camera_driver)/launch/camera.launch">
         <arg name="camera_name" value="$(arg camera_name)" />

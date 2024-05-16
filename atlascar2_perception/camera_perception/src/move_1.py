@@ -51,7 +51,7 @@ def main():
 
         pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=1)
 
-        rate = rospy.Rate(10)  # 10 Hz
+        rate = rospy.Rate(20)  # 10 Hz
         while not rospy.is_shutdown():
             # Update the position of the model
             model.pose.position.y += speed_y  # Adjust as needed

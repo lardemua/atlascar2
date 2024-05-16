@@ -8,7 +8,7 @@
     <arg name="loader_name" default="torchscript_cuda"/>
        
 
-    <node name="receiver_left_camera" pkg="camera_perception" type="receiver_left_camera.py" output="screen"/>
+    <node name="data_combiner" pkg="camera_perception" type="receiver_left_camera.py" output="screen"/>
     <!-- <node name="receiver_right_camera" pkg="camera_perception" type="receiver_right_camera.py" output="screen"/> -->
     <node name="inference_node" pkg="camera_perception" type="inference_node.py" output="screen"
         args="-fn $(arg module_name) -mp $(arg model_path) -ml $(arg loader_name) -sr $(arg source_1)">

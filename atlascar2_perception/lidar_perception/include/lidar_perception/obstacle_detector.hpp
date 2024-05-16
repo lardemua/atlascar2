@@ -344,7 +344,7 @@ bool ObstacleDetector<PointT>::compareBoxes(const Box& a, const Box& b, const fl
   const float y_dim = 2 * (a.dimension[1] - b.dimension[1]) / (a.dimension[1] + b.dimension[1]);
   const float z_dim = 2 * (a.dimension[2] - b.dimension[2]) / (a.dimension[2] + b.dimension[2]);
 
-  if (ctr_dis <= displacement_thresh && x_dim <= iou_thresh && y_dim <= iou_thresh && z_dim <= iou_thresh)
+  if (ctr_dis <= displacement_thresh && x_dim <= iou_thresh && y_dim <= iou_thresh)
   {
     return true;
   }

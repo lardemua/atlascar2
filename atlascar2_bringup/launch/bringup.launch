@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="visualize" default="true" />
-    <arg name="lidar2d_left_bringup" default="true"/>
-    <arg name="lidar2d_right_bringup" default="true"/>
-    <arg name="lidar3d_bringup" default="true"/>
+    <arg name="visualize" default="false" />
+    <arg name="lidar2d_left_bringup" default="false"/>
+    <arg name="lidar2d_right_bringup" default="false"/>
+    <arg name="lidar3d_bringup" default="false"/>
     <arg name="top_camera_right_bringup" default="false"/>
-    <arg name="top_camera_left_bringup" default="true"/>
+    <arg name="top_camera_left_bringup" default="false"/>
     <arg name="front_camera_bringup" default="false"/>
     <arg name="RGBD_camera_bringup" default="false"/>
     <arg name="novatel_bringup" default="false"/>
     <arg name="odom_bringup" default="false"/>
+     <arg name="config_file" default="$(find atlascar2_calibration)/calibration/config.yml"/>
 
 
     <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
@@ -26,15 +27,38 @@
     <include file="$(find atlascar2_bringup)/launch/model.launch" />
 
     <!--Can configuration-->
-    <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node">
+    <!-- <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node">
         <remap from="/received_messages" to="/can_messages"/> 
-    </node>
+    </node> -->
 
-    <group if="$(arg odom_bringup)">
+    <!-- <group if="$(arg odom_bringup)">
         <include file="$(find atlascar2_odom)/launch/odom_bringup.launch"/>
-    </group>
+    </group> -->
 
-    <group if="$(arg visualize)">
+    <!-- <group if="$(arg visualize)">
         <include file="$(find atlascar2_bringup)/launch/visualize.launch"/>
-    </group>
+    </group> -->
+    <include file="$(find atlascar2_bringup)/launch/include/top_cameras_bringup.launch" />
+    <include file="$(find atlascar2_bringup)/launch/include/velodyne.launch" />
+     <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/rviz_real.rviz"/>
+
+
+       <!-- Sensor top_left_camera rgb_labeler -->
+    <node name="top_left_camera_labeler" pkg="atom_calibration" type="rgb_labeler"
+        args="-cfg $(arg config_file) -sn top_left_camera"
+        required="true"
+        output="screen"/>
+    
+    <!-- Sensor top_right_camera rgb_labeler -->
+    <node name="top_right_camera_labeler" pkg="atom_calibration" type="rgb_labeler"
+        args="-cfg $(arg config_file) -sn top_right_camera"
+        required="true"
+        output="screen"/>
+    
+    <!-- Sensor top_lidar lidar3d_labeler -->
+    <node name="top_lidar_labeler" pkg="atom_calibration" type="lidar3d_labeler"
+        args="-cfg $(arg config_file) -sn top_lidar"
+        required="true"
+        output="screen"/>
+
 </launch>

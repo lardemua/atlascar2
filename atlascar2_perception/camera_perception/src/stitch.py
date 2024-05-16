@@ -11,7 +11,9 @@ import multiprocessing
 class ImageReceiver:
     def __init__(self):
         topic_img_left = '/top_left_camera/image_raw'
+        # topic_img_left = '/top_left_camera/image_color'
         topic_img_right = '/top_right_camera/image_raw'
+        # topic_img_right = '/usb_camera/image_raw'
         self.bridge = CvBridge()
         self.left_image = None
         self.right_image = None
@@ -27,6 +29,7 @@ class ImageReceiver:
         self.sync.registerCallback(self.img_callback)
 
     def img_callback(self, left_msg, right_msg):
+     
         self.left_image = self.bridge.imgmsg_to_cv2(left_msg, desired_encoding='passthrough')
         self.right_image = self.bridge.imgmsg_to_cv2(right_msg, desired_encoding='passthrough')
         self.stamp = left_msg.header.stamp
@@ -34,7 +37,7 @@ class ImageReceiver:
         
 
 if __name__ == '__main__':
-    rospy.init_node('panorama', anonymous=True)
+    rospy.init_node('panorama', anonymous=False)
     receiver = ImageReceiver()
 
     # Multiprocessing

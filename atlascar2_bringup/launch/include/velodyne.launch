@@ -1,0 +1,19 @@
+<launch>
+    <arg name="device_ip" default="169.254.0.4"/>
+    <arg name="frame_id" default="top_laser"/> 
+    <arg name="port" default="2370"/>
+    <!-- <arg name="rviz_config" default="velodyne"/> -->
+    <arg name="visualize" default="false"/>
+    <arg name="rpm" default="600.0"/>
+
+    <remap from="/velodyne_points" to="/top_laser/cloud"/>
+
+
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+        <arg name="device_ip" value="$(arg device_ip)"/>
+        <arg name="frame_id" value="$(arg frame_id)"/>
+        <arg name="port" value="$(arg port)"/>
+        <arg name="rpm" value="$(arg rpm)"/>
+    </include>
+    
+</launch>
