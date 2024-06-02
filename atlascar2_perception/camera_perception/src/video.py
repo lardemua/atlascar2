@@ -21,9 +21,9 @@ class VideoStitcher:
 
 
         # esta é boa simulation
-        # self.saved_homo_matrix = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
-        #                                 [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
-        #                                 [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
+        self.saved_homo_matrix = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
+                                        [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
+                                        [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
 
         # real_1
 #         self.saved_homo_matrix = np.array([[ 6.72829515e-01,  6.70827785e-03,  7.73718349e+02],
@@ -35,9 +35,9 @@ class VideoStitcher:
     # [-2.20085851e-01,  9.38973114e-01,  1.99347711e+01],
     # [-6.24888083e-04, -2.38395774e-05, 1.00000000e+00]])
         # real_3
-        self.saved_homo_matrix = np.array([[ 1.29413244e+00,  1.75622322e-01,  7.78057528e+02],
-        [ 7.08361529e-02,  1.20617006e+00, -5.70294966e+01],
-        [ 6.21649917e-06,  1.94769568e-04,  1.00000000e+00]])
+        # self.saved_homo_matrix = np.array([[ 1.29413244e+00,  1.75622322e-01,  7.78057528e+02],
+        # [ 7.08361529e-02,  1.20617006e+00, -5.70294966e+01],
+        # [ 6.21649917e-06,  1.94769568e-04,  1.00000000e+00]])
 
 
     def stitch(self, images, ratio=0.75, reproj_thresh=4.0):
@@ -146,13 +146,14 @@ class VideoStitcher:
         left_video = self.left_video_in_path
         right_video = self.right_video_in_path
   
-        print('[INFO]: Stitching ...')
+        # print('[INFO]: Stitching ...')
 
    
         if not(left_video is None and right_video is None):
               
             stitched_frame = self.stitch([left_video, right_video])       
-            # stitched_frame = imutils.resize(stitched_frame, height=400)
+            stitched_frame = imutils.resize(stitched_frame, height=400)
+      
             # stitched_frame_1 = cv2.resize(stitched_frame, (640, 640))
             # stitched_frame_2 = cv2.resize(stitched_frame[:,0:1000,:], (640, 640))
         
