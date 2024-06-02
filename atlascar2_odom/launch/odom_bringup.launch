@@ -6,4 +6,9 @@
 
     <node pkg="atlascar2_odom" type="can_ros_msgs_to_ackermann.py" name="can_ros_msgs_to_ackermann" output="screen"/>
     <node pkg="atlascar2_odom" type="ackermann_to_odom.py" name="ackermann_to_odom" output="screen"/>
+
+    <!-- <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node">
+        <remap from="/received_messages" to="/can_messages"/> 
+    </node> -->
+
 </launch>

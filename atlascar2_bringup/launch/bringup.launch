@@ -10,8 +10,8 @@
     <arg name="RGBD_camera_bringup" default="false"/>
     <arg name="novatel_bringup" default="false"/>
     <arg name="odom_bringup" default="false"/>
-     <arg name="config_file" default="$(find atlascar2_calibration)/calibration/config.yml"/>
-
+    <arg name="config_file" default="$(find atlascar2_calibration)/calibration/config.yml"/>
+    <param name="/use_sim_time" value="false"/>
 
     <include file="$(find atlascar2_bringup)/launch/drivers_bringup.launch" >
         <arg name="lidar2d_left_bringup" value="$(arg lidar2d_left_bringup)"/>
@@ -31,34 +31,17 @@
         <remap from="/received_messages" to="/can_messages"/> 
     </node> -->
 
-    <!-- <group if="$(arg odom_bringup)">
-        <include file="$(find atlascar2_odom)/launch/odom_bringup.launch"/>
-    </group> -->
+    
+    <!-- <include file="$(find atlascar2_odom)/launch/odom_bringup.launch"/> -->
+    
 
     <!-- <group if="$(arg visualize)">
         <include file="$(find atlascar2_bringup)/launch/visualize.launch"/>
     </group> -->
-    <include file="$(find atlascar2_bringup)/launch/include/top_cameras_bringup.launch" />
-    <include file="$(find atlascar2_bringup)/launch/include/velodyne.launch" />
+    <!-- <include file="$(find atlascar2_bringup)/launch/include/top_cameras_bringup.launch" />
+    <include file="$(find atlascar2_bringup)/launch/include/velodyne.launch" /> -->
      <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/rviz_real.rviz"/>
 
 
-       <!-- Sensor top_left_camera rgb_labeler -->
-    <node name="top_left_camera_labeler" pkg="atom_calibration" type="rgb_labeler"
-        args="-cfg $(arg config_file) -sn top_left_camera"
-        required="true"
-        output="screen"/>
-    
-    <!-- Sensor top_right_camera rgb_labeler -->
-    <node name="top_right_camera_labeler" pkg="atom_calibration" type="rgb_labeler"
-        args="-cfg $(arg config_file) -sn top_right_camera"
-        required="true"
-        output="screen"/>
-    
-    <!-- Sensor top_lidar lidar3d_labeler -->
-    <node name="top_lidar_labeler" pkg="atom_calibration" type="lidar3d_labeler"
-        args="-cfg $(arg config_file) -sn top_lidar"
-        required="true"
-        output="screen"/>
-
+  
 </launch>

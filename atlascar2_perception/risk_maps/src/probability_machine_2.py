@@ -22,7 +22,7 @@ h = 40*n + 1
 angcons = 7.1
 lincons = 4.5
 k = 150 #reach of neighbourhood
-@njit(f64[:](int8,int8, int8, f64[:,:], f32, f32, int8), nogil=True, fastmath=True, cache=True)
+@njit(f64[:](int8,int8, int8, f64[:,:], f32, f32, f32), nogil=True, fastmath=True, cache=True)
 def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 	
 
@@ -33,6 +33,7 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 	dx = vsx*n*t  # distance x in cells 
 
 	for i in range(f):
+		
 		ttype = objectList[i][6]
 		vx, vy = objectList[i][8], objectList[i][9] 
 		v = np.hypot(vx, vy)  #speed magnitude of the object
@@ -47,7 +48,7 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 		xmin = int(x - k) if (x - k) > originX else originX
 		xmax = int(x + k) if (x + k) < h else h
 		yg = np.arange(ymin, ymax) - y
-		if ttype < 3:			
+		if ttype == 1:			
 			if v > 1:
 				ax, ay = objectList[i][1], objectList[i][2]       #acell 
 				a = np.hypot(ax, ay)				
@@ -87,7 +88,7 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 					
 						if p > 1: p = 1
 						orient = 2*np.arctan((y_-y) / (xg-x)) - theta_given
-						if 1 > p > 0.1:
+						if 1 > p > 0:
 						
 							point_count += p 
 							cosi = np.cos(orient) #equations to get an oriented rectangle
@@ -131,31 +132,32 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 				if point_count>0: rspLocal = rspLocal / point_count #gives normalized dist of COM
 				for z in range(w*h):
 
-					if rspaceDat[z] < rspLocal[z]: rspaceDat[z] = rspLocal[z]
+					if rspaceDat[z] < rspLocal[z]: 
+						rspaceDat[z] = rspLocal[z]
 
 
-			if v == 0: #static object
+		if ttype == 2: #static object
+	
+			# cosi = np.cos(theta_given)  #0
+			# sine = np.sin(theta_given)  #1
+			# arx = np.array([(sx  * cosi) - (sy * sine), (sx  * cosi) + (sy * sine), -(sx  * cosi) - (sy * sine), -(sx  * cosi) + (sy * sine)])
+			# ary = np.array([(sx  * sine) + (sy * cosi), -(sx  * sine) + (sy * cosi), -(sx  * sine) - (sy * cosi), (sx  * sine) - (sy * cosi)])
+			# Rxmax, Rxmin = np.max(arx), np.min(arx)
+			# Rymax, Rymin = np.max(ary), np.min(ary)
+			Rx = sx + 5
+			Ry = sy + 5
 		
-				# cosi = np.cos(theta_given)  #0
-				# sine = np.sin(theta_given)  #1
-				# arx = np.array([(sx  * cosi) - (sy * sine), (sx  * cosi) + (sy * sine), -(sx  * cosi) - (sy * sine), -(sx  * cosi) + (sy * sine)])
-				# ary = np.array([(sx  * sine) + (sy * cosi), -(sx  * sine) + (sy * cosi), -(sx  * sine) - (sy * cosi), (sx  * sine) - (sy * cosi)])
-				# Rxmax, Rxmin = np.max(arx), np.min(arx)
-				# Rymax, Rymin = np.max(ary), np.min(ary)
-				Rx = sx + 5
-				Ry = sy + 5
+			xma, xmi, ymi, yma = int(x + Ry+2), int(x - Ry+1), int(y - Rx+1), int(y + Rx+2)
+			# xma, xmi, ymi, yma = int(x + Rxmax), int(x + Rxmin), int(y + Rymin), int(y + Rymax)
+			# print(xmi, xma, x, f)
+			for xl in range(xmi, xma, 1):
+				for yi in range(ymi, yma, 1):
 			
-				xma, xmi, ymi, yma = int(x + Ry), int(x - Ry+2), int(y - Rx+2), int(y + Rx)
-				# xma, xmi, ymi, yma = int(x + Rxmax), int(x + Rxmin), int(y + Rymin), int(y + Rymax)
-				# print(xmi, xma, x)
-				for xl in range(xmi, xma, 1):
-					for yi in range(ymi, yma, 1):
-				
-						if (w > xl > 0) and (h > yi > 0): 						
-							rspaceDat[h*yi + xl] = 1	
+					if (w > xl > 0) and (h > yi > 0): 						
+						rspaceDat[h*yi + xl] = 1	
 
 				
-		if ttype > 3: #pedestrian
+		if ttype == 4: #pedestrian
 			if v > 0.3:
 				D_ped = v*t
 				pedmax = 3*t #maximum range of pedestrian
@@ -173,7 +175,7 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 						if Pa > 1: Pa = 1
 						if Pl < 0: Pl = 0
 						p = Pl*Pa
-						if 1 > p > 0.1 :
+						if 1 > p > 0 :
 							point_count = 1
 							if (w > xg > 0) and (h > y_ > 0):
 								rspLocal[h*y_ + xg] = p
@@ -609,13 +611,12 @@ def prob_machine_gridgen(f, originX, originY, objectList, vsx, vsy, t):
 
 	# return rspaceDat
 
-@njit(f64[:](int8,int8, int8, f64[:,:], f32, f32, int8), nogil=True, fastmath=True, cache=True)
+@njit(f64[:](int8,int8, int8, f64[:,:], f32, f32, f32), nogil=True, fastmath=True, cache=True)
 def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
-	
-
 	
 	MaxD = n*n*t #m
 	rspaceDat = np.zeros((w*h), dtype=np.float64)
+	# data = np.zeros((50,w*h), dtype=np.float64)
 
 	dx = vsx*n*t  # distance x in cells 
 	if dx <= 0.1:
@@ -624,6 +625,7 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 	else:
 		dx_1 = dx - 15
 		dx_2 = dx + 15
+
 	for i in range(f):
 		ttype = objectList[i][6]
 		vx, vy = objectList[i][8], objectList[i][9] 
@@ -639,7 +641,7 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 		xmin = int(x - k) if (x - k) > originX else originX
 		xmax = int(x + k) if (x + k) < h else h
 		yg = np.arange(ymin, ymax) - y
-		if ttype < 3:			
+		if ttype == 1:			
 			if v > 1:
 				ax, ay = objectList[i][1], objectList[i][2]       #acell 
 				a = np.hypot(ax, ay)				
@@ -679,7 +681,7 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 					
 						if p > 1: p = 1
 						orient = 2*np.arctan((y_-y) / (xg-x)) - theta_given
-						if 1 > p > 0.1:
+						if 1 > p > 0:
 						
 							point_count += p 
 							cosi = np.cos(orient) #equations to get an oriented rectangle
@@ -726,27 +728,35 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 				if point_count>0: rspLocal = rspLocal / point_count #gives normalized dist of COM
 				for z in range(w*h):
 
-					if rspaceDat[z] < rspLocal[z]: rspaceDat[z] = rspLocal[z]
+					if rspaceDat[z] < rspLocal[z]: 
+						rspaceDat[z] = rspLocal[z]
 
 
-		# if v < 1: #static object
+		if ttype == 2: #static object
 		
-		# 		cosi = np.cos(theta_given)  #0
-		# 		sine = np.sin(theta_given)  #1
-		# 		arx = np.array([(sx  * cosi) - (sy * sine), (sx  * cosi) + (sy * sine), -(sx  * cosi) - (sy * sine), -(sx  * cosi) + (sy * sine)])
-		# 		ary = np.array([(sx  * sine) + (sy * cosi), -(sx  * sine) + (sy * cosi), -(sx  * sine) - (sy * cosi), (sx  * sine) - (sy * cosi)])
-		# 		Rxmax, Rxmin = np.max(arx), np.min(arx)
-		# 		Rymax, Rymin = np.max(ary), np.min(ary)
+			# cosi = np.cos(theta_given)  #0
+			# sine = np.sin(theta_given)  #1
+			# arx = np.array([(sx  * cosi) - (sy * sine), (sx  * cosi) + (sy * sine), -(sx  * cosi) - (sy * sine), -(sx  * cosi) + (sy * sine)])
+			# ary = np.array([(sx  * sine) + (sy * cosi), -(sx  * sine) + (sy * cosi), -(sx  * sine) - (sy * cosi), (sx  * sine) - (sy * cosi)])
+			# Rxmax, Rxmin = np.max(arx), np.min(arx)
+			# Rymax, Rymin = np.max(ary), np.min(ary)
+			Rx = sx + 5
+			Ry = sy + 5
+		
+			xma, xmi, ymi, yma = int(x + Ry+2), int(x - Ry+1), int(y - Rx+1), int(y + Rx+2)
+			# xma, xmi, ymi, yma = int(x + Rxmax), int(x + Rxmin), int(y + Rymin), int(y + Rymax)
+			# print(xmi, xma, x)
+			for xl in range(xmi, xma, 1):
+				for yi in range(ymi, yma, 1):
 			
-		# 		xma, xmi, ymi, yma = int(x + Rxmax), int(x + Rxmin), int(y + Rymin), int(y+ Rymax)
-		# 		for xl in range(xmi, xma, 1):	
-		# 			for yi in range(ymi, yma, 1):
-				
-		# 				if (w > xl > 0) and (h > yi > 0): 						
-		# 					rspaceDat[h*yi + xl] = 1	
+					if (w > xl > 0) and (h > yi > 0):
+						if (dx_1 < xl < dx_2):
+							yrange = 200 + (xl*xl*vsy / (26*vsx + 0.01))
+							if (yrange - 10 < yi < yrange+10): 						
+								rspaceDat[h*yi + xl] = 1
 
 				
-		if ttype > 3: #pedestrian
+		if ttype == 4: #pedestrian
 			if v > 0.3:
 				D_ped = v*t
 				pedmax = 3*t #maximum range of pedestrian
@@ -764,7 +774,7 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 						if Pa > 1: Pa = 1
 						if Pl < 0: Pl = 0
 						p = Pl*Pa
-						if 1 > p > 0.1 :
+						if 1 > p >= 0 :
 							point_count = 1
 							if (w > xg > 0) and (h > y_ > 0):
 								if (dx_1 < xg < dx_2):
@@ -802,4 +812,6 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 	# 	for y in range(y - 8, y + 10):
 	# 		rspaceDat[int(h*y+ x)] = 1
 	rspaceDat[-1] = 1
+		# if sum(rspaceDat) > 1:
+		# 	data[i] = rspaceDat
 	return rspaceDat

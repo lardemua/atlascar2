@@ -1,10 +1,21 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="model_name" default=""/>
+    <arg name="simulation" default="false"/>
+    <arg name="robot_description" default="robot_description"/>
 <!-- 
     <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find atlascar2_bringup)/config/rviz$(arg model_name).rviz"/> -->
-    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find risk_maps)/rviz/risk_maps.rviz"/>
-    <param name="robot_description"
-        command="$(find xacro)/xacro $(find atlascar2_calibration)/urdf/optimized.urdf.xacro"/>
-    
+    <node pkg="rviz" type="rviz" name="rviz" required="false" args="-d $(find risk_maps)/rviz/risk_maps.rviz"/>    
+
+
+    <group if="$(arg simulation)">
+        <param name="robot_description"
+            command="$(find xacro)/xacro $(find atlascar2_calibration)/urdf/optimized_simulation.urdf.xacro"/> 
+        <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"></node>
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />  
+    </group>        
+    <group unless="$(arg simulation)">
+        <param name="$(arg robot_description)" command="$(find xacro)/xacro '$(find atlascar2_calibration)/urdf/optimized.urdf.xacro'" />
+
+    </group>
 </launch>
