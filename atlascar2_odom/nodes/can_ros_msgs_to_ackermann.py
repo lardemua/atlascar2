@@ -5,14 +5,9 @@ import rospy
 from can_msgs.msg import Frame
 from ackermann_msgs.msg import AckermannDriveStamped
 import math
-import os
-import csv
-import time
+
 
 def canMsgsCallback(msg, can_msgs):
-    if msg.id == 1042:
-        # print(msg.data[1])
-        can_msgs['speed'] = msg.data[1]
     if msg.id == 566:
         can_msgs['previous_angle'] = can_msgs['angle']
         can_msgs['angle'] = msg.data
@@ -21,8 +16,6 @@ def canMsgsCallback(msg, can_msgs):
         can_msgs['pulse'] = int.from_bytes(msg.data, "big", signed=True)
         can_msgs['pulse_time'] = rospy.Time.now()
         can_msgs['new_pulse'] = True
-    
-
 
 def processCANMessages(ack_pub):
     """Receives the steering angle and encoder tick messages"""
@@ -34,50 +27,28 @@ def processCANMessages(ack_pub):
     wheelbase = rospy.get_param('~wheelbase', 2.55/1.115)
     wheel_radius = 0.285
     can_msgs = {'previous_angle': None, 'previous_angle_time': rospy.Time.now(), 'angle': None, 'angle_time': rospy.Time.now(), 'new_angle': False, 
-     'previous_pulse': None, 'previous_pulse_time': rospy.Time.now(), 'pulse': None, 'pulse_time': rospy.Time.now(), 'new_pulse': False, 'speed': 0}
+     'previous_pulse': None, 'previous_pulse_time': rospy.Time.now(), 'pulse': None, 'pulse_time': rospy.Time.now(), 'new_pulse': False}
     can_msgs_callback_partial = partial(canMsgsCallback, can_msgs=can_msgs)
     rospy.Subscriber('/can_messages', Frame, can_msgs_callback_partial)
-    a = time.time()
-    c = 0
+
     while not rospy.is_shutdown():
         # print(can_msgs)
         if can_msgs['new_pulse']:
             if can_msgs['pulse_time'].to_sec() - can_msgs['previous_pulse_time'].to_sec() < 0.01:
                 continue
-      
             # calculates the speed in m/s
             if can_msgs['previous_pulse'] != None:
-                # print(can_msgs['pulse'], can_msgs['previous_pulse'])
-                # print( can_msgs['pulse_time'].to_sec() - can_msgs['previous_pulse_time'].to_sec())
                 frequency = (can_msgs['pulse'] - can_msgs['previous_pulse']) / \
                 (can_msgs['pulse_time'].to_sec() - can_msgs['previous_pulse_time'].to_sec())
                 rps = frequency / (4 * maxPPR)
                 speed = (rps * math.pi * wheel_radius * 2)
-                     
                 ackMsg.header.stamp = rospy.Time.now()
                 ackMsg.header.frame_id = "/ackermann_msgs"
-                # ackMsg.drive.speed = speed
-                ackMsg.drive.speed = can_msgs['speed']/3.6
+                ackMsg.drive.speed = speed
                 ackMsg.drive.steering_angle_velocity = steer_velocity
                 ackMsg.drive.steering_angle = steering_angle
                 ack_pub.publish(ackMsg)
-                b = time.time() - a
-                # if b >= 0.1 and ackMsg.drive.speed > 0:
-                #     c += 0.1
-                #     if c <= 10:
-                #         file_exists = os.path.isfile('/home/rafael/Dados/Dados_real/speed_2.csv')
-                #         with open('/home/rafael/Dados/Dados_real/speed_2.csv', mode='a', newline='') as file:
-                #             writer = csv.writer(file)
-                #             if not file_exists:
-                #                 # writer.writerow(["Frame", "maxvalA", "meanA", "stdevA", "medianA", "maxvalB", "meanB", "stdevB", "medianB"])
-                #                 writer.writerow(["Time", "Encoder", "CAN"])
-                #             # Write the values
-                #             # if frame > 35:
-                #             # 	writer.writerow([frame, 0,0,0,0, max_value, round(medium_value,3), round(std,3), most_common_value])
-                #             # else:
-                #                 # writer.writerow([frame, max_value, round(medium_value,3), round(std,3), most_common_value, 0,0,0,0])
-                #             writer.writerow([c, speed, ackMsg.drive.speed])
-                # print(f'Ackermann message published.\nLinear velocity: {speed}; Angular velocity:{steer_velocity}; Steering angle: {steering_angle}')
+                print(f'Ackermann message published.\nLinear velocity: {speed}; Angular velocity:{steer_velocity}; Steering angle: {steering_angle}')
             can_msgs['previous_pulse'] = can_msgs['pulse']
             can_msgs['previous_pulse_time'] = can_msgs['pulse_time']
         if can_msgs['new_angle']:
@@ -91,11 +62,10 @@ def processCANMessages(ack_pub):
                 steer_velocity = math.tan(steering_angle)*(speed/wheelbase)
                 ackMsg.header.stamp = rospy.Time.now()
                 ackMsg.header.frame_id = "/ackermann_msgs"
-                # ackMsg.drive.speed = speed
-                ackMsg.drive.speed = can_msgs['speed']/3.6
+                ackMsg.drive.speed = speed
                 ackMsg.drive.steering_angle_velocity = steer_velocity
                 ackMsg.drive.steering_angle = steering_angle
-                # print(f'Ackermann message published.\nLinear velocity: {speed}; Angular velocity:{steer_velocity}; Steering angle: {steering_angle}')
+                print(f'Ackermann message published.\nLinear velocity: {speed}; Angular velocity:{steer_velocity}; Steering angle: {steering_angle}')
                 ack_pub.publish(ackMsg)
             can_msgs['previous_angle'] = can_msgs['angle']
             can_msgs['previous_angle_time'] = can_msgs['angle_time']

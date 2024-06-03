@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="simulation" default="false"/>
-
-  
   <node name="obstacle_detector_node" pkg="lidar_perception" type="obstacle_detector_node" output="screen">
     <!-- Input Topic Names -->
     <param name="lidar_points_topic"                  value="/top_laser/cloud"/>
@@ -14,7 +11,6 @@
     <param name="autoware_objects_topic"              value="obstacle_detector/objects"/>
     <!-- Parameters -->
     <param name="bbox_target_frame"                   value="base_footprint"/>
-    <param name="/use_sim_time"                       value="$(arg simulation)"/>
   </node>
 
   <!-- Dynamic Reconfigure GUI -->

@@ -2,7 +2,7 @@
 <launch>  
 
     <!-- Beetle Car -->
-     <!-- <node name="move_1" pkg="camera_perception" type="move_1.py" output="screen">     
+     <node name="move_1" pkg="camera_perception" type="move_1.py" output="screen">     
         <param name="model_name" value="car_beetle"/>
         <param name="model_path" value="/home/rafael/catkin_ws/src/gazebo_cars/models/car_beetle/model.sdf"/>
         <param name="x" value="47"/>
@@ -12,9 +12,9 @@
         <param name="yaw" value="0"/>
         <param name="speed_y" value="-0.14"/>
         <param name="speed_x" value="0"/>
-    </node> -->
+    </node>
      <!-- Female -->
-     <!-- <node name="move_2" pkg="camera_perception" type="move_1.py" output="screen">     
+     <node name="move_2" pkg="camera_perception" type="move_1.py" output="screen">     
         <param name="model_name" value="human_female_1"/>
         <param name="model_path" value="/home/rafael/.gazebo/models/human_female_1/model.sdf"/>
         <param name="x" value="70"/>
@@ -24,7 +24,7 @@
         <param name="yaw" value="3.14"/>
         <param name="speed_y" value="0.03"/>
         <param name="speed_x" value="0"/>
-    </node> -->
+    </node>
      <!-- Suv -->
      <!-- <node name="move_3" pkg="camera_perception" type="move_1.py" output="screen">     
         <param name="model_name" value="suv"/>
@@ -38,20 +38,20 @@
         <param name="speed_x" value="-0.125"/>
     </node> -->
      <!-- Male -->
-    <node name="move_4" pkg="camera_perception" type="move_1.py" output="screen">     
-        <param name="model_name" value="human_male_3"/>
-        <param name="model_path" value="/home/rafael/.gazebo/models/human_male_3/model.sdf"/>
-        <param name="x" value="36"/>
-        <param name="y" value="-6"/>
+     <!-- <node name="move_4" pkg="camera_perception" type="move_1.py" output="screen">     
+        <param name="model_name" value="person_standing"/>
+        <param name="model_path" value="/home/rafael/.gazebo/models/person_standing/model.sdf"/>
+        <param name="x" value="-40"/>
+        <param name="y" value="-80"/>
         <param name="roll" value="0"/>
         <param name="pitch" value="0"/>
-        <param name="yaw" value="-1.8"/>
-        <param name="speed_y" value="0"/>
-        <param name="speed_x" value="-0.045"/>
-    </node>
+        <param name="yaw" value="3"/>
+        <param name="speed_y" value="0.1"/>
+        <param name="speed_x" value="0"/>
+    </node> -->
      <!-- Atlascar2 -->
      <node name="move" pkg="camera_perception" type="move.py" output="screen">     
-        <param name="speed_x" value="4"/>
+        <param name="speed_x" value="3"/>
         <param name="ang_z" value="0"/>
     </node>
 

@@ -30,7 +30,7 @@ def main():
     odom_velocity = {'vx': 0, 'vy': 0, 'vth': 0}
     odomMsg = Odometry()
     odom_pub = rospy.Publisher("odom", Odometry, queue_size=10)
-    # odom_broadcaster = tf.TransformBroadcaster()
+    odom_broadcaster = tf.TransformBroadcaster()
     current_time = rospy.Time.now()
     last_time = rospy.Time.now()
 
@@ -77,13 +77,13 @@ def main():
         odom_quat = tf.transformations.quaternion_from_euler(0, 0, th)
 
         # first, we'll publish the transform over tf
-        # odom_broadcaster.sendTransform(
-        #     (x, y, 0.),
-        #     odom_quat,
-        #     current_time,
-        #     "base_footprint",
-        #     "odom"
-        # )
+        odom_broadcaster.sendTransform(
+            (x, y, 0.),
+            odom_quat,
+            current_time,
+            "base_footprint",
+            "odom"
+        )
 
         # set the position
         odomMsg.pose.pose = Pose(Point(x, y, 0.), Quaternion(*odom_quat))

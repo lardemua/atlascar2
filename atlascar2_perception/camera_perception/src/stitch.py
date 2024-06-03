@@ -34,24 +34,22 @@ class ImageReceiver:
         self.right_image = self.bridge.imgmsg_to_cv2(right_msg, desired_encoding='passthrough')
         self.stamp = left_msg.header.stamp
 
-        if self.left_image is not None and self.right_image is not None:
-            panorama = VideoStitcher(left_video_in_path=self.left_image, right_video_in_path=self.right_image)
-            result = panorama.run()
-            # print(result.shape)
-            result_msg = self.bridge.cv2_to_imgmsg(result, encoding="rgb8")
-            result_msg.header.stamp = self.stamp
-            self.pub.publish(result_msg)
-
         
 
 if __name__ == '__main__':
     rospy.init_node('panorama', anonymous=False)
     receiver = ImageReceiver()
-    rospy.spin()
+
     # Multiprocessing
     # multiprocessing.Process(target=receiver.run).start()
 
-    # rate = rospy.Rate(10)  # Adjust the publishing rate as needed
-    # while not rospy.is_shutdown():
-        
-    #     rate.sleep()
+    rate = rospy.Rate(10)  # Adjust the publishing rate as needed
+    while not rospy.is_shutdown():
+        if receiver.left_image is not None and receiver.right_image is not None:
+            panorama = VideoStitcher(left_video_in_path=receiver.left_image, right_video_in_path=receiver.right_image)
+            result = panorama.run()
+            print(result.shape)
+            result_msg = receiver.bridge.cv2_to_imgmsg(result, encoding="passthrough")
+            result_msg.header.stamp = receiver.stamp
+            receiver.pub.publish(result_msg)
+        rate.sleep()

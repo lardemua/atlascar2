@@ -68,23 +68,10 @@ class sensor_params:
         
         self.scale_x = 500.5 / (636.5*2)
         self.scale_y = 400 / (508.5*2)
-        self.scale_x_G = 664 / (964)
-        self.scale_y_G = 500 / (724)
-        self.scale_x_U = 664 / (960)
-        self.scale_y_U = 500 / (720)
-
         self.K_camera_left_resized = np.array([[1101.581198742484*self.scale_x, 0.0, 636.5*self.scale_x],
                                 [0.0, 1101.581198742484*self.scale_y, 508.5*self.scale_y],
                                 [0.0, 0.0, 1.0]])
-        
-        self.K_camera_point_resized = np.array([[1106.294668*self.scale_x_G, 0.000000, 504.931909*self.scale_x_G],
-                                                [0.000000, 1107.698837*self.scale_y_G, 377.012523*self.scale_y_G],
-                                                [0.000000, 0.000000, 1.000000]])
 
-
-        self.K_camera_usb = np.array([[1141.495617, 0.000000, 465.161539],
-                                                [0.000000, 1146.668883, 378.703836],
-                                                [0.000000, 0.000000, 1.000000]])
         # Intrinsics right camera
         self.K_camera_right = np.array([[1101.581198742484, 0.0, 636.5],
                                 [0.0, 1101.581198742484, 508.5],

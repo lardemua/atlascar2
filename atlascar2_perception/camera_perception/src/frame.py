@@ -1,52 +1,75 @@
 #!/usr/bin/python3
 
-
-
-
-
 import rospy
-from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
-import cv2
+import tf2_ros
+import geometry_msgs.msg
+from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
+from gazebo_msgs.msg import ModelStates
+# Global variable to store the ego vehicle's speed
+vx = 0.0
+translation_offset = 0
 
-class ImageRepublisher:
-    def __init__(self):
-        # Initialize the node
-        rospy.init_node('image_republisher', anonymous=True)
+def vel_sub(vel):
+	global vx
+	vx, vy = vel.twist.twist.linear.x, vel.twist.twist.linear.y
 
-        # Create a CvBridge object
-        self.bridge = CvBridge()
+def model_states_callback(msg):
+    # Find the index of your model in the ModelStates message
+    global model_position
 
-        # Subscribe to the input image topic
-        self.image_sub = rospy.Subscriber('/panorama_img', Image, self.image_callback)
+    idx = msg.name.index("atlascar2")
+    # Extract the pose information
+    model_pose = msg.pose[idx]
+    model_position = model_pose.position
+    model_orientation = model_pose.orientation
 
-        # Create a publisher for the output image topic
-        self.image_pub = rospy.Publisher('/panorama_img1', Image, queue_size=1)
 
-    def image_callback(self, msg):
-        try:
-            # Convert the ROS Image message to an OpenCV image
-            cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
+def broadcast_tf():
+    global vx, translation_offset, model_position
 
-            # Perform any processing on the image here (if needed)
-            # For this example, we'll just change the encoding to 'mono8' (grayscale)
-            # gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+    # Initialize ROS node
+    rospy.init_node('tf_broadcaster')
 
-            # Convert the processed OpenCV image back to a ROS Image message
-            output_msg = self.bridge.cv2_to_imgmsg(cv_image, encoding='rgb8')
+    # Create a TF broadcaster
+    tf_broadcaster = tf2_ros.TransformBroadcaster()
 
-            # Publish the output image
-            self.image_pub.publish(output_msg)
+    # Create a TransformStamped message
+    transform_stamped = geometry_msgs.msg.TransformStamped()
 
-        except CvBridgeError as e:
-            rospy.logerr('CvBridge Error: {}'.format(e))
+    # Populate the transform message
+    transform_stamped.header.frame_id = 'world'  # Assuming the ego vehicle's frame is 'map' (replace with actual frame)
+    transform_stamped.child_frame_id = 'base_footprint'  # Specify the name of the fixed frame
+
+    # Adjust the translation based on the ego vehicle's speed
+    translation_offset += vx * 0.01  # Example scaling factor to convert speed to translation (adjust as needed)
+    transform_stamped.transform.translation.x = model_position.x
+    transform_stamped.transform.translation.y = 0.0
+    transform_stamped.transform.translation.z = 0.0
+
+    # Example constant orientation (no rotation)
+    transform_stamped.transform.rotation.x = 0.0
+    transform_stamped.transform.rotation.y = 0.0
+    transform_stamped.transform.rotation.z = 0.0
+    transform_stamped.transform.rotation.w = 1.0
+
+    # Set the timestamp
+    transform_stamped.header.stamp = rospy.Time.now()
+
+    # Publish the transform
+    tf_broadcaster.sendTransform(transform_stamped)
+
+    rospy.loginfo("Published transform from map to fixed_frame")
 
 if __name__ == '__main__':
     try:
-        # Create an instance of the ImageRepublisher class
-        republisher = ImageRepublisher()
+        # Initialize subscriber to ego vehicle speed
+        rospy.Subscriber("/ackermann_steering_controller/odom", Odometry, vel_sub)
+        rospy.Subscriber('/gazebo/model_states', ModelStates, model_states_callback)
 
-        # Keep the node running
-        rospy.spin()
+        # Publish the transform repeatedly
+        while not rospy.is_shutdown():
+            broadcast_tf()
+            rospy.sleep(0.01)  # Publish the transform every 1 second
     except rospy.ROSInterruptException:
         pass

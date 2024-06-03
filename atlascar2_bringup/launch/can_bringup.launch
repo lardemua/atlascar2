@@ -1,8 +1,4 @@
 <?xml version="1.0"?>
 <launch>
     <node pkg="atlascar2_bringup" type="can_setup.sh" name="can_setup"/>
-
-    <node pkg="socketcan_bridge" type="socketcan_to_topic_node" name="socketcan_to_topic_node">
-        <remap from="/received_messages" to="/can_messages"/> 
-    </node>
 </launch>
