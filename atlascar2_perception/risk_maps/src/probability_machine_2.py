@@ -774,19 +774,19 @@ def prob_machine_riskgen(f, originX, originY, objectList, vsx, vsy, t):
 						if Pa > 1: Pa = 1
 						if Pl < 0: Pl = 0
 						p = Pl*Pa
-						if 1 > p >= 0 :
+						if 1 > p > 0:
 							point_count = 1
 							if (w > xg > 0) and (h > y_ > 0):
 								if (dx_1 < xg < dx_2):
 									yrange = 200 + (xg*xg*vsy / (26*vsx + 0.01))
 									if (yrange - 10 < y_ < yrange+10):
-										rspaceDat[h*y_ + xg] += p
+										rspaceDat[h*y_ + xg] = p
 				
 		# 		if point_count>0: rspLocal = rspLocal / point_count #gives normalized dist of COM
 		# 		for z in range(w*h):
 
 		# 			if rspaceDat[z] < rspLocal[z]: rspaceDat[z] = rspLocal[z]
-			
+		
 			
 		# 	else:
 		# 		cosi = np.cos(theta_given)  #0

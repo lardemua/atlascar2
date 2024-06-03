@@ -18,7 +18,7 @@ from nav_msgs.msg import Odometry
 from probability_machine_2 import prob_machine_gridgen, prob_machine_riskgen
 from math import atan2, pi
 from collections import Counter
-
+from decimal import Decimal, ROUND_HALF_UP
 
 
 ########################################################################### section 2 defaults and global vars
@@ -27,6 +27,7 @@ marker_array_ = MarkerArray()
 selfid = 1
 pedestrian = True
 objectList =  np.zeros((16,16), dtype=np.float64)
+
 yaw_list = [[] for _ in range(15)]
 marker_list = np.zeros((3, 5), dtype=np.float64)
 t = 3  #time horizon
@@ -45,14 +46,11 @@ new_id_counter = 0
 
 frame = 0
 frame_1 = 0
+
+
 #################################################################################### section 4 helper functions
-def sum_across_rows(*arrays):
-    total_sum = np.zeros(100)
-    for array in arrays:
-        for row in array:
-            total_sum += row[1]
-    return total_sum
-	
+def custom_round(value):
+    return int(Decimal(value).quantize(Decimal('1'), rounding=ROUND_HALF_UP))
 
 def gridMap_generator(rspaceData):
 	global resolution, n, w, h, originX, originY
@@ -96,7 +94,8 @@ def callback_sub(marker_data):
 	car_count = 0.0	
 	stopped = 0
 	actual_ids = []		
-
+	rsp = np.zeros((h*w), dtype=np.float64)
+	risk = np.zeros((h*w), dtype=np.float64)
 
 	for marker in marker_data.markers:
 		
@@ -115,7 +114,7 @@ def callback_sub(marker_data):
 
 	# print(vxmy)
 	# vxmy = 2
-	vymy = 0.5
+	# vymy = 0.5
 
 	for i in marker_dict:
 		marker = marker_dict[i]
@@ -210,7 +209,7 @@ def callback_sub(marker_data):
 							yaw_list[i] = yaw_list[i][-3:]				
 
 						smoothed_yaw = sum(yaw_list[i])/len(yaw_list[i])
-						# smoothed_yaw = yaw
+						smoothed_yaw = yaw
 						# else:
 						# 	smoothed_yaw = 0
 						# if marker.pose.position.y > 0:
@@ -231,10 +230,10 @@ def callback_sub(marker_data):
 						# 		else:
 						# 			yaw = - pi/2 + pi/40				
 
-						# if  marker.scale.y < 2 and marker.text == "unknown": 
-						# 	ttype = 2
-						if marker.pose.position.y > -1:
+						if  marker.scale.y < 2 and marker.text == "unknown" and marker.pose.position.y > 1: 
 							ttype = 2
+						# if marker.pose.position.y > -1:
+						# 	ttype = 2
 							# if y_ >= 0:
 							# 	smoothed_yaw = -pi/2
 							# else:
@@ -318,37 +317,57 @@ def callback_sub(marker_data):
 	# 	risk_2 = prob_machine_pedc(car_count,originX, originY -20, objectList, vxmy, vymy, 2)
 	# else:	
 
-	risk = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, t)
-	risk_2 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2)
-	risk_1 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1)
-	# risk_3 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2.5)
+	# risk = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2)
+	# risk_2 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2.5)
+	# risk_1 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1)
+	# risk_3 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 3)
 	# risk_5 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1.5)
 	# risk_6 = prob_machine_riskgen(car_count,originX, originY -20, objectList, vxmy, vymy, 0.5)
 	# print('risk_3:', round(risk[0],3), round(risk[1],3), 'risk_2:', round(risk_2[0],3), round(risk_2[1],3), 'risk_1:', round(risk_1[0],3), round(risk_1[1],3))	
 	# print(f'risk_3: {round(risk[0], 3):<12} {round(risk[1], 3):<12} risk_2: {round(risk_2[0], 3):<12} {round(risk_2[1], 3):<12} risk_1: {round(risk_1[0], 3):<12} {round(risk_1[1], 3):<12}')
 	# print("risk:" , risk.flatten().tolist())
-	rsp_1 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, t)
-	rsp_2 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2)
+	# rsp_1 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2.5)
+	# rsp_2 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2)
 	# rsp_5 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1.5)
-	# rsp_6 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 2.5)
+	# rsp_6 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1)
 	# rsp_7 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 0.5)
 	
 	
 	# rsp_3 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1)
-	rsp_4 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 1)
+	# rsp_4 = prob_machine_gridgen(car_count,originX, originY -20, objectList, vxmy, vymy, 3)
 	# # # rsp_4 = prob_machine_gridgen(car_count,originX, originY -40, objectList, vxmy, vymy, 1.25)
 	# for i in range(len(rsp_1)):
-	rsp = rsp_1 + rsp_2 + rsp_4
-	risk_4 = risk + risk_1 + risk_2
-
-	# risk_4 = risk[0,:] + risk_2[0,:] + risk_1[0,:] 
+	dist = vxmy * 10 * 3
+	t_num = dist / 30
+	t_num = custom_round(t_num)
+	if t_num <= 3:
+		t_num = 3
 	
-	# print(rsp_1)
-	rsp[rsp > 1] = 1
-	risk_4[risk_4 > 1] = 1
-	gridMap_generator(rsp)
+	time_horizon_value = 3 / t_num 
+	time_horizons = [time_horizon_value + i * time_horizon_value for i in range(t_num)]
 
-	result = [round(x,3) for x in risk_4[:-1] if x > 0]
+	risk_dict = {}
+	rep_dict = {}
+	for i, value in enumerate(time_horizons):
+		risk_name = f"risk_{i + 1}"
+		risk_dict[risk_name] = prob_machine_riskgen(car_count, originX, originY - 20, objectList, vxmy, vymy, value)
+		rep_dict[risk_name] = prob_machine_gridgen(car_count, originX, originY - 20, objectList, vxmy, vymy, value)
+
+	
+	for i in risk_dict:
+		risk += risk_dict[i]
+		rsp += rep_dict[i]
+	# risk_4 = risk[0,:] + risk_2[0,:] + risk_1[0,:] 
+	# rsp = rsp_1 + rsp_2 + rsp_4 + rsp_5 + rsp_6 + rsp_7
+	# risk_4 = risk + risk_1 + risk_2 + risk_3 + risk_5 + risk_6
+
+	# print(rsp_1)
+
+	rsp[rsp > 1] = 1
+	risk[risk > 1] = 1
+	gridMap_generator(risk)
+	print(vxmy)
+	result = [round(x,3) for x in risk[:-1] if x > 0]
 	if result:
 		max_value = max(result)
 		if len(result) >= 20:
@@ -378,23 +397,25 @@ def callback_sub(marker_data):
 	
 		# valores_filtrados = [x for x in result if (x <= limite_inferior or x >= limite_superior)]
 		# print(valores_filtrados)
-	# if frame_1 > 30:
+	# if frame_1 > 0:
 
-	# 	file_exists = os.path.isfile('/home/rafael/Dados/Dados_sim/stopped.csv')
-	# 	with open('/home/rafael/Dados/Dados_sim/stopped.csv', mode='a', newline='') as file:
+	# 	file_exists = os.path.isfile('/home/rafael/Dados/Dados_real/cross.csv')
+	# 	with open('/home/rafael/Dados/Dados_real/cross.csv', mode='a', newline='') as file:
 	# 		writer = csv.writer(file)
 	# 		if not file_exists:
-	# 			writer.writerow(["Frame", "maxvalA", "meanA", "stdevA", "medianA", "maxvalB", "meanB", "stdevB", "medianB"])
+	# 			writer.writerow(["Frame", "maxvalA", "meanA", "stdev", "medianA","maxvalB", "meanB", "stdev", "medianB"])
 	# 			# writer.writerow(["Frame", "maxval", "mean", "stdev", "median"])
 	# 		# Write the values
-	# 		if frame_1 <= 65:		
-	# 			writer.writerow([frame_1-30, max_value, round(medium_value,3), round(std,3), most_common_value, 0,0,0,0])
+	# 		# if frame_1 <= 5:		
+	# 		# 	writer.writerow([frame_1, max_value, round(medium_value,3), round(std,3), most_common_value, 0,0,0,0])
 
-	# 		else:
-				
-	# 			writer.writerow([frame_1-30, 0,0,0,0, max_value, round(medium_value,3), round(std,3), most_common_value])
-	
-			# writer.writerow([frame, max_value, round(medium_value,3), round(std,3), most_common_value])
+	# 		# else:
+	# 		# 	if frame_1 == 25: 
+	# 		# 		writer.writerow([frame_1, max_value, round(medium_value,3), round(std,3), most_common_value, 0,0,0,0])
+	# 		# 	else:
+	# 		writer.writerow([frame_1, 0,0,0,0, max_value, round(medium_value,3), round(std,3), most_common_value])
+
+			# writer.writerow([frame_1, max_value, round(medium_value,3), round(std,3), most_common_value])
 
 
 
@@ -426,8 +447,8 @@ if __name__ == '__main__':
 		rospy.Subscriber("/fused_detection", MarkerArray, callback_sub)
 		
 		
-		rospy.Subscriber("/ackermann_steering_controller/odom", Odometry, vel_sub)
-		# rospy.Subscriber("/odom", Odometry, vel_sub)
+		# rospy.Subscriber("/ackermann_steering_controller/odom", Odometry, vel_sub)
+		rospy.Subscriber("/odom", Odometry, vel_sub)
 		grid_pub = rospy.Publisher("/rspaceGrid", GridMap, queue_size=1)
 		# collision_risk_3_pub = rospy.Publisher('/risk_3', Float32, queue_size=1)
 

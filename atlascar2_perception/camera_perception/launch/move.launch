@@ -42,16 +42,16 @@
         <param name="model_name" value="human_male_3"/>
         <param name="model_path" value="/home/rafael/.gazebo/models/human_male_3/model.sdf"/>
         <param name="x" value="36"/>
-        <param name="y" value="-6"/>
+        <param name="y" value="-8"/>
         <param name="roll" value="0"/>
         <param name="pitch" value="0"/>
-        <param name="yaw" value="-1.8"/>
-        <param name="speed_y" value="0"/>
-        <param name="speed_x" value="-0.045"/>
+        <param name="yaw" value="-3.37"/>
+        <param name="speed_y" value="0.05"/>
+        <param name="speed_x" value="0"/>
     </node>
      <!-- Atlascar2 -->
      <node name="move" pkg="camera_perception" type="move.py" output="screen">     
-        <param name="speed_x" value="4"/>
+        <param name="speed_x" value="6"/>
         <param name="ang_z" value="0"/>
     </node>
 
