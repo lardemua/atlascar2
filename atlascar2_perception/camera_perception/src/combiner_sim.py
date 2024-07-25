@@ -25,7 +25,6 @@ max_time = rospy.Duration.from_sec(1/fps)
 
 counter = 0
 
-
 def get_bounding_box_corners(center, dimensions):
     # Calculate half-dimensions
     half_width = dimensions[0] / 2.0
@@ -108,6 +107,7 @@ class BasicReceiver:
         # self.susbcriber_jsk = rospy.Subscriber(topic_jsk_sub, BoundingBoxArray, self.jskCallback)
         self.publisher_jsk = rospy.Publisher(topic_jsk_pub, MarkerArray, queue_size=1)
         self.publisher_bb = rospy.Publisher("lidar_boxes", BoundingBoxArray, queue_size=1)
+        self.publisher_fusion = rospy.Publisher("/fusion", Image, queue_size=1)
             
         self.subscriber_detection2d = message_filters.Subscriber(topic_detection2d, detect2d)
         self.subscriber_pc = message_filters.Subscriber(topic_pc, PointCloud2)
@@ -162,7 +162,7 @@ if __name__ == '__main__':
     listener = tf2_ros.TransformListener(tf_buffer)
     image = None
     time.sleep(2)
-    width = 664
+    width = 500.5
 
     new_boxes = MarkerArray()
 
@@ -173,12 +173,12 @@ if __name__ == '__main__':
     boxes_class = {}
     # boxes_orientation = {}
 
-    # Homography = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
-    #                                     [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
-    #                                     [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
-    Homography = np.array([[ 1.29413244e+00,  1.75622322e-01,  7.78057528e+02],
-                        [ 7.08361529e-02,  1.20617006e+00, -5.70294966e+01],
-                        [ 6.21649917e-06,  1.94769568e-04,  1.00000000e+00]])
+    Homography = np.array([[ 4.57772963e-01, -1.37455099e-01,  8.70348993e+02],
+                                        [-6.08465458e-02,  9.20318555e-01,  1.49885741e+01],
+                                        [-4.00394226e-04,  4.93782768e-05, 1.00000000e+00]])
+    # Homography = np.array([[ 1.29413244e+00,  1.75622322e-01,  7.78057528e+02],
+    #                     [ 7.08361529e-02,  1.20617006e+00, -5.70294966e+01],
+    #                     [ 6.21649917e-06,  1.94769568e-04,  1.00000000e+00]])
 
     rate = rospy.Rate(10)
     window_name = "Left Camera"
@@ -239,9 +239,9 @@ if __name__ == '__main__':
             # except (tf2_ros.TransformException, rospy.ROSException) as e:
             #     rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
 
-            pixels_left = np.dot(np.hstack((params.K_camera_point_resized,np.array([[0],[0],[0]]))), np.array([[pixels_left.point.x], [pixels_left.point.y], [pixels_left.point.z], [1]]))
+            pixels_left = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pixels_left.point.x], [pixels_left.point.y], [pixels_left.point.z], [1]]))
             pixels_left = pixels_left[:2] / pixels_left[2] 
-            pixels_right = np.dot(np.hstack((params.K_camera_usb,np.array([[0],[0],[0]]))), np.array([[pixels_right.point.x], [pixels_right.point.y], [pixels_right.point.z], [1]]))
+            pixels_right = np.dot(np.hstack((params.K_camera_right,np.array([[0],[0],[0]]))), np.array([[pixels_right.point.x], [pixels_right.point.y], [pixels_right.point.z], [1]]))
             pixels_right = pixels_right[:2] / pixels_right[2]
 
                 
@@ -249,14 +249,14 @@ if __name__ == '__main__':
             pixels_right_homography = np.dot(Homography, np.vstack((pixels_right, 1)))
     
             pixels_right_homography = pixels_right_homography[:2] / pixels_right_homography[2]
-            pixels_right_homography[0] = pixels_right_homography[0] * params.scale_x_U
-            pixels_right_homography[1] = pixels_right_homography[1] * params.scale_y_U
+            pixels_right_homography[0] = pixels_right_homography[0] * params.scale_x
+            pixels_right_homography[1] = pixels_right_homography[1] * params.scale_y
             if 0 <= pixels_left[0] <= width:
                 cluster_pixels.append(pixels_left)
-                image = cv2.circle(image, (int(pixels_left[0]), int(pixels_left[1])),radius=2,color=(0,0,255) , thickness=-1)
+                image = cv2.circle(image, (int(pixels_left[0]), int(pixels_left[1])),radius=2,color=(255,0,0) , thickness=-1)
             if width*2 >= pixels_right_homography[0] > width:
                 cluster_pixels.append(pixels_right_homography)
-                image = cv2.circle(image, (int(pixels_right_homography[0]), int(pixels_right_homography[1])),radius=2,color=(0,0,255) , thickness=-1)
+                image = cv2.circle(image, (int(pixels_right_homography[0]), int(pixels_right_homography[1])),radius=2,color=(255,0,0) , thickness=-1)
         
                     
             
@@ -266,6 +266,57 @@ if __name__ == '__main__':
 
             if box.pose.position.z > 0 and box.dimensions.z > 0.2:
 
+                # if not any(box.label == marker.id for marker in new_boxes.markers):
+                # print(box.label)
+                # if box.pose.position.z > 0:
+                # pose_1 = PointStamped()
+                # pose_1.point.x = box.pose.position.x
+                # pose_1.point.y = box.pose.position.y 
+
+                # try:                    
+                #     pose_2 = do_transform_point(pose_1, tf_buffer.lookup_transform('odom', 'base_footprint', rospy.Time(0)))
+                # except (tf2_ros.TransformException, rospy.ROSException) as e:
+                #     rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
+
+
+                # if box.label not in boxes_orientation:
+                #     boxes_orientation[box.label] = {'x': pose_1.point.x, 'y': pose_1.point.y, 'moved_flag': False, 'previous_smoothed_yaw': 0} 
+    
+                
+                # pose_2.point.x = orientation_smoother.update(pose_2.point.x)
+                # print("1:", pose_2.point.x)
+                # print("2:", pose_2.point.x, pose_2.point.y)
+                # direction = np.array([pose_1.point.x, pose_1.point.y]) - np.array([boxes_orientation[box.label]['x'], boxes_orientation[box.label]['y']])
+                # distance = np.linalg.norm(np.array([pose_1.point.x, pose_1.point.y]) - np.array([boxes_orientation[box.label]['x'], boxes_orientation[box.label]['y']]))
+                # # print('distance:', distance)
+                # if distance > 0.1:     
+                #     yaw = atan2(direction[1], direction[0])
+                #     smoothed_yaw = orientation_smoother.update(yaw)
+                #     boxes_orientation[box.label]['previous_smoothed_yaw'] = smoothed_yaw
+                #     # print('yaw:', smoothed_yaw)
+                # else:
+                #     smoothed_yaw = boxes_orientation[box.label]['previous_smoothed_yaw']
+                    # boxes_orientation[box.label]['moved_flag'] = True
+
+                # else:
+                #     if boxes_orientation[box.label]['moved_flag'] and distance > 0.001:
+                #         smoothed_yaw = boxes_orientation[box.label]['previous_smoothed_yaw']
+                #         print('yes')
+                                                            
+                # else:
+                #         yaw = atan2(direction[1], direction[0])
+                #         smoothed_yaw = orientation_smoother.update(yaw)
+                        
+                
+                #     if not moved_flag:
+                #         smoothed_yaw = -1
+        
+                # boxes_orientation[box.label]['previous_smoothed_yaw'] = smoothed_yaw  
+                # print("distance:", distance)        
+                # print("flag:", moved_flag)
+                # print("smoothed_yaw:", smoothed_yaw)
+                    # print("yaw:", yaw)
+                    # print("smoothed_yaw:", smoothed_yaw)
                 new_box = Marker()
                 new_box.header.frame_id = "base_footprint"
                 new_box.color.a = 0.8
@@ -283,6 +334,21 @@ if __name__ == '__main__':
                 new_box.pose.position.y = box.pose.position.y
                 new_box.pose.position.z = box.dimensions.z + 1
                 new_box.scale = box.dimensions
+
+
+                
+                
+                # if len(boxes_class) == 0:        
+                #     new_box.text = "unknown"
+                
+                
+                # else:
+                #     new_boxes.markers[idx].header = box.header
+                #     new_boxes.markers[idx].pose = box.pose
+                #     new_boxes.markers[idx].scale = box.dimensions
+            
+                # boxes_orientation[box.label]['x'] = pose_1.point.x
+                # boxes_orientation[box.label]['y'] = pose_1.point.y
                 
 
                 corners = get_bounding_box_corners((box.pose.position.x,box.pose.position.y,box.pose.position.z),(box.dimensions.x,box.dimensions.y,box.dimensions.z))  
@@ -293,19 +359,24 @@ if __name__ == '__main__':
                     pose_lidar.point.x = corner[0]
                     pose_lidar.point.y = corner[1]
                     pose_lidar.point.z = corner[2]
-                              
+            
+
+                    # try:                    
                     pose_camera_left = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_left_camera_optical', 'base_footprint', rospy.Time(0)))
                     pose_camera_right = do_transform_point(pose_lidar, tf_buffer.lookup_transform('top_right_camera_optical', 'base_footprint', rospy.Time(0)))
-          
-                    pose_pixels_left = np.dot(np.hstack((params.K_camera_point_resized,np.array([[0],[0],[0]]))), np.array([[pose_camera_left.point.x], [pose_camera_left.point.y], [pose_camera_left.point.z], [1]]))
+                    # except (tf2_ros.TransformException, rospy.ROSException) as e:
+                    #     rospy.logwarn("Failed to transform point from source frame to target frame: {}".format(e))
+
+                
+                    pose_pixels_left = np.dot(np.hstack((params.K_camera_left_resized,np.array([[0],[0],[0]]))), np.array([[pose_camera_left.point.x], [pose_camera_left.point.y], [pose_camera_left.point.z], [1]]))
                     pose_pixels_left = pose_pixels_left[:2] / pose_pixels_left[2]
-                    pose_pixels_right = np.dot(np.hstack((params.K_camera_usb,np.array([[0],[0],[0]]))), np.array([[pose_camera_right.point.x], [pose_camera_right.point.y], [pose_camera_right.point.z], [1]]))
+                    pose_pixels_right = np.dot(np.hstack((params.K_camera_right,np.array([[0],[0],[0]]))), np.array([[pose_camera_right.point.x], [pose_camera_right.point.y], [pose_camera_right.point.z], [1]]))
                     pose_pixels_right = pose_pixels_right[:2] / pose_pixels_right[2]
                     pose_pixels_right_homography = np.dot(Homography, np.vstack((pose_pixels_right, 1)))
         
                     pose_pixels_right_homography = pose_pixels_right_homography[:2] / pose_pixels_right_homography[2]
-                    pose_pixels_right_homography[0] = pose_pixels_right_homography[0] * params.scale_x_U
-                    pose_pixels_right_homography[1] = pose_pixels_right_homography[1] * params.scale_y_U
+                    pose_pixels_right_homography[0] = pose_pixels_right_homography[0] * params.scale_x
+                    pose_pixels_right_homography[1] = pose_pixels_right_homography[1] * params.scale_y
             
                     if pose_pixels_left[0] <= width:
                         pose_pixels_list.append(pose_pixels_left)
@@ -350,7 +421,7 @@ if __name__ == '__main__':
                 
 
 
-                    image = cv2.rectangle(image, (u_min, v_min), (u_max, v_max), color=(0,100,255), thickness=2)
+                    image = cv2.rectangle(image, (u_min, v_min), (u_max, v_max), color=(255,100,0), thickness=2)
                     if len(u_list) > 0:
                         # image = cv2.rectangle(image, (u_min_1, v_min_1), (u_max_1, v_max_1), color=(0,255,0), thickness=2)
                     
@@ -358,10 +429,10 @@ if __name__ == '__main__':
                         for i,yolo in enumerate(c1_yolo):
                             
                 
-                            A_inter = max(yolo[0], u_min)            
-                            B_inter = max(yolo[1], v_min)
-                            C_inter = min(c2_yolo[i][0], u_max)
-                            D_inter = min(c2_yolo[i][1], v_max)
+                            A_inter = max(yolo[0], u_min_1)            
+                            B_inter = max(yolo[1], v_min_1)
+                            C_inter = min(c2_yolo[i][0], u_max_1)
+                            D_inter = min(c2_yolo[i][1], v_max_1)
                         
                             if C_inter < A_inter or D_inter <  B_inter:
                                 inter_area = 0
@@ -369,12 +440,12 @@ if __name__ == '__main__':
                                 inter_area = ((C_inter-A_inter) * (D_inter-B_inter))
                             
                             reunion_1 = ((c2_yolo[i][0]-yolo[0]) * (c2_yolo[i][1]-yolo[1]))
-                            reunion_2 = ((u_max-u_min) * (v_max-v_min))
+                            reunion_2 = ((u_max_1-u_min_1) * (v_max_1-v_min_1))
                             reunion_area = reunion_1 + reunion_2 - inter_area
                             IoU = inter_area/reunion_area                  
                             
                             
-                            if IoU > 0.35:
+                            if IoU > 0.4:
                                 IoU_l = IoU
                             
                                 if box.label not in boxes_class:
@@ -390,8 +461,8 @@ if __name__ == '__main__':
                 if box.label in boxes_class:
                     freq_dict = boxes_class[box.label]
                     new_box.text = most_frequent_yolo_class(freq_dict)
-                    if new_box.text == "other":
-                        new_box.text = "unknown"
+                    # if new_box.text == "other":
+                    #     new_box.text = "pedestrian"
                 
 
             
@@ -402,7 +473,7 @@ if __name__ == '__main__':
                 fontFace=cv2.FONT_HERSHEY_COMPLEX                       
                 org = (u_min,v_min-5)
     
-                image = cv2.putText(image, text='IoU = ' + str(round(IoU_l,2)), org=org, color=[255,0,0], fontFace=fontFace, thickness=2, fontScale=0.8)
+                image = cv2.putText(image, text='IoU = ' + str(round(IoU_l,2)), org=org, color=[0,0,255], fontFace=fontFace, thickness=2, fontScale=0.8)
         
         
                
@@ -410,13 +481,16 @@ if __name__ == '__main__':
 
 
         if image is not None:
-            # print(image.shape)
+
             # cv2.imshow(window_name, image)
 
         # #     # # counter += 1
             # cv2.waitKey(1)
-            teste.publisher_jsk.publish(new_boxes)
-            teste.publisher_bb.publish(jsk) 
+            image_msg = teste.bridge.cv2_to_imgmsg(image, encoding="rgb8")
+            image_msg.header.stamp = teste.jsk_boxes.header.stamp
+            teste.publisher_fusion.publish(image_msg)
+            # teste.publisher_jsk.publish(new_boxes)
+            # teste.publisher_bb.publish(jsk) 
             rate.sleep()
         # time_b = time.time()
         # print(f"Tempo de receção: {time_b-time_a}")

@@ -33,7 +33,7 @@ class ImageRepublisher:
             # gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
 
             # Convert the processed OpenCV image back to a ROS Image message
-            output_msg = self.bridge.cv2_to_imgmsg(cv_image, encoding='bgr8')
+            output_msg = self.bridge.cv2_to_imgmsg(cv_image, encoding='rgb8')
 
             # Publish the output image
             self.image_pub.publish(output_msg)

@@ -36,7 +36,7 @@
             /lidar_boxes
             /fused_detection
             /ackermann_steering_controller/odom
-            
+            /fusion
      
             -o /home/rafael/Desktop/bags/bag_file.bag">
         </node>

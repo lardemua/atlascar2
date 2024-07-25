@@ -111,7 +111,8 @@ class BasicReceiver:
             
         self.subscriber_detection2d = message_filters.Subscriber(topic_detection2d, detect2d)
         self.subscriber_pc = message_filters.Subscriber(topic_pc, PointCloud2)
-        self.subscriber_jsk = message_filters.Subscriber(topic_jsk_sub, BoundingBoxArray)        
+        self.subscriber_jsk = message_filters.Subscriber(topic_jsk_sub, BoundingBoxArray)     
+        self.publisher_fusion = rospy.Publisher("/fusion", Image, queue_size=1)   
     # def inputCallback(self, msg):
     #     self.original_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='passthrough')
     #     self.origin_stamp = msg.header.stamp
@@ -339,11 +340,11 @@ if __name__ == '__main__':
                         pose_pixels_right_homography[1] = pose_pixels_right_homography[1] * params.scale_y_U
                         if pose_pixels_left[0] <= width:
                             cluster_points.append(pose_pixels_left)
-                            image = cv2.circle(image, (int(pose_pixels_left[0]), int(pose_pixels_left[1])),radius=2,color=(0,0,255) , thickness=-1)
+                            # image = cv2.circle(image, (int(pose_pixels_left[0]), int(pose_pixels_left[1])),radius=2,color=(0,0,255) , thickness=-1)
                         # image = cv2.circle(image, (int(pose_pixels_left[0]), int(pose_pixels_left[1])),radius=5,color=(255,0,0) , thickness=-1)
                         if pose_pixels_right_homography[0] > width:
                             cluster_points.append(pose_pixels_right_homography)
-                            image = cv2.circle(image, (int(pose_pixels_right_homography[0]), int(pose_pixels_right_homography[1])),radius=2,color=(0,0,255) , thickness=-1)
+                            # image = cv2.circle(image, (int(pose_pixels_right_homography[0]), int(pose_pixels_right_homography[1])),radius=2,color=(0,0,255) , thickness=-1)
 
                         # image = cv2.circle(image, (int(pose_pixels_right_homography[0]), int(pose_pixels_right_homography[1])),radius=5,color=(255,0,0) , thickness=-1)
             
@@ -477,13 +478,15 @@ if __name__ == '__main__':
 
         if image is not None:
             # print(image.shape)
-            cv2.imshow(window_name, image)
-
+            # cv2.imshow(window_name, image)
+            image_msg = teste.bridge.cv2_to_imgmsg(image, encoding="bgr8")
+            image_msg.header.stamp = teste.jsk_boxes.header.stamp
         # #     # # counter += 1
-            cv2.waitKey(1)
-            # teste.publisher_jsk.publish(new_boxes)
-            # teste.publisher_bb.publish(jsk) 
-            # rate.sleep()
+            # cv2.waitKey(1)
+            teste.publisher_jsk.publish(new_boxes)
+            teste.publisher_bb.publish(jsk) 
+            teste.publisher_fusion.publish(image_msg)
+            rate.sleep()
         # time_b = time.time()
         # print(f"Tempo de receção: {time_b-time_a}")
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
